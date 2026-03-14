@@ -13,10 +13,7 @@
             padding: 40px 20px;
             color: #e4e4e4;
         }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1000px; margin: 0 auto; }
         header {
             display: flex;
             justify-content: space-between;
@@ -25,23 +22,9 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-        h1 {
-            font-size: 2.2rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .last-updated {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .stats-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-        }
+        h1 { font-size: 2.2rem; color: #fff; display: flex; align-items: center; gap: 12px; }
+        .last-updated { color: #666; font-size: 0.9rem; }
+        .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
         .stat-card {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -49,19 +32,11 @@
             padding: 20px 28px;
             min-width: 140px;
         }
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #fff;
-        }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: #fff; }
         .stat-value.critical { color: #ff6b6b; }
         .stat-value.warning { color: #ffd93d; }
         .stat-value.info { color: #4ecdc4; }
-        .stat-label {
-            color: #888;
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
+        .stat-label { color: #888; font-size: 0.9rem; margin-top: 4px; }
         .section-title {
             font-size: 1.4rem;
             color: #fff;
@@ -93,51 +68,26 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-        .task-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #fff;
-        }
-        .task-id {
-            color: #666;
-            font-size: 0.85rem;
-            font-family: monospace;
-        }
-        .task-meta {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+        .task-title { font-size: 1.2rem; font-weight: 600; color: #fff; }
+        .task-id { color: #666; font-size: 0.85rem; font-family: monospace; }
+        .task-meta { display: flex; gap: 12px; align-items: center; }
         .priority-badge {
             padding: 4px 12px;
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: 600;
         }
-        .priority-badge.critical {
-            background: rgba(255,107,107,0.2);
-            color: #ff6b6b;
-        }
-        .priority-badge.high {
-            background: rgba(255,217,61,0.2);
-            color: #ffd93d;
-        }
-        .priority-badge.medium {
-            background: rgba(78,205,196,0.2);
-            color: #4ecdc4;
-        }
-        .blockers-list {
-            padding: 20px 24px;
-        }
+        .priority-badge.critical { background: rgba(255,107,107,0.2); color: #ff6b6b; }
+        .priority-badge.high { background: rgba(255,217,61,0.2); color: #ffd93d; }
+        .priority-badge.medium { background: rgba(78,205,196,0.2); color: #4ecdc4; }
+        .blockers-list { padding: 20px 24px; }
         .blocker-item {
             display: flex;
             gap: 16px;
             padding: 16px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .blocker-item:last-child {
-            border-bottom: none;
-        }
+        .blocker-item:last-child { border-bottom: none; }
         .blocker-icon {
             width: 40px;
             height: 40px;
@@ -148,59 +98,23 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        .blocker-icon.critical {
-            background: rgba(255,107,107,0.2);
-        }
-        .blocker-icon.setup {
-            background: rgba(255,217,61,0.2);
-        }
-        .blocker-content {
-            flex: 1;
-        }
-        .blocker-title {
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-        .blocker-description {
-            color: #888;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-        .blocker-meta {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .blocker-owner {
-            color: #4ecdc4;
-            font-size: 0.85rem;
-        }
-        .blocker-time {
-            color: #666;
-            font-size: 0.85rem;
-        }
+        .blocker-icon.critical { background: rgba(255,107,107,0.2); }
+        .blocker-icon.setup { background: rgba(255,217,61,0.2); }
+        .blocker-content { flex: 1; }
+        .blocker-title { font-weight: 600; color: #fff; margin-bottom: 6px; }
+        .blocker-description { color: #888; font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
+        .blocker-meta { display: flex; gap: 16px; flex-wrap: wrap; }
+        .blocker-owner { color: #4ecdc4; font-size: 0.85rem; }
+        .blocker-time { color: #666; font-size: 0.85rem; }
         .action-steps {
             background: rgba(0,0,0,0.2);
             border-radius: 8px;
             padding: 12px 16px;
             margin-top: 12px;
         }
-        .action-steps-title {
-            color: #6bcb77;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .action-steps ol {
-            margin-left: 20px;
-            color: #aaa;
-            font-size: 0.85rem;
-        }
-        .action-steps li {
-            padding: 4px 0;
-        }
+        .action-steps-title { color: #6bcb77; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
+        .action-steps ol { margin-left: 20px; color: #aaa; font-size: 0.85rem; }
+        .action-steps li { padding: 4px 0; }
         .action-steps code {
             background: rgba(255,255,255,0.1);
             padding: 2px 6px;
@@ -208,25 +122,10 @@
             font-family: 'SF Mono', Monaco, monospace;
             font-size: 0.85em;
         }
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-        .empty-state .icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-        }
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            color: #444;
-            font-size: 0.85rem;
-        }
-        footer a {
-            color: #4ecdc4;
-            text-decoration: none;
-        }
+        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+        footer { margin-top: 60px; text-align: center; color: #444; font-size: 0.85rem; }
+        footer a { color: #4ecdc4; text-decoration: none; }
         @media (max-width: 600px) {
             h1 { font-size: 1.6rem; }
             .stat-card { min-width: 100px; padding: 16px; }
@@ -239,17 +138,17 @@
         <header>
             <div>
                 <h1>⛔ Blockers Dashboard</h1>
-                <p class="last-updated">Last updated: March 14, 2026 at 5:45 AM MT</p>
+                <p class="last-updated">Last updated: March 14, 2026 at 05:47 AM MT</p>
             </div>
         </header>
         
         <div class="stats-row">
             <div class="stat-card">
-                <div class="stat-value critical">3</div>
+                <div class="stat-value critical">2</div>
                 <div class="stat-label">Critical Blockers</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value warning">1</div>
+                <div class="stat-value warning">2</div>
                 <div class="stat-label">Blocked Tasks</div>
             </div>
             <div class="stat-card">
@@ -259,14 +158,37 @@
         </div>
         
         <h2 class="section-title">
-            🔴 Critical Priority
+            🔴 Blocked Tasks
             <span class="badge">Action Required</span>
         </h2>
+        
         
         <div class="task-card">
             <div class="task-header">
                 <div>
-                    <div class="task-title">Steve Timekeeper — Google Meet Agenda Bot</div>
+                    <div class="task-title">Second Brain: World-class knowledge system</div>
+                    <div class="task-id">task-015</div>
+                </div>
+                <div class="task-meta">
+                    <span class="priority-badge critical">BLOCKED</span>
+                </div>
+            </div>
+            <div class="blockers-list">
+                
+                <div class="blocker-item">
+                    <div class="blocker-icon setup">⚠️</div>
+                    <div class="blocker-content">
+                        <div class="blocker-title">{'owner': 'Deuce', 'missing': 'SLACK_BOT_TOKEN (for daily journal DM)', 'steps': ['Go to https://api.slack.com/apps', 'Select the Clawdbot app (or create one)', 'OAuth & Permissions → add scopes: chat:write, im:write', 'Install to workspace', 'Copy Bot User OAuth Token (starts with xoxb-)', 'Add to ~/clawd/chief-of-staff/.env: SLACK_BOT_TOKEN=...'], 'verify': 'Run daily journal script; confirm DM arrives in D0AADAL1SJK', 'resolved': True, 'resolvedAt': '2026-02-28T03:09:33.285598Z'}</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div>
+                    <div class="task-title">Steve Timekeeper - Google Meet Agenda Bot</div>
                     <div class="task-id">task-066</div>
                 </div>
                 <div class="task-meta">
@@ -274,25 +196,24 @@
                 </div>
             </div>
             <div class="blockers-list">
+                
                 <div class="blocker-item">
                     <div class="blocker-icon critical">🔑</div>
                     <div class="blocker-content">
                         <div class="blocker-title">Recall.ai Account & API Key</div>
-                        <div class="blocker-description">
-                            Steve joins meetings via Recall.ai's bot-as-a-service. Without an API key, the bot cannot join any meetings.
-                        </div>
+                        <div class="blocker-description">Steve joins meetings via Recall.ai's bot-as-a-service. Without an API key, the bot cannot join any meetings.</div>
                         <div class="blocker-meta">
                             <span class="blocker-owner">👤 Owner: Deuce</span>
-                            <span class="blocker-time">⏱️ ~10 minutes</span>
+                            <span class="blocker-time">⏱️ 10 minutes</span>
                         </div>
+                        
                         <div class="action-steps">
                             <div class="action-steps-title">Steps to Resolve:</div>
                             <ol>
-                                <li>Go to <a href="https://recall.ai" target="_blank">recall.ai</a> and sign up</li>
-                                <li>Create an API key in the dashboard</li>
-                                <li>Add to <code>.env</code>: <code>RECALL_API_KEY=your_key</code></li>
+                                <li>Sign up at https://recall.ai</li><li>Create API key in dashboard</li><li>Add RECALL_API_KEY to .env file</li>
                             </ol>
                         </div>
+                    
                     </div>
                 </div>
                 
@@ -300,21 +221,19 @@
                     <div class="blocker-icon critical">📅</div>
                     <div class="blocker-content">
                         <div class="blocker-title">steve@recess.is Calendar Access</div>
-                        <div class="blocker-description">
-                            The watcher monitors Steve's calendar for meeting invites. Need to confirm gog CLI can read events from steve@recess.is.
-                        </div>
+                        <div class="blocker-description">The watcher monitors Steve's calendar for meeting invites. Need to confirm gog CLI can read events from steve@recess.is.</div>
                         <div class="blocker-meta">
                             <span class="blocker-owner">👤 Owner: Deuce</span>
-                            <span class="blocker-time">⏱️ ~5 minutes</span>
+                            <span class="blocker-time">⏱️ 5 minutes</span>
                         </div>
+                        
                         <div class="action-steps">
                             <div class="action-steps-title">Steps to Resolve:</div>
                             <ol>
-                                <li>Ensure <code>steve@recess.is</code> exists in Google Workspace</li>
-                                <li>Run: <code>gog auth login</code></li>
-                                <li>Test: <code>gog calendar events list --calendar steve@recess.is</code></li>
+                                <li>Ensure steve@recess.is exists in Google Workspace</li><li>Run: gog auth login (if needed)</li><li>Test: gog calendar events list --calendar steve@recess.is</li><li>Verify events are returned</li>
                             </ol>
                         </div>
+                    
                     </div>
                 </div>
                 
@@ -322,30 +241,28 @@
                     <div class="blocker-icon setup">⚙️</div>
                     <div class="blocker-content">
                         <div class="blocker-title">Load launchd Service</div>
-                        <div class="blocker-description">
-                            Service is configured but not loaded. Once API key and calendar access are resolved, load the service for 24/7 operation.
-                        </div>
+                        <div class="blocker-description">Service is configured but not loaded. Once blockers 1 & 2 are resolved, load the service for 24/7 operation.</div>
                         <div class="blocker-meta">
                             <span class="blocker-owner">👤 Owner: Deuce</span>
-                            <span class="blocker-time">⏱️ ~2 minutes</span>
+                            <span class="blocker-time">⏱️ 2 minutes</span>
                         </div>
+                        
                         <div class="action-steps">
                             <div class="action-steps-title">Steps to Resolve:</div>
                             <ol>
-                                <li>Complete blockers above first</li>
-                                <li>Run: <code>launchctl load ~/Library/LaunchAgents/com.recess.steve-timekeeper.plist</code></li>
-                                <li>Verify: <code>launchctl list | grep steve</code></li>
+                                <li>Create .env file with API key</li><li>Run: launchctl load ~/Library/LaunchAgents/com.recess.steve-timekeeper.plist</li><li>Verify: launchctl list | grep steve</li>
                             </ol>
                         </div>
+                    
                     </div>
                 </div>
+                
             </div>
         </div>
         
-        <!-- Additional tasks would be rendered here -->
         
         <footer>
-            Auto-generated from task packets · <a href="https://github.com/recess/clawd">View Source</a>
+            Auto-generated from task packets · <a href="https://github.com/Recess-Non-Platfform/recess-dashboards">View Source</a>
         </footer>
     </div>
 </body>
