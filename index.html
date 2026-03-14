@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockers Dashboard — Recess</title>
+    <title>🚧 Deuce's Blockers — All Projects</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -22,7 +22,7 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-        h1 { font-size: 2.2rem; color: #fff; display: flex; align-items: center; gap: 12px; }
+        h1 { font-size: 2.2rem; color: #fff; }
         .last-updated { color: #888; font-size: 0.9rem; }
         .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
         .stat-card {
@@ -45,13 +45,15 @@
             align-items: center;
             gap: 10px;
         }
-        .section-title .badge {
-            background: #ff6b6b;
-            color: white;
-            font-size: 0.85rem;
+        .priority-badge {
+            font-size: 0.7rem;
             padding: 4px 10px;
             border-radius: 20px;
+            font-weight: 700;
         }
+        .priority-badge.p1 { background: #ff6b6b; color: white; }
+        .priority-badge.p2 { background: #ffd93d; color: #333; }
+        .priority-badge.p3 { background: #4ecdc4; color: #333; }
         .blocker-card {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
@@ -64,14 +66,16 @@
             background: rgba(255,255,255,0.06);
             border-color: rgba(255,255,255,0.15);
         }
-        .blocker-card.critical { border-left: 4px solid #ff6b6b; }
-        .blocker-card.ready { border-left: 4px solid #4ecdc4; }
+        .blocker-card.p1 { border-left: 4px solid #ff6b6b; }
+        .blocker-card.p2 { border-left: 4px solid #ffd93d; }
+        .blocker-card.p3 { border-left: 4px solid #4ecdc4; }
         .blocker-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 12px;
             gap: 16px;
+            flex-wrap: wrap;
         }
         .blocker-title {
             font-size: 1.1rem;
@@ -79,7 +83,7 @@
             color: #fff;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         .blocker-meta {
             display: flex;
@@ -89,7 +93,23 @@
             color: #888;
         }
         .blocker-meta span { display: flex; align-items: center; gap: 4px; }
+        .project-tag {
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            padding: 3px 10px;
+            border-radius: 12px;
+            color: #aaa;
+        }
         .blocker-description { color: #aaa; margin: 12px 0; line-height: 1.6; }
+        .unlocks {
+            background: rgba(107, 203, 119, 0.1);
+            border: 1px solid rgba(107, 203, 119, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .unlocks strong { color: #6bcb77; }
         .steps-list {
             background: rgba(0,0,0,0.2);
             border-radius: 8px;
@@ -106,24 +126,7 @@
             font-family: 'SF Mono', Monaco, monospace;
             font-size: 0.85em;
         }
-        .task-id {
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 0.75rem;
-            background: rgba(255,255,255,0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #888;
-        }
-        .ready-section { margin-top: 48px; }
-        .ready-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-        .ready-card {
-            background: rgba(78, 205, 196, 0.05);
-            border: 1px solid rgba(78, 205, 196, 0.2);
-            border-radius: 12px;
-            padding: 16px 20px;
-        }
-        .ready-card h4 { color: #4ecdc4; font-size: 0.95rem; margin-bottom: 6px; }
-        .ready-card p { color: #888; font-size: 0.85rem; }
+        .steps-list a { color: #4ecdc4; }
         footer {
             margin-top: 60px;
             padding-top: 24px;
@@ -143,143 +146,201 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚧 Blockers Dashboard</h1>
-            <span class="last-updated">Last updated: March 14, 2026 at 06:02 AM MT</span>
+            <h1>🚧 Deuce's Blockers</h1>
+            <span class="last-updated">Updated: March 14, 2026 · 06:05 AM MT</span>
         </header>
 
         <div class="stats-row">
             <div class="stat-card">
-                <div class="stat-value critical">3</div>
-                <div class="stat-label">Blocked Tasks</div>
+                <div class="stat-value critical">6</div>
+                <div class="stat-label">Total Blockers</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value warning">5</div>
-                <div class="stat-label">Items Need Input</div>
+                <div class="stat-value warning">~35</div>
+                <div class="stat-label">Minutes to Clear All</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value info">10+</div>
-                <div class="stat-label">Ready to Work</div>
+                <div class="stat-value info">4</div>
+                <div class="stat-label">Projects Affected</div>
             </div>
         </div>
 
-        <h2 class="section-title">🔴 Blocked on Deuce <span class="badge">Action Required</span></h2>
+        <h2 class="section-title">Blockers — Ranked by Impact</h2>
 
-        <!-- BLOCKER 1: Asana Time Estimation -->
-        <div class="blocker-card critical">
+        <!-- P1: Recall.ai API Key -->
+        <div class="blocker-card p1">
             <div class="blocker-header">
                 <div class="blocker-title">
-                    📅 Calendar Source & Time Preferences
+                    <span class="priority-badge p1">#1</span>
+                    🔑 Recall.ai Account & API Key
                 </div>
-                <span class="task-id">task-002</span>
+                <span class="project-tag">Steve Timekeeper</span>
             </div>
             <div class="blocker-description">
-                Asana time estimation + calendar blocking workflow needs to know which calendar(s) to check for availability.
+                Steve joins meetings via Recall.ai's bot-as-a-service. Without an API key, the bot cannot join any meetings.
+            </div>
+            <div class="unlocks">
+                <strong>Unlocks:</strong> Steve Timekeeper bot (auto-joins meetings, posts agenda updates to chat)
             </div>
             <div class="blocker-meta">
-                <span>👤 Owner: Deuce</span>
-                <span>⏱️ ~5 min</span>
+                <span>⏱️ 10 min</span>
+            </div>
+            <div class="steps-list">
+                <h4>Steps</h4>
+                <ol>
+                    <li>Go to <a href="https://recall.ai" target="_blank">recall.ai</a></li>
+                    <li>Sign up for an account</li>
+                    <li>Create an API key in the dashboard</li>
+                    <li>Add to <code>~/clawd/Projects/steve-timekeeper/.env</code>:<br><code>RECALL_API_KEY=your_key_here</code></li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- P2: steve@recess.is Calendar -->
+        <div class="blocker-card p1">
+            <div class="blocker-header">
+                <div class="blocker-title">
+                    <span class="priority-badge p1">#2</span>
+                    📅 steve@recess.is Calendar Access
+                </div>
+                <span class="project-tag">Steve Timekeeper</span>
+            </div>
+            <div class="blocker-description">
+                The watcher monitors Steve's calendar for meeting invites. Need to confirm gog CLI can read events from steve@recess.is.
+            </div>
+            <div class="unlocks">
+                <strong>Unlocks:</strong> Auto-join meetings when steve@recess.is is invited
+            </div>
+            <div class="blocker-meta">
+                <span>⏱️ 5 min</span>
+            </div>
+            <div class="steps-list">
+                <h4>Steps</h4>
+                <ol>
+                    <li>Ensure <code>steve@recess.is</code> exists in Google Workspace</li>
+                    <li>Run: <code>gog auth login</code> (if needed)</li>
+                    <li>Test: <code>gog calendar events list --calendar steve@recess.is</code></li>
+                    <li>Verify events are returned</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- P3: Calendar Source for Asana -->
+        <div class="blocker-card p2">
+            <div class="blocker-header">
+                <div class="blocker-title">
+                    <span class="priority-badge p2">#3</span>
+                    📆 Calendar Source & Time Preferences
+                </div>
+                <span class="project-tag">task-002: Asana Time Estimation</span>
+            </div>
+            <div class="blocker-description">
+                Asana time estimation + calendar blocking needs to know which calendar(s) to check for availability.
+            </div>
+            <div class="unlocks">
+                <strong>Unlocks:</strong> Automated calendar blocking for prioritized tasks
+            </div>
+            <div class="blocker-meta">
+                <span>⏱️ 5 min</span>
             </div>
             <div class="steps-list">
                 <h4>Questions to Answer</h4>
                 <ol>
-                    <li>Which calendar(s) should be the source of truth? (e.g., deuce@recess.is, personal calendar, both?)</li>
-                    <li>Preferred block lengths for deep work? (e.g., 2hr minimum, 90min, etc.)</li>
-                    <li>Time-of-day preferences? (e.g., mornings for deep work, afternoons for meetings)</li>
+                    <li>Which calendar(s) = source of truth? (deuce@recess.is? personal? both?)</li>
+                    <li>Preferred block lengths for deep work? (2hr min? 90min?)</li>
+                    <li>Time-of-day preferences? (mornings for deep work?)</li>
                 </ol>
             </div>
         </div>
 
-        <!-- BLOCKER 2: Dockerize Clawdbot -->
-        <div class="blocker-card critical">
+        <!-- P4: 1:1 Meeting Confirmation -->
+        <div class="blocker-card p2">
             <div class="blocker-header">
                 <div class="blocker-title">
-                    🐳 Docker Env Vars List
-                </div>
-                <span class="task-id">task-003</span>
-            </div>
-            <div class="blocker-description">
-                Dockerizing Clawdbot requires knowing which environment variables and tokens need to be passed in at runtime.
-            </div>
-            <div class="blocker-meta">
-                <span>👤 Owner: Deuce</span>
-                <span>⏱️ ~10 min</span>
-            </div>
-            <div class="steps-list">
-                <h4>What I Need</h4>
-                <ol>
-                    <li>List of required env vars (API keys, tokens, etc.)</li>
-                    <li>Target environment — local dev only, or also server deployment?</li>
-                    <li>Any security hardening requirements?</li>
-                </ol>
-            </div>
-        </div>
-
-        <!-- BLOCKER 3: 1:1 Meeting Follow-ups -->
-        <div class="blocker-card critical">
-            <div class="blocker-header">
-                <div class="blocker-title">
+                    <span class="priority-badge p2">#4</span>
                     🤝 1:1 Meeting Integration Confirmation
                 </div>
-                <span class="task-id">task-004</span>
+                <span class="project-tag">task-004: 1:1 Follow-ups</span>
             </div>
             <div class="blocker-description">
                 Automated 1:1 follow-ups need confirmation on where decisions should post and which Asana project to use.
             </div>
+            <div class="unlocks">
+                <strong>Unlocks:</strong> Auto-generated meeting summaries, decisions in Slack, action items in Asana
+            </div>
             <div class="blocker-meta">
-                <span>👤 Owner: Deuce</span>
-                <span>⏱️ ~5 min</span>
+                <span>⏱️ 5 min</span>
             </div>
             <div class="steps-list">
                 <h4>Confirm These Settings</h4>
                 <ol>
                     <li>Slack decisions channel: Is <code>C0AC8KU0L12</code> still correct?</li>
-                    <li>Asana project for 1:1 tasks — confirm the project URL/ID</li>
-                    <li>Which direct reports to start with for pilot? (Char, Ian, Phil, Leo, Pam, Ines?)</li>
+                    <li>Asana project for 1:1 tasks — confirm URL/ID</li>
+                    <li>Which direct reports for pilot? (Char, Ian, Phil, Leo, Pam, Ines?)</li>
                 </ol>
             </div>
         </div>
 
-        <div class="ready-section">
-            <h2 class="section-title" style="color: #4ecdc4;">✅ Ready to Work (No Blockers)</h2>
-            <div class="ready-grid">
-                <div class="ready-card">
-                    <h4>task-009</h4>
-                    <p>Improve decisions posting: configurable Slack + richer payload</p>
+        <!-- P5: Docker Env Vars -->
+        <div class="blocker-card p3">
+            <div class="blocker-header">
+                <div class="blocker-title">
+                    <span class="priority-badge p3">#5</span>
+                    🐳 Docker Env Vars List
                 </div>
-                <div class="ready-card">
-                    <h4>task-010</h4>
-                    <p>Auto-create next meeting + link previous notes</p>
+                <span class="project-tag">task-003: Dockerize Clawdbot</span>
+            </div>
+            <div class="blocker-description">
+                Dockerizing Clawdbot requires knowing which environment variables and tokens need to be passed in at runtime.
+            </div>
+            <div class="unlocks">
+                <strong>Unlocks:</strong> Portable, reproducible Clawdbot deployment
+            </div>
+            <div class="blocker-meta">
+                <span>⏱️ 10 min</span>
+            </div>
+            <div class="steps-list">
+                <h4>What I Need</h4>
+                <ol>
+                    <li>List of required env vars (API keys, tokens)</li>
+                    <li>Target environment — local only, or server too?</li>
+                    <li>Any security hardening requirements?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- P6: Load launchd (depends on #1 & #2) -->
+        <div class="blocker-card p3">
+            <div class="blocker-header">
+                <div class="blocker-title">
+                    <span class="priority-badge p3">#6</span>
+                    ⚙️ Load Steve Timekeeper Service
                 </div>
-                <div class="ready-card">
-                    <h4>task-013</h4>
-                    <p>Wellness coach: unified meal/sleep/exercise dashboard</p>
-                </div>
-                <div class="ready-card">
-                    <h4>task-014</h4>
-                    <p>AI news scan + plain-English team summary</p>
-                </div>
-                <div class="ready-card">
-                    <h4>task-018</h4>
-                    <p>Move recess-engage repo to RECESSDigital org</p>
-                </div>
-                <div class="ready-card">
-                    <h4>task-025</h4>
-                    <p>Address npm audit vulnerabilities</p>
-                </div>
-                <div class="ready-card">
-                    <h4>task-031</h4>
-                    <p>Heartbeat logging</p>
-                </div>
-                <div class="ready-card">
-                    <h4>task-033</h4>
-                    <p>Proactive sensing loop</p>
-                </div>
+                <span class="project-tag">Steve Timekeeper</span>
+            </div>
+            <div class="blocker-description">
+                Service is configured but not loaded. Once blockers #1 & #2 are resolved, load the service for 24/7 operation.
+            </div>
+            <div class="unlocks">
+                <strong>Unlocks:</strong> Steve runs continuously, auto-joining meetings
+            </div>
+            <div class="blocker-meta">
+                <span>⏱️ 2 min</span>
+                <span>⚠️ Depends on #1 & #2</span>
+            </div>
+            <div class="steps-list">
+                <h4>Steps (after #1 & #2)</h4>
+                <ol>
+                    <li>Create <code>.env</code> file with API key (blocker #1)</li>
+                    <li>Run: <code>launchctl load ~/Library/LaunchAgents/com.recess.steve-timekeeper.plist</code></li>
+                    <li>Verify: <code>launchctl list | grep steve</code></li>
+                </ol>
             </div>
         </div>
 
         <footer>
-            <p>🤖 Managed by Steve • Updates pushed automatically when blockers change</p>
-            <p style="margin-top: 8px;">Reply in Slack to unblock items — I'll update this page and remove resolved blockers.</p>
+            <p>🤖 Managed by Steve • Reply in Slack to unblock items</p>
+            <p style="margin-top: 8px;">When you complete something, tell me and I'll remove it from this list.</p>
         </footer>
     </div>
 </body>
