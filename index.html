@@ -179,7 +179,7 @@
     <div class="container">
         <header>
             <h1>🚧 Deuce's Blockers</h1>
-            <span class="last-updated">Updated: March 15, 2026 · 03:42 PM MT</span>
+            <span class="last-updated">Updated: March 15, 2026 · 03:57 PM MT</span>
         </header>
 
         <div class="stats-row">
@@ -203,7 +203,7 @@
             </div>
             <div class="stat-card">
                 <a href="#blocked">
-                    <div class="stat-value" style="color: #888;">~111</div>
+                    <div class="stat-value" style="color: #888;">~114</div>
                     <div class="stat-label">Min to Clear All</div>
                 </a>
             </div>
@@ -220,15 +220,15 @@
                     </div>
                     <span class="project-tag">Steve Timekeeper</span>
                 </div>
-                <div class="blocker-description">Steve joins meetings via Recall.ai's bot-as-a-service. Without an API key, the bot cannot join any meetings.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve Timekeeper bot can join meetings</div>
+                <div class="blocker-description">Steve joins Google Meet calls via Recall.ai's bot-as-a-service API. Without an API key, the bot can't join any meetings. You'll sign up, grab a key, and paste it into a config file on this Mac.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Steve Timekeeper bot can join Google Meet calls and keep time on agenda items</div>
                 <div class="blocker-meta">
                     <span>⏱️ 10 min</span>
                     
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Go to <a href='https://recall.ai'>recall.ai</a></li><li>Sign up for an account</li><li>Create an API key in the dashboard</li><li>Add to <code>~/clawd/Projects/steve-timekeeper/.env</code>:<br><code>RECALL_API_KEY=your_key_here</code></li></ol>
+                    <ol><li><strong>Open Recall.ai:</strong> Go to <a href='https://www.recall.ai/'>https://www.recall.ai</a></li><li><strong>Sign up</strong> for an account (use your Recess email)</li><li><strong>Go to the API Keys section</strong> in the Recall.ai dashboard (usually under Settings or Developer)</li><li><strong>Create a new API key</strong> and <strong>copy it</strong> immediately — some dashboards only show it once</li><li><strong>Save the key to the env file.</strong> Open Terminal and run:<br><code>nano ~/clawd/Projects/steve-timekeeper/.env</code><br>Add this line (replacing the placeholder):<br><code>RECALL_API_KEY=your_key_here</code><br>Press <strong>Ctrl+O</strong> then <strong>Enter</strong> to save, then <strong>Ctrl+X</strong> to exit</li><li><strong>Verify:</strong> Run <code>cat ~/clawd/Projects/steve-timekeeper/.env</code> — you should see your API key</li></ol>
                 </div>
             </div>
 
@@ -280,15 +280,15 @@
                     </div>
                     <span class="project-tag">LinkedIn Content Writing</span>
                 </div>
-                <div class="blocker-description">Need Airtable Personal Access Token + Base ID to scan Fireflies transcripts for content opportunities.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve can scan meeting transcripts for LinkedIn content ideas</div>
+                <div class="blocker-description">Steve needs read access to your Fireflies transcripts in Airtable to scan meeting notes for LinkedIn content opportunities. You'll create a token and paste it into a config file on this Mac — never send tokens over Slack or any chat.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Steve can scan meeting transcripts for LinkedIn content ideas automatically</div>
                 <div class="blocker-meta">
-                    <span>⏱️ 5 min</span>
+                    <span>⏱️ 8 min</span>
                     
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Go to <a href='https://airtable.com/create/tokens'>airtable.com/create/tokens</a></li><li>Click 'Create new token'</li><li>Give it <strong>read access</strong> to the transcripts base</li><li>Copy the token and send to Steve in Slack</li><li>Also send the Base ID — open the base in Airtable, grab <code>appXXXXXXXX</code> from the URL</li></ol>
+                    <ol><li><strong>Open Airtable token page:</strong> Go to <a href='https://airtable.com/create/tokens'>https://airtable.com/create/tokens</a> (log in if prompted)</li><li><strong>Click</strong> the blue <strong>"Create new token"</strong> button (top right)</li><li><strong>Name the token:</strong> Type <code>Steve LinkedIn Reader</code> in the Name field</li><li><strong>Add a scope:</strong> Click <strong>"Add a scope"</strong> → select <strong><code>data.records:read</code></strong> (this gives read-only access — Steve can't modify anything)</li><li><strong>Add a base:</strong> Click <strong>"Add a base"</strong> → search for and select your <strong>Fireflies transcripts base</strong> (the one where meeting recordings/transcripts land)</li><li><strong>Click "Create token"</strong> → a token starting with <code>pat...</code> appears. <strong>Copy it now</strong> — Airtable only shows it once</li><li><strong>Get the Base ID:</strong> Open the Fireflies transcripts base in Airtable. Look at the URL bar — it looks like <code>https://airtable.com/<strong>appABC123XYZ</strong>/tblXXX/...</code>. Copy the part that starts with <code>app</code> (e.g. <code>appABC123XYZ</code>)</li><li><strong>Save both values to the env file.</strong> Open Terminal and run:<br><code>nano ~/clawd/Projects/linkedin-content-writer/.env</code><br>Paste these two lines (replacing the placeholder values):<br><code>AIRTABLE_PAT=pat_your_token_here</code><br><code>AIRTABLE_BASE_ID=appYour_base_id_here</code><br>Press <strong>Ctrl+O</strong> then <strong>Enter</strong> to save, then <strong>Ctrl+X</strong> to exit</li><li><strong>Verify:</strong> Run <code>cat ~/clawd/Projects/linkedin-content-writer/.env</code> — you should see your two values (not the placeholders)</li></ol>
                 </div>
             </div>
 
@@ -296,19 +296,19 @@
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p1">#5</span>
-                        Confirm: Proceed Without Impressions Data? 
+                        Decision: Proceed Without Impressions Data? 
                     </div>
                     <span class="project-tag">LinkedIn Content Writing</span>
                 </div>
-                <div class="blocker-description">Project ON HOLD since Mar 11 because Shield has no API and no tool exposes LinkedIn impressions. Need a go/no-go to skip analytics loop and focus on content generation + approval flow.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Content generation pipeline can start without engagement rate tracking</div>
+                <div class="blocker-description">Project has been ON HOLD since March 11 because no tool exposes LinkedIn impressions data (Shield has no API, PhantomBuster only gives likes/comments/shares). Without impressions, Steve can't calculate engagement rates. Two paths forward:</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Content generation pipeline can start (Option A) or stays paused (Option B)</div>
                 <div class="blocker-meta">
                     <span>⏱️ 1 min</span>
                     
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Reply in Slack: 'go without impressions' to skip analytics loop, OR</li><li>Reply: 'stay on hold' to keep waiting for an impressions source</li></ol>
+                    <ol><li><strong>Option A — Go without impressions (recommended):</strong> Steve skips the analytics/learning loop for now and focuses on content generation + Slack approval flow. You'll still see likes/comments/shares via Shield manually. Reply in Slack: <code>go without impressions</code></li><li><strong>Option B — Stay on hold:</strong> Wait for LinkedIn to open their API or a third-party tool to add impressions. Could be months. Reply in Slack: <code>stay on hold</code></li></ol>
                 </div>
             </div>
 
@@ -320,15 +320,15 @@
                     </div>
                     <span class="project-tag">LinkedIn Content Writing</span>
                 </div>
-                <div class="blocker-description">Current pillars: CPG Industry Analysis (40%), Sampling/Retail Media (30%), Startup Ops (30%). Tone: Analytical + Opinionated + Data-backed.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve can start drafting content in your voice</div>
+                <div class="blocker-description">Steve analyzed 158 of your LinkedIn posts via Shield and built a voice profile. Before generating drafts, confirm these are still accurate:</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Steve can start drafting content in your authentic voice</div>
                 <div class="blocker-meta">
                     <span>⏱️ 2 min</span>
                     
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Review the pillars above</li><li>Reply 'confirmed' or specify changes</li></ol>
+                    <ol><li><strong>Review your content pillars:</strong><br>• <strong>CPG Industry Analysis (40%)</strong> — react to earnings, news with your POV<br>• <strong>Sampling/Retail Media (30%)</strong> — Recess methodology, venue partnerships<br>• <strong>Startup Ops (30%)</strong> — behind-the-scenes of scaling, COO lessons</li><li><strong>Review your tone profile:</strong> Analytical + Opinionated + Data-backed. Lead with specific numbers, quote industry leaders then add your take, end with clear POV</li><li><strong>Review your best practices:</strong> Text posts get 3x reach vs images. Fridays perform 5x better. Sweet spot is 500-1200 characters. Power hashtags: #RetailMedia #CPGMarketing</li><li><strong>Reply in Slack</strong> with one of:<br>• <code>confirmed</code> — pillars and voice are good as-is<br>• Or tell Steve what to change (e.g. "drop Startup Ops to 20%, add Leadership/Management at 10%")</li></ol>
                 </div>
             </div>
 
@@ -340,15 +340,15 @@
                     </div>
                     <span class="project-tag">LinkedIn Content Writing</span>
                 </div>
-                <div class="blocker-description">Need a baseline number so we can measure progress toward the 3x growth goal.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> 3x growth goal has a measurable baseline</div>
+                <div class="blocker-description">The goal is to 3x your LinkedIn followers in 2026. Steve needs today's number as the baseline to measure against.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> 3x growth goal has a measurable baseline — Steve will track weekly progress</div>
                 <div class="blocker-meta">
                     <span>⏱️ 1 min</span>
                     
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Open your LinkedIn profile</li><li>Check follower count</li><li>Send the number to Steve in Slack</li></ol>
+                    <ol><li><strong>Open LinkedIn:</strong> Go to <a href='https://www.linkedin.com/in/me/'>linkedin.com/in/me</a></li><li><strong>Find follower count:</strong> It's displayed below your name/headline on your profile page (e.g. "4,231 followers")</li><li><strong>Reply in Slack</strong> with the number (e.g. <code>follower count: 4231</code>)</li></ol>
                 </div>
             </div>
 
@@ -520,7 +520,7 @@
         <footer>
             <p>🤖 Managed by Steve • Auto-generated from tasks.json + project blockers</p>
             <p style="margin-top: 8px;">Reply in Slack to unblock items or change priorities.</p>
-            <p style="margin-top: 8px; color: #444;">Last scan: March 15, 2026 · 03:42 PM MT</p>
+            <p style="margin-top: 8px; color: #444;">Last scan: March 15, 2026 · 03:57 PM MT</p>
         </footer>
     </div>
 </body>
