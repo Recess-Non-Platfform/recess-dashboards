@@ -378,6 +378,21 @@
     </table></div>
   </div>
 
+  <div class="card" style="border-left:4px solid var(--purple);">
+    <h3>⭐ Quarterly Account Research (BigQuery) — Deep Intelligence Layer</h3>
+    <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.75rem;">Every quarter, deep research on 50-90 sponsor accounts (earnings, 10-Ks, investor presentations, press releases) is pushed to BigQuery. The CRM Agent uses this two ways:</p>
+    <div class="table-wrap"><table class="task-table">
+      <thead><tr><th>Use</th><th>How It Works</th></tr></thead>
+      <tbody>
+        <tr><td><strong>As a TRIGGER</strong></td><td>Scan fresh quarterly research for actionable changes: budget shifts, new product launches, leadership changes, category pivots, experiential/sampling mentions. Flag accounts where research reveals an opportunity or risk.</td></tr>
+        <tr><td><strong>As a RESOURCE for drafts</strong></td><td>Pull account intelligence into email drafts. "Your Q1 results showed 12% growth in snacks — we'd love to help accelerate with sampling." Backs up every outreach with real business understanding.</td></tr>
+        <tr><td><strong>QoQ comparison</strong></td><td>Detect shifts: "Kraft Heinz cut experiential budget 8% QoQ" = flag at-risk renewal. "PepsiCo increased sampling spend 15%" = flag upsell opportunity.</td></tr>
+        <tr><td><strong>"Brief Me" enrichment</strong></td><td>When a rep runs "brief me on PepsiCo," include latest quarterly research findings alongside CRM data and news.</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.75rem;">Status: Research exists, BigQuery table coming soon. Once table/schema confirmed, wires into scanner + draft engine.</p>
+  </div>
+
   <div class="card">
     <h3>Secondary: News & Context Enrichment</h3>
     <div class="table-wrap"><table class="task-table">
