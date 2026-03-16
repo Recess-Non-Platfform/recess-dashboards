@@ -412,14 +412,41 @@
     text-decoration: none;
   }
 
+  .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
   @media (max-width: 768px) {
-    body { padding: 1rem; }
+    body { padding: 0.75rem; }
+    .container { max-width: 100%; }
     .channel-grid { grid-template-columns: 1fr; }
-    .timeline { grid-template-columns: 1fr 1fr; }
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    .header h1 { font-size: 1.5rem; }
-    .header .meta { flex-direction: column; gap: 0.5rem; }
-    .timeline-stage::after { content: ''; }
+    .timeline { grid-template-columns: 1fr; gap: 0.75rem; }
+    .timeline-stage::after { content: ''; display: none; }
+    .stats-row { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .stat-card { padding: 0.75rem; }
+    .stat-value { font-size: 1.4rem; }
+    .stat-label { font-size: 0.7rem; }
+    .header { padding: 1.5rem 1rem; margin-bottom: 1.5rem; }
+    .header h1 { font-size: 1.3rem; }
+    .header .subtitle { font-size: 0.9rem; }
+    .header .meta { flex-direction: column; gap: 0.4rem; }
+    .section { margin-bottom: 1.5rem; }
+    .section-title { font-size: 1.1rem; }
+    .card { padding: 1rem; }
+    .phase-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .task-table { font-size: 0.78rem; }
+    .task-table th { font-size: 0.65rem; padding: 0.4rem 0.5rem; }
+    .task-table td { padding: 0.4rem 0.5rem; font-size: 0.78rem; }
+    .dep-item { padding: 0.6rem 0.75rem; font-size: 0.85rem; }
+    .review-card { padding: 1rem; }
+    .digest-preview { padding: 1rem; font-size: 0.82rem; }
+    .rating-section { padding: 1.5rem 1rem; }
+    .rating-score { font-size: 3rem; }
+  }
+
+  @media (max-width: 400px) {
+    body { padding: 0.5rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .stat-value { font-size: 1.2rem; }
+    .header h1 { font-size: 1.1rem; }
   }
 </style>
 </head>
@@ -557,7 +584,7 @@
       <span class="phase-estimate">~15h</span>
     </div>
     <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Build the data pipeline that enriches news items with full HubSpot context.</p>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead>
         <tr><th>Task</th><th>Owner</th><th>Est.</th><th>Notes</th></tr>
       </thead>
@@ -617,7 +644,7 @@
           <td>Mock BigQuery responses, edge cases</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <!-- Phase 2 -->
@@ -627,7 +654,7 @@
       <span class="phase-estimate">~10h</span>
     </div>
     <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Combine news + CRM data into polished Slack digests with proactive alerts.</p>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead>
         <tr><th>Task</th><th>Owner</th><th>Est.</th><th>Notes</th></tr>
       </thead>
@@ -693,7 +720,7 @@
           <td>Invite Steve to both channels</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <!-- Phase 3 -->
@@ -703,7 +730,7 @@
       <span class="phase-estimate">~18h</span>
     </div>
     <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Team replies in-thread → Steve drafts personalized outreach. Plus pre-meeting briefings.</p>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead>
         <tr><th>Task</th><th>Owner</th><th>Est.</th><th>Notes</th></tr>
       </thead>
@@ -787,7 +814,7 @@
           <td>Real data, full flow</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <!-- Phase 4 -->
@@ -796,7 +823,7 @@
       <h3>Phase 4: Automation, Metrics & Scheduling</h3>
       <span class="phase-estimate">~7h</span>
     </div>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead>
         <tr><th>Task</th><th>Owner</th><th>Est.</th><th>Notes</th></tr>
       </thead>
@@ -844,7 +871,7 @@
           <td>Check Fivetran sync timestamp; warn if >12h stale</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <!-- Phase 5 -->
@@ -853,7 +880,7 @@
       <h3>Phase 5: Advanced Features (Based on Team Feedback)</h3>
       <span class="phase-estimate">TBD</span>
     </div>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead>
         <tr><th>Feature</th><th>Est.</th><th>Trigger</th></tr>
       </thead>
@@ -884,7 +911,7 @@
           <td>If email drafts get heavy usage</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 

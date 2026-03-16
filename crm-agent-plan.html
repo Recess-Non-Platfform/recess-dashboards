@@ -132,14 +132,57 @@
 
   .footer { text-align:center; padding:2rem 0; color:var(--text-muted); font-size:0.8rem; border-top:1px solid var(--card-border); margin-top:2rem; }
 
+  /* Mobile: make tables scrollable */
+  .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+  /* Mobile: artifact boxes scroll */
+  .artifact-box { overflow-x:auto; -webkit-overflow-scrolling:touch; font-size:0.72rem; }
+
+  /* Mobile: preview box text */
+  .preview-box { overflow-x:auto; word-break:break-word; }
+
   @media (max-width:768px) {
-    body { padding:1rem; }
+    body { padding:0.75rem; }
+    .container { max-width:100%; }
     .scope-grid, .risk-row, .constraint-grid { grid-template-columns:1fr; }
-    .timeline { grid-template-columns:1fr 1fr; }
-    .timeline-stage::after { content:''; }
-    .header h1 { font-size:1.4rem; }
-    .header .meta { flex-direction:column; gap:0.5rem; }
-    .stats-row { grid-template-columns:1fr 1fr; }
+    .timeline { grid-template-columns:1fr; gap:0.75rem; }
+    .timeline-stage::after { content:''; display:none; }
+    .header { padding:1.5rem 1rem; margin-bottom:1.5rem; border-radius:12px; }
+    .header h1 { font-size:1.3rem; }
+    .header .subtitle { font-size:0.9rem; }
+    .header .meta { flex-direction:column; gap:0.4rem; }
+    .stats-row { grid-template-columns:1fr 1fr; gap:0.5rem; }
+    .stat-card { padding:0.75rem; }
+    .stat-value { font-size:1.4rem; }
+    .stat-label { font-size:0.7rem; }
+    .section { margin-bottom:1.5rem; }
+    .section-title { font-size:1.1rem; }
+    .card { padding:1rem; border-radius:10px; }
+    .phase-header { flex-direction:column; align-items:flex-start; gap:0.5rem; }
+    .task-table { font-size:0.78rem; }
+    .task-table th { font-size:0.65rem; padding:0.4rem 0.5rem; }
+    .task-table td { padding:0.4rem 0.5rem; font-size:0.78rem; }
+    .artifact-box { font-size:0.68rem; padding:0.75rem; }
+    .preview-box { padding:1rem; font-size:0.82rem; }
+    .dep-item { padding:0.6rem 0.75rem; font-size:0.85rem; }
+    .idea-card { padding:1rem; }
+    .scope-card { padding:1rem; }
+    .risk-card { padding:1rem; }
+    .constraint-item { padding:0.75rem; flex-direction:column; text-align:center; }
+    .constraint-icon { font-size:1.2rem; }
+    .workflow-step { flex-direction:column; gap:0.5rem; }
+    .workflow-num { width:28px; height:28px; font-size:0.75rem; }
+    .channel-grid { grid-template-columns:1fr; }
+    .rating-section { padding:1.5rem 1rem; }
+    .rating-score { font-size:3rem; }
+  }
+
+  @media (max-width:400px) {
+    body { padding:0.5rem; }
+    .stats-row { grid-template-columns:1fr 1fr; gap:0.4rem; }
+    .stat-value { font-size:1.2rem; }
+    .header h1 { font-size:1.1rem; }
+    .card { padding:0.75rem; }
   }
 </style>
 </head>
@@ -317,7 +360,7 @@
 
   <div class="card">
     <h3>Primary: HubSpot via BigQuery (Fivetran)</h3>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Table</th><th>Purpose</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><code>src_fivetran_hubspot.deal</code></td><td>Deal pipeline, amounts, stages, owners</td><td><span class="tag tag-new">✅ Verified</span></td></tr>
@@ -332,24 +375,24 @@
         <tr><td><code>src_fivetran_hubspot.owner</code></td><td>Deal/contact owner names</td><td><span class="tag tag-new">✅ Verified</span></td></tr>
         <tr><td><code>analytics.combined_deal_scores</code></td><td>Deal scoring and tier rankings</td><td><span class="tag tag-new">✅ Verified</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <div class="card">
     <h3>Secondary: News & Context Enrichment</h3>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Source</th><th>Purpose</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td>Brave Search API</td><td>Company news for "relevant check-in" emails</td><td style="color:var(--danger);">NEEDS BRAVE_API_KEY</td></tr>
         <tr><td>LinkedIn (via existing pipeline)</td><td>Contact job changes, company posts</td><td>Via task-065 news engine</td></tr>
         <tr><td>Mission Control (local)</td><td>Task packet creation, artifact storage</td><td><span class="tag tag-new">✅ Available</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <div class="card">
     <h3>Pipeline Structure (Verified from BigQuery)</h3>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Pipeline</th><th>Open Deals</th><th>Key Stages</th></tr></thead>
       <tbody>
         <tr><td><strong>Events</strong></td><td>1,580</td><td>Draft → Onboarded → Meeting Booked → Active Negotiation → Contract Sent → Closed</td></tr>
@@ -357,7 +400,7 @@
         <tr><td><strong>Manual Events & Imports</strong></td><td>229</td><td>Similar to Events pipeline</td></tr>
         <tr><td><strong>Supply Retention</strong></td><td>39</td><td>Supply-side renewals (Ian's domain)</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -524,7 +567,7 @@
       <span class="phase-estimate">~14h</span>
     </div>
     <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">Build the detection logic and recommendation generator.</p>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Task</th><th>Owner</th><th>Est.</th></tr></thead>
       <tbody>
         <tr><td>Company name resolution + alias table (news names → HubSpot)</td><td><span class="tag tag-steve">Steve</span></td><td>3h</td></tr>
@@ -536,7 +579,7 @@
         <tr><td>Recommendation generator: why flagged + next move + owner + confidence</td><td><span class="tag tag-steve">Steve</span></td><td>2h</td></tr>
         <tr><td>Unit tests for all detectors</td><td><span class="tag tag-steve">Steve</span></td><td>1h</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <div class="card phase-card p2">
@@ -544,7 +587,7 @@
       <h3>Stage 2: Outreach Draft Engine</h3>
       <span class="phase-estimate">~16h</span>
     </div>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Task</th><th>Owner</th><th>Est.</th></tr></thead>
       <tbody>
         <tr><td>Deal owner voice profiling: analyze 10+ sent emails for tone/style</td><td><span class="tag tag-steve">Steve</span></td><td>4h</td></tr>
@@ -557,7 +600,7 @@
         <tr><td>Email guardrails: no dollar amounts, no contract terms, disclaimer</td><td><span class="tag tag-steve">Steve</span></td><td>30m</td></tr>
         <tr><td>End-to-end test: scanner → recommendation → draft for real deals</td><td><span class="tag tag-steve">Steve</span></td><td>2h</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <div class="card phase-card p3">
@@ -565,7 +608,7 @@
       <h3>Stage 3: Mission Control + Slack Integration</h3>
       <span class="phase-estimate">~10h</span>
     </div>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Task</th><th>Owner</th><th>Est.</th></tr></thead>
       <tbody>
         <tr><td>Task packet generator: recommendation → MC artifact structure</td><td><span class="tag tag-steve">Steve</span></td><td>2h</td></tr>
@@ -577,7 +620,7 @@
         <tr><td>Confirm channel access + test posting</td><td><span class="tag tag-deuce">Deuce</span></td><td>10m</td></tr>
         <tr><td>Integration test: full pipeline → Slack + MC artifacts</td><td><span class="tag tag-steve">Steve</span></td><td>1h</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <div class="card phase-card p4">
@@ -585,7 +628,7 @@
       <h3>Stage 4: Automation + Scheduling</h3>
       <span class="phase-estimate">~6h</span>
     </div>
-    <table class="task-table">
+    <div class="table-wrap"><table class="task-table">
       <thead><tr><th>Task</th><th>Owner</th><th>Est.</th></tr></thead>
       <tbody>
         <tr><td>Daily 6 AM scan cron job (BigQuery → recommendations → artifacts)</td><td><span class="tag tag-steve">Steve</span></td><td>1h</td></tr>
@@ -595,7 +638,7 @@
         <tr><td>Draft preview to Deuce DM before channel posting (first 2 weeks)</td><td><span class="tag tag-steve">Steve</span></td><td>30m</td></tr>
         <tr><td>Metrics tracking: flagged → reviewed → draft used → outcome</td><td><span class="tag tag-steve">Steve</span></td><td>1.5h</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
