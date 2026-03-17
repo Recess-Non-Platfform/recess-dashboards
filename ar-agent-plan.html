@@ -660,9 +660,10 @@
       </div>
     </div>
     <div class="baseline-box">
-      <h4>📏 Baseline Measurement Plan</h4>
-      <p><strong>Week 0 (before go-live):</strong> Char logs all AR activities for 1 full week — every email, call, Slack message, time spent. This gives us actual human-effort baseline, not estimates.</p>
-      <p style="margin-top:8px;"><strong>Automated baseline:</strong> Pull current <code style="color:var(--aqua);">invoice_payment_timing</code> from BigQuery for dollar-weighted days-to-payment by customer. This becomes our "before" cohort.</p>
+      <h4>📏 Baseline Measurement Plan <span style="color:var(--green); font-size:12px; font-weight:400;">— NOT a blocker for launch</span></h4>
+      <p><strong>Char activity logging:</strong> Char logs all AR activities for 1 full week — every email, call, Slack message, time spent. This can happen <strong>in parallel with build</strong> or shortly before go-live.</p>
+      <p style="margin-top:8px;"><strong>Automated baseline:</strong> Pull current <code style="color:var(--aqua);">invoice_payment_timing</code> from BigQuery for dollar-weighted days-to-payment by customer. <strong>Can be pulled anytime</strong> — this becomes our "before" cohort.</p>
+      <p style="margin-top:8px;"><strong>Estimated time to set benchmarks:</strong> 1-2 days when ready to launch. Neither baseline blocks Phase 1 start.</p>
     </div>
   </div>
 </section>
@@ -693,8 +694,8 @@
       <div class="rule-card">
         <div class="rule-icon">👤</div>
         <div>
-          <div class="rule-text">Emails from real employees, never "Karen"</div>
-          <div class="rule-sub">All external emails appear from Char, Pamela, or deal owner</div>
+          <div class="rule-text">Karen sends as herself from karen@recess.is</div>
+          <div class="rule-sub">All emails FROM Karen, Accounts Receivable Specialist — CC Account Manager on every email</div>
         </div>
       </div>
       <div class="rule-card">
@@ -782,6 +783,23 @@
         <span class="arrow">/</span>
         <span class="state state-active">PARTIAL_PAYMENT</span>
       </div>
+      <!-- Row: Payment Claimed flow -->
+      <div style="text-align:center; margin: 12px 0 8px;">
+        <span style="color:var(--text-muted); font-size:11px;">↓ "Check is in the mail" / payment promised ↓</span>
+      </div>
+      <div class="state-row">
+        <span class="state state-sent">PAYMENT_CLAIMED</span>
+        <span style="margin:0 8px; color:var(--text-muted); font-size:11px;">7-10 biz day verification</span>
+        <span class="arrow">→</span>
+        <span class="state state-end">RESOLVED</span>
+        <span style="margin:0 6px; color:var(--text-muted); font-size:11px;">if payment posts</span>
+      </div>
+      <div class="state-row" style="margin-top:4px;">
+        <span style="width:180px;"></span>
+        <span style="color:var(--text-muted); font-size:11px;">window expires →</span>
+        <span class="state state-human">RE-ESCALATE</span>
+        <span style="margin:0 6px; color:var(--text-muted); font-size:11px;">2nd miss → flag stall tactic → Deuce</span>
+      </div>
       <!-- Row 4: Terminal + error states -->
       <div class="state-row" style="margin-top:12px;">
         <span class="state state-error">BOUNCED</span>
@@ -802,6 +820,20 @@
         </ul>
       </div>
       <div class="card">
+        <h3>🧾 PAYMENT_CLAIMED State</h3>
+        <p>When a customer says "check is in the mail" → enter PAYMENT_CLAIMED</p>
+        <ul style="list-style:none; font-size:13px; color:var(--text-secondary); margin-top:8px;">
+          <li style="padding:4px 0;">✓ Set <strong style="color:var(--text-primary);">7-10 business day</strong> verification window</li>
+          <li style="padding:4px 0;">✓ Monitor QBO for payment posting</li>
+          <li style="padding:4px 0;">✓ If payment posts → <strong style="color:var(--green);">auto-close</strong>, send thank you</li>
+          <li style="padding:4px 0;">✓ If window expires → <strong style="color:var(--yellow);">re-escalate</strong> with context ("You mentioned on [date] a check was mailed...")</li>
+          <li style="padding:4px 0;">✓ If 2nd miss → <strong style="color:var(--red);">flag as stall tactic</strong> → escalate to Deuce</li>
+        </ul>
+        <p style="margin-top:8px; font-size:12px; color:var(--text-muted);">The Chobani pattern — they claimed they sent checks but nothing posted.</p>
+      </div>
+    </div>
+    <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="card">
         <h3>Risk-Scored Actions</h3>
         <p>Within each phase, actions are gated by a risk score:</p>
         <p style="margin-top:8px;"><code style="color:var(--aqua); font-size:12px;">risk = balance × overdue_days × action_type_weight</code></p>
@@ -821,8 +853,8 @@
 <section id="entity" class="fade-up">
   <div class="container">
     <p class="section-label">Data Architecture</p>
-    <h2 class="section-title">Entity Relationship — 3 Data Sources</h2>
-    <p class="section-subtitle">Karen joins QBO invoices → HubSpot deals → Email history to build a complete picture of every customer relationship.</p>
+    <h2 class="section-title">Entity Relationship — 3 Data Layers</h2>
+    <p class="section-subtitle">Karen joins QBO invoices → HubSpot deals → Email history & activities to build a complete picture of every customer relationship.</p>
     <div class="entity-grid">
       <!-- Layer 1 -->
       <div class="entity-card">
@@ -844,15 +876,18 @@
           <li><span class="field-name">contact_email</span><span class="field-desc">Primary deal contact</span></li>
           <li><span class="field-name">po_platform</span><span class="field-desc">Ariba, Tungsten, etc.</span></li>
           <li><span class="field-name">deal_contact</span><span class="field-desc">Associated contacts</span></li>
-          <li><span class="field-name">deal_owner</span><span class="field-desc">Recess rep (Danny, Char...)</span></li>
+          <li><span class="field-name">am_lead</span><span class="field-desc">Account Manager (CC + escalation)</span></li>
         </ul>
       </div>
       <!-- Layer 3 -->
       <div class="entity-card">
-        <h4><span class="layer-badge layer-3">Layer 3</span> HubSpot Email History</h4>
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Thread context for smart drafts</p>
+        <h4><span class="layer-badge layer-3">Layer 3</span> HubSpot Email History & Activities</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Full conversation context for smart drafts</p>
         <ul class="field-list">
           <li><span class="field-name">engagement_email</span><span class="field-desc">Subject, body preview</span></li>
+          <li><span class="field-name">engagement_note</span><span class="field-desc">Call transcripts, meeting notes</span></li>
+          <li><span class="field-name">engagement_call</span><span class="field-desc">Call logs, outcomes, duration</span></li>
+          <li><span class="field-name">engagement_task</span><span class="field-desc">Follow-up tasks, reminders</span></li>
           <li><span class="field-name">direction</span><span class="field-desc">Inbound / outbound</span></li>
           <li><span class="field-name">thread_id</span><span class="field-desc">Conversation threading</span></li>
           <li><span class="field-name">timestamps</span><span class="field-desc">Last contact date</span></li>
@@ -870,7 +905,7 @@
         <li><strong style="color:var(--text-primary);">HubSpot AP Invoice Email</strong> <span style="color:var(--text-muted);">— deal-level billing contact</span></li>
         <li><strong style="color:var(--text-primary);">HubSpot Deal Contact</strong> <span style="color:var(--text-muted);">— primary relationship contact</span></li>
         <li><strong style="color:var(--text-primary);">Deal Associated Contacts</strong> <span style="color:var(--text-muted);">— additional contacts on the deal</span></li>
-        <li><strong style="color:var(--text-primary);">Deal Owner</strong> <span style="color:var(--text-muted);">— internal Recess rep (for escalation CC)</span></li>
+        <li><strong style="color:var(--text-primary);">Account Manager</strong> <span style="color:var(--text-muted);">— HubSpot <code style="color:var(--aqua);">am_lead</code> field (CC on all emails, escalation path)</span></li>
       </ol>
       <p style="font-size:13px; color:var(--sea-green); margin-top:12px; font-weight:600;">
         Coverage: 19/21 customers (90%) fully linked. Only Danone ($50) and Ramp ($250) unlinked — both trivial.
@@ -949,16 +984,37 @@
         </div>
         <div class="cadence-row">
           <div class="cadence-label" style="color:var(--purple);">+60 days</div>
-          <div class="cadence-bar" style="background:rgba(163,113,247,0.12); border-left:3px solid var(--purple); width:92%;">
-            <span class="cb-type" style="color:var(--purple);">Write-Off Review</span>
-            <span class="cb-rule">Recommendation to Deuce for business decision</span>
+          <div class="cadence-bar" style="background:rgba(163,113,247,0.12); border-left:3px solid var(--purple); width:85%;">
+            <span class="cb-type" style="color:var(--purple);">Auto-Escalate to Deuce</span>
+            <span class="cb-rule">Escalate with recommendation — not just a notice</span>
           </div>
         </div>
         <div class="cadence-row">
           <div class="cadence-label" style="color:var(--purple);">+90 days</div>
-          <div class="cadence-bar" style="background:rgba(163,113,247,0.18); border-left:3px solid var(--purple); width:100%;">
-            <span class="cb-type" style="color:var(--purple);">Auto-Escalate to Deuce</span>
-            <span class="cb-rule">Not just a notice — a business decision trigger with recommendation</span>
+          <div class="cadence-bar" style="background:rgba(163,113,247,0.18); border-left:3px solid var(--purple); width:90%;">
+            <span class="cb-type" style="color:var(--purple);">Business Decision Trigger</span>
+            <span class="cb-rule">Consider for trigger / write-off with recommendation</span>
+          </div>
+        </div>
+        <div class="cadence-row">
+          <div class="cadence-label" style="color:var(--red);">+120 days</div>
+          <div class="cadence-bar" style="background:rgba(248,81,73,0.10); border-left:3px solid var(--red); width:93%;">
+            <span class="cb-type" style="color:var(--red);">Quarterly Re-Engagement</span>
+            <span class="cb-rule">Fresh approach attempt · Accounts like Garrett Popcorn, General Mills</span>
+          </div>
+        </div>
+        <div class="cadence-row">
+          <div class="cadence-label" style="color:var(--red);">+180 days</div>
+          <div class="cadence-bar" style="background:rgba(248,81,73,0.14); border-left:3px solid var(--red); width:96%;">
+            <span class="cb-type" style="color:var(--red);">Semi-Annual Review</span>
+            <span class="cb-rule">Write-off recommendation to Deuce · Haleon territory</span>
+          </div>
+        </div>
+        <div class="cadence-row">
+          <div class="cadence-label" style="color:var(--red);">+365 days</div>
+          <div class="cadence-bar" style="background:rgba(248,81,73,0.20); border-left:3px solid var(--red); width:100%;">
+            <span class="cb-type" style="color:var(--red);">Annual Final Review</span>
+            <span class="cb-rule">Write-off or legal/collections referral · Final decision point</span>
           </div>
         </div>
       </div>
@@ -1021,10 +1077,11 @@
         </div>
         <div class="phase-content">
           <h4>Slack Review — Human Sends Everything</h4>
-          <p>Karen scans BigQuery, generates prioritized AR list + draft emails. Posts to Slack DM for Deuce/Char review. Human approves, revises, or skips every draft. Human copy-pastes to send.</p>
+          <p>Karen scans BigQuery, generates prioritized AR list + draft emails. Posts <strong>individual messages</strong> to Slack DM for Deuce — one per email draft. Human approves, edits, snoozes, or skips each draft individually. All emails from karen@recess.is, CC Account Manager.</p>
           <ul>
             <li>Track: approval rate, revision rate, skip rate</li>
-            <li>Structured Slack blocks with ✅ Approve / ✏️ Edit / ⏸️ Snooze / ❌ Skip buttons</li>
+            <li>One Slack message per draft with ✅ Approve / ✏️ Edit / ⏸️ Snooze / ❌ Skip</li>
+            <li>Summary overview message sent first, then individual drafts follow</li>
           </ul>
           <div class="gate-badge">Gate → 2: 50+ drafts reviewed, &gt;80% approval, 0 wrong-recipient incidents</div>
         </div>
@@ -1038,7 +1095,7 @@
         </div>
         <div class="phase-content">
           <h4>Karen Creates Drafts — Human Hits Send</h4>
-          <p>Karen creates Gmail drafts via <code style="color:var(--aqua);">gog</code>. Slack digest shows summary + "drafts ready in Gmail." Human opens Gmail, reviews, hits Send.</p>
+          <p>Karen creates Gmail drafts in the karen@recess.is inbox via <code style="color:var(--aqua);">gog</code>. Individual Slack messages link to each draft in Gmail. Human opens Gmail, reviews, hits Send.</p>
           <ul>
             <li>Track: send-through rate, time-to-send</li>
             <li>Reduces friction: one-click send instead of copy-paste</li>
@@ -1207,10 +1264,10 @@
     <!-- Voice Profile -->
     <h3 style="margin-top:28px; margin-bottom:16px;">Voice Profiles</h3>
     <div class="voice-card">
-      <h4 style="color:var(--aqua);">Char Short <span style="color:var(--text-muted); font-size:12px; font-weight:400;">— Primary AR Voice (114 emails)</span></h4>
-      <div class="voice-meta">Professional, warm, organized. Default for most accounts.</div>
-      <blockquote>"Hi Kari - Adding in @Ines from our end. We provided all requested documents last Tuesday. Is everything on your end okay for payment now, or do you need any additional information?"</blockquote>
-      <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Opening: "Hi [First Name] -" · Closing: "Let me know if you need anything else" · Style: Bullet points for action items</p>
+      <h4 style="color:var(--aqua);">Karen <span style="color:var(--text-muted); font-size:12px; font-weight:400;">— karen@recess.is · Accounts Receivable Specialist</span></h4>
+      <div class="voice-meta">Professional, warm, organized. Voice modeled after Char Short's tone (114 AR emails analyzed). Karen sends as herself from karen@recess.is.</div>
+      <blockquote>"Hi Kari - Following up on Invoice #1847 — wanted to make sure everything is on track for processing. If you need any additional documentation, happy to get that over to you right away."</blockquote>
+      <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Opening: "Hi [First Name] -" · Closing: "Let me know if you need anything else" · Signature: "Karen | Accounts Receivable Specialist | Recess Digital" · CC: Account Manager on all emails</p>
     </div>
 
     <!-- Architecture Note -->
@@ -1265,7 +1322,7 @@
     <div style="overflow-x:auto; border-radius:12px; border:1px solid var(--border);">
       <table class="data-table">
         <thead>
-          <tr><th>Customer</th><th>Outstanding</th><th>Days Overdue</th><th>Deal Owner</th><th>Key Issue</th></tr>
+          <tr><th>Customer</th><th>Outstanding</th><th>Days Overdue</th><th>Account Manager</th><th>Key Issue</th></tr>
         </thead>
         <tbody>
           <tr>
@@ -1342,8 +1399,8 @@
       </div>
     </div>
 
-    <!-- Deal Owner Map -->
-    <h3 style="margin-top:32px; margin-bottom:12px;">Deal Owner Responsibility Map</h3>
+    <!-- Account Manager Map -->
+    <h3 style="margin-top:32px; margin-bottom:12px;">Account Manager Responsibility Map</h3>
     <div class="owner-grid">
       <div class="owner-card">
         <h4>🔵 Danny</h4>
@@ -1376,7 +1433,10 @@
   <div class="container">
     <p class="section-label">Preview</p>
     <h2 class="section-title">Sample Slack Digest</h2>
-    <p class="section-subtitle">What Karen's Monday morning digest looks like. Structured blocks with action buttons.</p>
+    <p class="section-subtitle">Karen sends a summary overview first, then individual messages — one per email draft. Deuce reviews and acts on each one separately.</p>
+
+    <!-- Summary message -->
+    <h3 style="margin-bottom:12px; color:var(--aqua);">Message 1: Summary Overview</h3>
     <div class="terminal">
       <div class="terminal-header">
         <span class="terminal-dot r"></span>
@@ -1385,42 +1445,7 @@
         <span class="terminal-title">#ar-collections — Monday 9:00 AM</span>
       </div>
       <div class="terminal-body"><span class="t-bold">☕ Good morning! It's Karen, your favorite collections agent.</span>
-<span class="t-dim">Here's your Monday AR briefing. I've been busy.</span>
-
-<span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
-<span class="t-orange">🚨 NEEDS ATTENTION</span>
-<span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
-
-<span class="t-red">⚠ NEVER DELIVERED — Chobani ($10,220)</span>
-  2 invoices with status NeedToSend, no PO platform
-  These may have <span class="t-bold">never reached the customer</span>.
-  <span class="t-dim">Template: First-touch delivery notice (not collections tone)</span>
-  <span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Edit]</span>  <span class="t-purple">[⏸️ Snooze 7d]</span>  <span class="t-red">[❌ Skip]</span>
-
-<span class="t-red">⚠ NEVER DELIVERED — Just Made ($5,600)</span>
-  1 invoice, NeedToSend, no PO platform
-  <span class="t-dim">Template: First-touch delivery notice</span>
-  <span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Edit]</span>  <span class="t-purple">[⏸️ Snooze 7d]</span>  <span class="t-red">[❌ Skip]</span>
-
-<span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
-<span class="t-orange">📬 DRAFTS READY (3)</span>
-<span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
-
-<span class="t-bold">1. Kraft Heinz</span> — $8,100 · 14 days overdue · Firm follow-up
-  <span class="t-dim">To: ariba-invoices@kraftheinz.com</span>
-  <span class="t-dim">Re: PO #KH-2026-0412, Invoices #1847, #1852</span>
-  <span class="t-dim">Via: Char's voice · Thread-aware (last email Feb 28)</span>
-  <span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Edit]</span>  <span class="t-purple">[⏸️ Snooze 7d]</span>  <span class="t-red">[❌ Skip]</span>
-
-<span class="t-bold">2. PepsiCo</span> — $1,500 · 14 days overdue · Gentle check-in
-  <span class="t-dim">To: Laura.Holzman@pepsico.com</span>
-  <span class="t-dim">Re: Invoice #1891, PO per contract</span>
-  <span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Edit]</span>  <span class="t-purple">[⏸️ Snooze 7d]</span>  <span class="t-red">[❌ Skip]</span>
-
-<span class="t-bold">3. Ferrara</span> — $70,000 · Due in 5 days · Pre-due reminder
-  <span class="t-dim">To: invoices@ap.ferrara.com</span>
-  <span class="t-dim">Friendly heads-up, no amounts</span>
-  <span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Edit]</span>  <span class="t-purple">[⏸️ Snooze 7d]</span>  <span class="t-red">[❌ Skip]</span>
+<span class="t-dim">Here's your Monday AR briefing.</span>
 
 <span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
 <span class="t-green">📊 WEEKLY SNAPSHOT</span>
@@ -1430,8 +1455,74 @@
   Due This Week:      <span class="t-orange">$91,300</span>  (Ferrara $70K, Nestlé $21K)
   Payments Received:  <span class="t-green">$12,400</span>  (last 7 days)
 
-<span class="t-dim">That's all for now. I'll be here if you need me. 🙂
-— Karen ("Annoyingly pleasant. Relentlessly effective.")</span></div>
+<span class="t-orange">📬 I've got 5 email drafts ready for your review.</span>
+<span class="t-dim">They'll follow as individual messages below — approve, edit, snooze, or skip each one.</span>
+
+<span class="t-dim">— Karen ("Annoyingly pleasant. Relentlessly effective.")</span></div>
+    </div>
+
+    <!-- Individual draft messages -->
+    <h3 style="margin-top:28px; margin-bottom:12px; color:var(--burnt-orange);">Messages 2–6: Individual Email Drafts</h3>
+    <div class="terminal" style="margin-bottom:12px;">
+      <div class="terminal-header">
+        <span class="terminal-dot r"></span>
+        <span class="terminal-dot y"></span>
+        <span class="terminal-dot g"></span>
+        <span class="terminal-title">#ar-collections — Draft 1 of 5</span>
+      </div>
+      <div class="terminal-body"><span class="t-orange">📧 DRAFT: Kraft Heinz — Firm Follow-Up</span>
+<span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="t-red">💰 $8,100 · 14 days overdue</span>
+  <span class="t-dim">📬 To: ariba-invoices@kraftheinz.com</span>
+  <span class="t-dim">📬 From: karen@recess.is</span>
+  <span class="t-dim">👤 CC: Char Short (Account Manager)</span>
+  <span class="t-dim">📎 Re: PO #KH-2026-0412, Invoices #1847, #1852</span>
+  <span class="t-dim">💬 Last contact: Feb 28 — "PO format requirements"</span>
+
+<span class="t-bold">Hi Kari -</span>
+
+Following up on Invoices #1847 and #1852 ($8,100 total) — these
+were submitted via Ariba on Feb 15 referencing PO #KH-2026-0412.
+
+We haven't seen these move to payment yet. Could you confirm
+they're in the queue, or let me know if there's anything I can
+help resolve on our end?
+
+Thanks!
+<span class="t-bold">Karen</span>
+<span class="t-dim">Accounts Receivable Specialist
+Recess Digital | karen@recess.is</span>
+
+<span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Reply to edit]</span>  <span class="t-purple">[⏸️ Snooze]</span>  <span class="t-red">[❌ Skip]</span></div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="terminal-dot r"></span>
+        <span class="terminal-dot y"></span>
+        <span class="terminal-dot g"></span>
+        <span class="terminal-title">#ar-collections — Draft 2 of 5</span>
+      </div>
+      <div class="terminal-body"><span class="t-aqua">📧 DRAFT: Ferrara — Pre-Due Reminder</span>
+<span class="t-aqua">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="t-orange">📅 $70,000 · Due in 5 days (Mar 19)</span>
+  <span class="t-dim">📬 To: invoices@ap.ferrara.com</span>
+  <span class="t-dim">📬 From: karen@recess.is</span>
+  <span class="t-dim">👤 CC: Danny Sears (Account Manager)</span>
+  <span class="t-dim">Friendly heads-up · No amounts shown</span>
+
+<span class="t-bold">Hi there -</span>
+
+Just a quick heads-up that we have an invoice coming due shortly.
+Wanted to make sure everything is tracking on your end for
+processing. If you need any documentation resent, happy to help!
+
+Thanks!
+<span class="t-bold">Karen</span>
+<span class="t-dim">Accounts Receivable Specialist
+Recess Digital | karen@recess.is</span>
+
+<span class="t-green">[✅ Approve]</span>  <span class="t-orange">[✏️ Reply to edit]</span>  <span class="t-purple">[⏸️ Snooze]</span>  <span class="t-red">[❌ Skip]</span></div>
     </div>
   </div>
 </section>
@@ -1446,9 +1537,9 @@
     <p class="section-subtitle">Thread-aware gentle follow-up. Karen pulls context from prior email history to make every touch feel human.</p>
     <div class="email-preview">
       <div class="email-header">
-        <div class="email-meta"><strong>From:</strong> char@recess.is (via Karen — Char's voice)</div>
+        <div class="email-meta"><strong>From:</strong> karen@recess.is (Karen, Accounts Receivable Specialist)</div>
         <div class="email-meta"><strong>To:</strong> Laura.Holzman@pepsico.com</div>
-        <div class="email-meta"><strong>CC:</strong> accounting@recess.is</div>
+        <div class="email-meta"><strong>CC:</strong> Victoria Newton (Account Manager)</div>
         <div class="email-meta"><strong>Type:</strong> Gentle Check-In (+7 days overdue) · <strong>Risk Score:</strong> Low</div>
         <div class="email-subject">Re: Invoice #1891 — Recess / PepsiCo Q1 Campaign</div>
       </div>
@@ -1458,17 +1549,19 @@ Hope you're having a good week! Wanted to follow up on Invoice #1891 — I belie
 Just checking in to make sure everything is on track for processing. I know POs can sometimes take a bit to work through on your end.<br><br>
 Let me know if you need anything from our side — happy to resend the invoice or provide any additional documentation.<br><br>
 Thanks!<br>
-Char
+Karen<br>
+<span style="color:var(--text-muted); font-size:12px;">Accounts Receivable Specialist<br>
+Recess Digital | karen@recess.is</span>
       </div>
     </div>
     <div class="card" style="margin-top:12px;">
       <h3 style="font-size:14px;">📋 Draft Metadata</h3>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; font-size:13px;">
         <div><span style="color:var(--text-muted);">Customer:</span> <span style="color:var(--text-primary);">PepsiCo</span></div>
-        <div><span style="color:var(--text-muted);">Deal Owner:</span> <span style="color:var(--text-primary);">Victoria Newton</span></div>
+        <div><span style="color:var(--text-muted);">Account Manager:</span> <span style="color:var(--text-primary);">Victoria Newton (CC'd)</span></div>
         <div><span style="color:var(--text-muted);">Template:</span> <span style="color:var(--aqua);">gentle_checkin_v1</span></div>
-        <div><span style="color:var(--text-muted);">Voice:</span> <span style="color:var(--text-primary);">Char Short</span></div>
-        <div><span style="color:var(--text-muted);">Context Used:</span> <span style="color:var(--text-primary);">Last email thread (Feb 28), PO requirement</span></div>
+        <div><span style="color:var(--text-muted);">Sender:</span> <span style="color:var(--text-primary);">Karen (karen@recess.is)</span></div>
+        <div><span style="color:var(--text-muted);">Context Used:</span> <span style="color:var(--text-primary);">Last email thread (Feb 28), PO requirement, HubSpot notes</span></div>
         <div><span style="color:var(--text-muted);">Amount Shown:</span> <span style="color:var(--sea-green);">No (gentle tier)</span></div>
       </div>
     </div>
@@ -1492,7 +1585,9 @@ Char
           <span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span>
           <span class="terminal-title">First-Touch Template (NOT collections tone)</span>
         </div>
-        <div class="terminal-body"><span class="t-dim">Subject: Invoice delivery confirmation — Recess / Chobani</span>
+        <div class="terminal-body"><span class="t-dim">From: karen@recess.is
+CC: [Account Manager]
+Subject: Invoice delivery confirmation — Recess / Chobani</span>
 
 Hi [AP Contact] -
 
@@ -1504,7 +1599,9 @@ Could you confirm receipt and let me know the best way to
 ensure smooth delivery going forward?
 
 Thanks so much!
-Char</div>
+<span class="t-bold">Karen</span>
+<span class="t-dim">Accounts Receivable Specialist
+Recess Digital | karen@recess.is</span></div>
       </div>
     </div>
 
@@ -1615,7 +1712,7 @@ Char</div>
           </tr>
           <tr>
             <td>11</td>
-            <td>No "Karen" identity in external emails</td>
+            <td>Karen sends as herself (karen@recess.is) — own identity established</td>
             <td><span class="priority important">Important</span></td>
             <td>o3</td>
             <td><span class="review-status resolved">✅ Resolved</span></td>
@@ -1699,8 +1796,8 @@ Char</div>
         <li>
           <span class="check-box"></span>
           <div>
-            <strong>CC accounting@recess.is on follow-ups?</strong>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">QBO already CCs this on invoice sends. Should Karen do the same on follow-ups?</div>
+            <strong>CC accounting@recess.is on follow-ups (in addition to Account Manager)?</strong>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">QBO already CCs this on invoice sends. Karen already CCs the Account Manager — should she also CC accounting?</div>
           </div>
         </li>
         <li>
@@ -1713,15 +1810,15 @@ Char</div>
         <li>
           <span class="check-box"></span>
           <div>
-            <strong>Char to log AR activities for 1 week (baseline)</strong>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Actual measurement of human effort before Karen. Critical for "70% less work" goal tracking.</div>
+            <strong>Char to log AR activities for 1 week (baseline — NOT a blocker)</strong>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Can happen in parallel with build or shortly before go-live. Automated BigQuery baseline can be pulled anytime.</div>
           </div>
         </li>
         <li>
           <span class="check-box"></span>
           <div>
-            <strong>gog Gmail auth — whose inbox?</strong>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Can Karen create drafts in Char's Gmail, or Deuce's only? Needed for Phase 2.</div>
+            <strong>karen@recess.is email setup</strong>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Karen sends as herself. Need Google Workspace account or alias for karen@recess.is. Needed for Phase 2.</div>
           </div>
         </li>
       </ul>
@@ -1797,7 +1894,7 @@ Char</div>
   <div class="container">
     <div class="footer-brand">Karen</div>
     <p style="margin-bottom:8px;">Annoyingly pleasant. Relentlessly effective.</p>
-    <p>Generated March 16, 2026 · Dual-model reviewed (Claude Opus + OpenAI o3)</p>
+    <p>Generated March 17, 2026 · Dual-model reviewed (Claude Opus + OpenAI o3)</p>
     <p>Data sourced from BigQuery, QuickBooks Online, and HubSpot CRM</p>
     <p style="margin-top:12px; color:var(--text-muted); font-size:11px;">Built by Steve for Recess Digital</p>
   </div>
