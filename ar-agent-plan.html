@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AR Email Collection Agent — Implementation Plan</title>
+<style>
+  :root {
+    --aqua: #14B9D6;
+    --forest: #108DA3;
+    --sea-green: #1FBBA6;
+    --burnt-orange: #F27935;
+    --dark: #1a1a2e;
+    --darker: #16162a;
+    --card: #222244;
+    --card-border: #333366;
+    --text: #e8e8f0;
+    --text-muted: #9999bb;
+    --red: #ff4466;
+    --yellow: #ffaa33;
+    --green: #44cc88;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--darker) 0%, #1a2a4a 50%, var(--darker) 100%);
+    padding: 60px 40px 40px;
+    border-bottom: 3px solid var(--aqua);
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 2.4em;
+    color: var(--aqua);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .hero .subtitle {
+    color: var(--text-muted);
+    font-size: 1.1em;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin: 30px 0;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .number {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--aqua);
+  }
+  .stat-card .number.red { color: var(--red); }
+  .stat-card .number.yellow { color: var(--yellow); }
+  .stat-card .number.green { color: var(--green); }
+  .stat-card .number.orange { color: var(--burnt-orange); }
+  .stat-card .label {
+    font-size: 0.85em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* Section headers */
+  .section { margin: 40px 0; }
+  .section h2 {
+    font-size: 1.5em;
+    color: var(--aqua);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--card-border);
+  }
+  .section h3 {
+    font-size: 1.15em;
+    color: var(--sea-green);
+    margin: 20px 0 10px;
+  }
+
+  /* Problem box */
+  .problem-box {
+    background: linear-gradient(135deg, #2a1a1a 0%, #331a1a 100%);
+    border: 1px solid #553333;
+    border-left: 4px solid var(--red);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .problem-box h3 { color: var(--red); margin-top: 0; }
+
+  /* Constraint pills */
+  .constraints {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .constraint {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .constraint .icon { font-size: 1.5em; flex-shrink: 0; }
+  .constraint .text { font-size: 0.9em; }
+  .constraint .text strong { display: block; color: var(--text); margin-bottom: 2px; }
+  .constraint .text span { color: var(--text-muted); }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.9em;
+  }
+  th {
+    background: var(--card);
+    color: var(--aqua);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--card-border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--card-border);
+    color: var(--text);
+  }
+  tr:hover td { background: rgba(20, 185, 214, 0.05); }
+  .urgency-overdue { color: var(--red); font-weight: 600; }
+  .urgency-due-soon { color: var(--yellow); font-weight: 600; }
+  .urgency-upcoming { color: var(--burnt-orange); }
+  .urgency-future { color: var(--text-muted); }
+
+  /* Phase cards */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .phase-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .phase-card.p0::before { background: var(--red); }
+  .phase-card.p1::before { background: var(--aqua); }
+  .phase-card.p2::before { background: var(--sea-green); }
+  .phase-card.p3::before { background: var(--burnt-orange); }
+  .phase-card.p4::before { background: var(--yellow); }
+  .phase-card .phase-num {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .phase-card h4 {
+    font-size: 1.1em;
+    color: var(--text);
+    margin: 6px 0 10px;
+  }
+  .phase-card .est {
+    font-size: 0.85em;
+    color: var(--aqua);
+    margin-bottom: 12px;
+  }
+  .phase-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .phase-card li {
+    padding: 4px 0;
+    font-size: 0.88em;
+    color: var(--text-muted);
+    padding-left: 18px;
+    position: relative;
+  }
+  .phase-card li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--aqua);
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 50px;
+  }
+  .timeline-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: white;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+  .timeline-seg.seg0 { background: var(--red); flex: 1; }
+  .timeline-seg.seg1 { background: var(--aqua); flex: 2; }
+  .timeline-seg.seg2 { background: var(--sea-green); flex: 2; }
+  .timeline-seg.seg3 { background: var(--burnt-orange); flex: 1.5; }
+  .timeline-seg.seg4 { background: var(--yellow); color: var(--dark); flex: 1; }
+
+  /* Sample output */
+  .sample-box {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+    font-family: monospace;
+    font-size: 0.88em;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+  .sample-box .header-line { color: var(--red); font-weight: 700; font-family: 'Proxima Nova', sans-serif; }
+  .sample-box .section-line { color: var(--aqua); font-weight: 600; }
+  .sample-box .customer-line { color: var(--text); }
+  .sample-box .detail-line { color: var(--text-muted); }
+  .sample-box .action-line { color: var(--sea-green); }
+
+  /* Email draft sample */
+  .email-draft {
+    background: #1a2233;
+    border: 1px solid #334466;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .email-draft .subject-line {
+    color: var(--aqua);
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #334466;
+  }
+  .email-draft .body { color: var(--text); font-size: 0.95em; line-height: 1.8; }
+  .email-draft .meta {
+    margin-top: 16px;
+    padding-top: 8px;
+    border-top: 1px solid #334466;
+    font-size: 0.82em;
+    color: var(--text-muted);
+  }
+
+  /* Risk cards */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .risk-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .risk-card.high { border-left: 4px solid var(--red); }
+  .risk-card.medium { border-left: 4px solid var(--yellow); }
+  .risk-card .risk-severity {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .risk-card.high .risk-severity { color: var(--red); }
+  .risk-card.medium .risk-severity { color: var(--yellow); }
+  .risk-card h4 { color: var(--text); margin: 4px 0 8px; font-size: 0.95em; }
+  .risk-card p { color: var(--text-muted); font-size: 0.85em; }
+
+  /* Blocker checklist */
+  .blocker-list {
+    background: linear-gradient(135deg, #2a1a1a 0%, #331a1a 100%);
+    border: 1px solid #553333;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .blocker-list h3 { color: var(--red); margin-bottom: 12px; }
+  .blocker-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #443333;
+    align-items: flex-start;
+  }
+  .blocker-item:last-child { border-bottom: none; }
+  .blocker-item .check { font-size: 1.3em; flex-shrink: 0; }
+  .blocker-item .detail { flex: 1; }
+  .blocker-item .detail strong { color: var(--text); display: block; }
+  .blocker-item .detail span { color: var(--text-muted); font-size: 0.88em; }
+  .blocker-item .time {
+    color: var(--yellow);
+    font-size: 0.85em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Review badge */
+  .review-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    margin: 4px;
+  }
+  .review-badge .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  /* Success metrics */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .metric-card .target { font-size: 1.6em; font-weight: 700; color: var(--sea-green); }
+  .metric-card .desc { font-size: 0.85em; color: var(--text-muted); margin-top: 4px; }
+
+  /* Follow-up matrix */
+  .matrix-row { display: flex; gap: 8px; margin: 4px 0; flex-wrap: wrap; }
+  .matrix-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.82em;
+    font-weight: 500;
+  }
+  .matrix-pill.predue { background: #1a3322; color: var(--green); border: 1px solid #336644; }
+  .matrix-pill.gentle { background: #2a2a1a; color: var(--yellow); border: 1px solid #665533; }
+  .matrix-pill.firm { background: #2a1a1a; color: var(--burnt-orange); border: 1px solid #664422; }
+  .matrix-pill.escalation { background: #331a1a; color: var(--red); border: 1px solid #663333; }
+  .matrix-pill.final { background: #331a2a; color: #ff66aa; border: 1px solid #663355; }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 0.85em;
+    border-top: 1px solid var(--card-border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>💰 AR Email Collection Agent</h1>
+  <p class="subtitle">Automated accounts receivable follow-up powered by BigQuery + HubSpot email intelligence. Draft-only, human-sends, full operator control.</p>
+  <div style="margin-top: 16px;">
+    <span class="review-badge"><span class="dot"></span> Reviewer 1 — Approved with fixes</span>
+    <span class="review-badge"><span class="dot"></span> Reviewer 2 — Approved with fixes</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Live Data Stats -->
+  <div class="section">
+    <h2>📊 Your AR Right Now (Live BigQuery Data)</h2>
+    <div class="stats-row">
+      <div class="stat-card"><div class="number">$695K</div><div class="label">Total Outstanding</div></div>
+      <div class="stat-card"><div class="number red">$57.7K</div><div class="label">Overdue</div></div>
+      <div class="stat-card"><div class="number yellow">$91.3K</div><div class="label">Due This Week</div></div>
+      <div class="stat-card"><div class="number">70</div><div class="label">Open Invoices</div></div>
+      <div class="stat-card"><div class="number">25</div><div class="label">Customers</div></div>
+      <div class="stat-card"><div class="number orange">412</div><div class="label">Max Days Overdue</div></div>
+    </div>
+  </div>
+
+  <!-- Problem -->
+  <div class="problem-box">
+    <h3>⚠️ The Problem This Solves</h3>
+    <p>Of $695K outstanding, <strong>$57.7K is overdue</strong> across 31 invoices from 18 customers. Garrett Popcorn is 412 days past due ($16K). Ferrara Candy has $70K due in 2 days. Nestle has $21K due in 3 days. There's no systematic follow-up — invoices age silently until someone manually notices. This agent finds them, tells you why they matter, drafts the follow-up email using real HubSpot thread context, and delivers a prioritized digest every Mon/Wed/Fri.</p>
+  </div>
+
+  <!-- Constraints -->
+  <div class="section">
+    <h2>🔒 Constraints (Hard Rules)</h2>
+    <div class="constraints">
+      <div class="constraint">
+        <div class="icon">🚫</div>
+        <div class="text"><strong>No auto-sending</strong><span>All outreach is draft-only. Human reviews and sends.</span></div>
+      </div>
+      <div class="constraint">
+        <div class="icon">🚫</div>
+        <div class="text"><strong>No CRM/QBO writes</strong><span>Read-only from HubSpot & QuickBooks via BigQuery.</span></div>
+      </div>
+      <div class="constraint">
+        <div class="icon">✅</div>
+        <div class="text"><strong>Operator review first</strong><span>Every draft reviewed in Slack DM before deal owner sees it.</span></div>
+      </div>
+      <div class="constraint">
+        <div class="icon">✅</div>
+        <div class="text"><strong>Thread-aware context</strong><span>References prior email conversations when available.</span></div>
+      </div>
+      <div class="constraint">
+        <div class="icon">🚫</div>
+        <div class="text"><strong>Tiered amount rule</strong><span>No $ in early follow-ups. Invoice # and amounts included for escalations only.</span></div>
+      </div>
+      <div class="constraint">
+        <div class="icon">✅</div>
+        <div class="text"><strong>Dedup protection</strong><span>Minimum 7-day gap between follow-ups per customer. No spam.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Priority Accounts Table -->
+  <div class="section">
+    <h2>🔴 Priority Accounts — Overdue</h2>
+    <table>
+      <thead>
+        <tr><th>Customer</th><th>Outstanding</th><th>Days Overdue</th><th>Deal Owner</th><th>Invoices</th><th>HubSpot Linked</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="urgency-overdue">Garrett Popcorn</td><td>$16,318</td><td>412 days</td><td>Danny Sears</td><td>2</td><td>✅</td></tr>
+        <tr><td class="urgency-overdue">Chobani</td><td>$10,169</td><td>73 days</td><td>Danny Sears</td><td>2</td><td>❌</td></tr>
+        <tr><td class="urgency-overdue">Gooderfoods</td><td>$10,000</td><td>4 days</td><td>Victoria Newton</td><td>1</td><td>✅</td></tr>
+        <tr><td class="urgency-overdue">Kraft Heinz</td><td>$8,107</td><td>48 days</td><td>Char Short</td><td>3</td><td>✅</td></tr>
+        <tr><td class="urgency-overdue">Just Made</td><td>$5,625</td><td>71 days</td><td>Danny Sears</td><td>5</td><td>❌</td></tr>
+        <tr><td class="urgency-overdue">Haleon US LP</td><td>$3,367</td><td>588 days</td><td>Danny Sears</td><td>1</td><td>❌</td></tr>
+        <tr><td class="urgency-overdue">PepsiCo</td><td>$1,500</td><td>34 days</td><td>Danny Sears</td><td>1</td><td>✅</td></tr>
+        <tr><td class="urgency-overdue">Get Joy & Co.</td><td>$936</td><td>23 days</td><td>Danny Sears</td><td>3</td><td>❌</td></tr>
+        <tr><td class="urgency-overdue">General Mills</td><td>$750</td><td>422 days</td><td>Danny Sears</td><td>1</td><td>✅</td></tr>
+        <tr><td class="urgency-overdue">Bayer HealthCare</td><td>$510</td><td>57 days</td><td>Char Short</td><td>1</td><td>✅</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🟡 Due This Week</h3>
+    <table>
+      <thead>
+        <tr><th>Customer</th><th>Outstanding</th><th>Due Date</th><th>Deal Owner</th><th>HubSpot</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="urgency-due-soon">Ferrara Candy</td><td>$70,000</td><td>Mar 19 (2 days!)</td><td>Danny Sears</td><td>❌</td></tr>
+        <tr><td class="urgency-due-soon">Nestle</td><td>$21,334</td><td>Mar 20 (3 days!)</td><td>Danny Sears</td><td>✅</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔮 Upcoming Large AR (Future)</h3>
+    <table>
+      <thead>
+        <tr><th>Customer</th><th>Outstanding</th><th>Due Window</th><th>Deal Owner</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mars United</td><td>$211K</td><td>Apr–May 2026</td><td>Danny Sears</td></tr>
+        <tr><td>Church & Dwight</td><td>$148K</td><td>Jun–Jul 2026</td><td>Char Short</td></tr>
+        <tr><td>PepsiCo</td><td>$98K</td><td>May–Jun 2026</td><td>Danny Sears</td></tr>
+        <tr><td>Bayer HealthCare</td><td>$49K</td><td>Jun 2026</td><td>Andy Cooper</td></tr>
+        <tr><td>Vytalogy</td><td>$29K</td><td>May 2026</td><td>Danny Sears</td></tr>
+        <tr><td>Church & Dwight</td><td>$28K</td><td>Jun 2026</td><td>Char Short</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Follow-up Matrix -->
+  <div class="section">
+    <h2>📧 Follow-Up Type Matrix</h2>
+    <p style="color: var(--text-muted); margin-bottom: 12px;">Each invoice gets classified into one of these follow-up types based on urgency and balance:</p>
+    <div class="matrix-row">
+      <span class="matrix-pill predue">🟢 Pre-Due Reminder — 7 days before due</span>
+      <span class="matrix-pill gentle">🟡 Gentle Follow-Up — 1–14 days overdue</span>
+    </div>
+    <div class="matrix-row">
+      <span class="matrix-pill firm">🟠 Firm Follow-Up — 15–30 days overdue, >$1K</span>
+      <span class="matrix-pill escalation">🔴 Escalation — 31–60 days overdue, >$1K</span>
+    </div>
+    <div class="matrix-row">
+      <span class="matrix-pill final">🔴 Final Notice — 60+ days overdue, >$1K</span>
+    </div>
+    <p style="color: var(--text-muted); margin-top: 12px; font-size: 0.88em;">
+      <strong>Tiered amount rule:</strong> Pre-due and gentle follow-ups keep it conversational (no dollar amounts). 
+      Firm, escalation, and final notice emails include invoice numbers AND amounts — AP departments need specifics to action payment.
+    </p>
+    <p style="color: var(--text-muted); font-size: 0.88em;">
+      <strong>Status overrides:</strong> Accounts can be flagged as <code>dispute</code>, <code>payment_plan</code>, <code>write_off</code>, or <code>do_not_contact</code> to suppress or adjust follow-ups.
+    </p>
+  </div>
+
+  <!-- Sample Digest -->
+  <div class="section">
+    <h2>👀 Sample Output — Monday Digest</h2>
+    <div class="sample-box"><span class="header-line">🔴 AR COLLECTION DIGEST — Monday, March 17</span>
+
+<span class="section-line">━━━ IMMEDIATE ACTION (Overdue) ━━━</span>
+
+<span class="customer-line">1. GARRETT POPCORN — $16,318 overdue (412 days)</span>
+<span class="detail-line">   📧 Draft ready: Escalation email to Danny Sears</span>
+<span class="detail-line">   💬 Last HubSpot email: Dec 2024 (no recent activity)</span>
+<span class="detail-line">   📋 2 invoices: #2024-2139, #2025-2178</span>
+<span class="action-line">   → Reply "approve 1" to greenlight draft</span>
+
+<span class="customer-line">2. FERRARA CANDY — $70,000 due Mar 19 (2 DAYS!)</span>
+<span class="detail-line">   📧 Draft ready: Pre-due reminder</span>
+<span class="detail-line">   ⚠️ No HubSpot link — template-only draft</span>
+<span class="detail-line">   📋 3 invoices: #2025-2691, #2025-2698, #2025-2707</span>
+<span class="action-line">   → Reply "approve 2" to greenlight draft</span>
+
+<span class="customer-line">3. NESTLE — $21,334 due Mar 20 (3 DAYS!)</span>
+<span class="detail-line">   📧 Draft ready: Pre-due reminder with thread context</span>
+<span class="detail-line">   💬 Last email: Danny → Nestle, Jan 2026</span>
+<span class="action-line">   → Reply "approve 3" to greenlight draft</span>
+
+<span class="section-line">━━━ 7-DAY PRE-DUE ALERTS ━━━</span>
+
+<span class="customer-line">4. PRIMO BRANDS — $6,826 due Apr 1</span>
+<span class="detail-line">   📧 Draft ready: Friendly reminder → Andy Cooper</span>
+
+<span class="section-line">━━━ SUMMARY ━━━</span>
+<span class="detail-line">Total Outstanding: $695,336 across 70 invoices</span>
+<span class="detail-line">Overdue: $57,739 (31 invoices) | Due This Week: $91,334 (4 invoices)</span>
+<span class="detail-line">Data as of: Mar 17, 2026 04:30 AM MT (Fivetran sync)</span></div>
+  </div>
+
+  <!-- Sample Email Draft -->
+  <div class="section">
+    <h2>📧 Sample Email Draft — Gentle Follow-Up (Thread-Aware)</h2>
+    <div class="email-draft">
+      <div class="subject-line">Subject: Re: Q1 2026 Sampling Planning</div>
+      <div class="body">
+        <p>Hi Gregory,</p>
+        <p style="margin-top: 12px;">Following up on our recent conversation about the April contract — hope things are moving forward on your end.</p>
+        <p style="margin-top: 12px;">Quick note: we have an outstanding invoice from mid-March that's come due. Wanted to flag it so it doesn't fall through the cracks on your AP side. If there's anything that needs adjusting or any questions, happy to sort that out quickly.</p>
+        <p style="margin-top: 12px;">Let me know if you'd like to hop on a quick call this week.</p>
+        <p style="margin-top: 12px;">Best,<br>Victoria</p>
+      </div>
+      <div class="meta">
+        <strong>Context used:</strong> Thread "Re: Danny - Reintro April Contract" (Mar 16) + "Re: Q1 2026 Sampling Planning" (Mar 16)<br>
+        <strong>Customer:</strong> Gooderfoods | <strong>Owner:</strong> Victoria Newton | <strong>Outstanding:</strong> $10,000 | <strong>Type:</strong> Gentle follow-up (4 days overdue)
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture -->
+  <div class="section">
+    <h2>🏛️ Architecture</h2>
+    <h3>Runtime</h3>
+    <p style="color: var(--text-muted);">OpenClaw cron job → Python/shell scripts → BigQuery CLI → Draft generation → Slack DM delivery</p>
+
+    <h3>Data Flow</h3>
+    <table>
+      <thead><tr><th>Source</th><th>Data</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>QBO via BigQuery</td><td><code>src_fivetran_qbo.invoice</code></td><td>Outstanding balances, due dates, customer hierarchy</td></tr>
+        <tr><td>QBO via BigQuery</td><td><code>src_fivetran_qbo.payment</code></td><td>Payment history, last payment date</td></tr>
+        <tr><td>HubSpot via BigQuery</td><td><code>src_fivetran_hubspot.company</code></td><td>Company → QBO customer mapping</td></tr>
+        <tr><td>HubSpot via BigQuery</td><td><code>src_fivetran_hubspot.contact</code></td><td>Contact names, emails</td></tr>
+        <tr><td>HubSpot via BigQuery</td><td><code>src_fivetran_hubspot.engagement_email</code></td><td>Email threads, subjects, direction, body preview</td></tr>
+        <tr><td>HubSpot via BigQuery</td><td><code>src_fivetran_hubspot.owner</code></td><td>Deal owner names/emails for routing</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Approval Flow</h3>
+    <p style="color: var(--text-muted);">
+      1. Cron fires at 7 AM MT on Mon/Wed/Fri<br>
+      2. Steve scans BigQuery, generates recommendations + draft emails<br>
+      3. Digest posted to Deuce's Slack DM (D0AADAL1SJK)<br>
+      4. Deuce replies in-thread: "approve 1" / "revise 3 make it shorter" / "skip 2 — payment plan in progress"<br>
+      5. Steve processes replies during next heartbeat, delivers approved drafts for deal owner to send<br>
+      6. Skipped accounts get <code>status_override</code> flag to suppress future follow-ups
+    </p>
+  </div>
+
+  <!-- Phases -->
+  <div class="section">
+    <h2>🗓️ Execution Phases (5-Day Build)</h2>
+    <div class="timeline">
+      <div class="timeline-seg seg0">Phase 0<br>Pre-req</div>
+      <div class="timeline-seg seg1">Phase 1 (Day 1)<br>Scanner + Digest</div>
+      <div class="timeline-seg seg2">Phase 2 (Day 2-3)<br>Draft Engine</div>
+      <div class="timeline-seg seg3">Phase 3 (Day 4)<br>Approval + Slack</div>
+      <div class="timeline-seg seg4">Phase 4 (Day 5)<br>Automation</div>
+    </div>
+
+    <div class="phase-grid">
+      <div class="phase-card p0">
+        <div class="phase-num">Phase 0 — Pre-Launch (Deuce)</div>
+        <h4>HubSpot Linking + Decisions</h4>
+        <div class="est">~30 min manual work</div>
+        <ul>
+          <li>Link top 10 QBO customers in HubSpot (see checklist below)</li>
+          <li>Flag accounts with status overrides (disputes, payment plans)</li>
+          <li>Confirm Slack channel access for digest delivery</li>
+        </ul>
+      </div>
+      <div class="phase-card p1">
+        <div class="phase-num">Phase 1 — Day 1 (MVP)</div>
+        <h4>AR Scanner + Basic Digest</h4>
+        <div class="est">~6 hours</div>
+        <ul>
+          <li>Outstanding invoice scanner (BigQuery → urgency buckets)</li>
+          <li>Payment history enrichment (last payment date/amount per customer)</li>
+          <li>HubSpot company matcher (QBO ID + fuzzy name fallback)</li>
+          <li>Contact resolver + email thread aggregator</li>
+          <li>Basic Slack digest (no drafts yet — just prioritized AR list)</li>
+          <li>Error handling: retry with backoff, stale data flags</li>
+        </ul>
+      </div>
+      <div class="phase-card p2">
+        <div class="phase-num">Phase 2 — Day 2-3</div>
+        <h4>Draft Email Engine</h4>
+        <div class="est">~8 hours</div>
+        <ul>
+          <li>5 template types: pre-due, gentle, firm, escalation, final notice</li>
+          <li>Payment acknowledgment template</li>
+          <li>Thread context injection with content sanitization</li>
+          <li>Professional default tone (voice matching deferred to v2)</li>
+          <li>Tiered amount rule enforcement</li>
+          <li>Contact guardrails (never cold-CC on escalations)</li>
+          <li>Post-generation validation (regex for leaked amounts/terms)</li>
+        </ul>
+      </div>
+      <div class="phase-card p3">
+        <div class="phase-num">Phase 3 — Day 4</div>
+        <h4>Approval Flow + Interactive Review</h4>
+        <div class="est">~5 hours</div>
+        <ul>
+          <li>Slack DM digest with embedded draft previews</li>
+          <li>Thread reply handler: approve, revise, skip, flag</li>
+          <li>Status override persistence (dispute, payment_plan, etc.)</li>
+          <li>Dedup tracking: min 7-day gap between follow-ups</li>
+          <li>"Last chance" flags for invoices due day after non-digest day</li>
+        </ul>
+      </div>
+      <div class="phase-card p4">
+        <div class="phase-num">Phase 4 — Day 5</div>
+        <h4>Automation + Monitoring</h4>
+        <div class="est">~4 hours</div>
+        <ul>
+          <li>Cron job: 7 AM MT on Mon/Wed/Fri</li>
+          <li>Ad-hoc alerts: high-value invoices (>$10K) due within 48h</li>
+          <li>Payment detection: balance decrease → auto-close recommendation</li>
+          <li>Partial payment flagging</li>
+          <li>Artifact storage in second-brain/artifacts/ar-email-agent/</li>
+          <li>Weekly AR trend tracking (total outstanding over time)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blocker Checklist -->
+  <div class="section">
+    <div class="blocker-list">
+      <h3>🚧 Phase 0 — HubSpot Linking Checklist (Deuce Action Required)</h3>
+      <p style="color: var(--text-muted); margin-bottom: 16px;">These customers have outstanding AR but no QBO↔HubSpot link. Without the link, the agent can't pull email thread context for follow-ups.</p>
+
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Mars United — $211K outstanding</strong>
+          <span>HubSpot → Companies → search "Mars United" → Edit → QBO Customer ID = <code>7306</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Church & Dwight — $148K outstanding</strong>
+          <span>HubSpot → Companies → search "Church & Dwight" → Edit → QBO Customer ID = <code>7322</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Ferrara Candy — $70K due in 2 days!</strong>
+          <span>HubSpot → Companies → search "Ferrara" → Edit → QBO Customer ID = <code>7241</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Vytalogy — $29K outstanding</strong>
+          <span>HubSpot → Companies → search "Vytalogy" → Edit → QBO Customer ID = <code>7418</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Chobani — $10K outstanding</strong>
+          <span>HubSpot → Companies → search "Chobani" → Edit → QBO Customer ID = <code>7212</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Primo Brands — $7K outstanding</strong>
+          <span>HubSpot → Companies → search "Primo Brands" → Edit → QBO Customer ID = <code>7385</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Just Made — $5.6K outstanding</strong>
+          <span>HubSpot → Companies → search "Just Made" → Edit → QBO Customer ID = <code>7180</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Haleon US LP — $3.4K outstanding</strong>
+          <span>HubSpot → Companies → search "Haleon" → Edit → QBO Customer ID = <code>5868</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Unilever — $1.9K outstanding</strong>
+          <span>HubSpot → Companies → search "Unilever" → Edit → QBO Customer ID = <code>6665</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+      <div class="blocker-item">
+        <div class="check">☐</div>
+        <div class="detail">
+          <strong>Get Joy & Co. — $1.5K outstanding</strong>
+          <span>HubSpot → Companies → search "Get Joy" → Edit → QBO Customer ID = <code>7092</code> → Save</span>
+        </div>
+        <div class="time">~2 min</div>
+      </div>
+
+      <p style="color: var(--yellow); margin-top: 16px; font-size: 0.9em;">⏱ Total: ~20 minutes | This unlocks email context for <strong>$486K of AR (70% of total)</strong></p>
+    </div>
+  </div>
+
+  <!-- Risks -->
+  <div class="section">
+    <h2>⚠️ Risks & Mitigations</h2>
+    <div class="risk-grid">
+      <div class="risk-card high">
+        <div class="risk-severity">HIGH — Missing HubSpot Links</div>
+        <h4>70% of AR by $ has no email context</h4>
+        <p>Mitigation: Phase 0 checklist above. Agent works in degraded mode (template-only drafts) for unlinked accounts. Clear flag in digest: "⚠️ No HubSpot link — template-only draft"</p>
+      </div>
+      <div class="risk-card high">
+        <div class="risk-severity">HIGH — Draft Quality Variance</div>
+        <h4>Bad drafts erode trust faster than good ones build it</h4>
+        <p>Mitigation: All drafts reviewed by Deuce for first 2 weeks. Professional default tone (no voice matching v1). Post-generation validation catches leaked amounts/terms.</p>
+      </div>
+      <div class="risk-card medium">
+        <div class="risk-severity">MEDIUM — Stale Data</div>
+        <h4>Fivetran sync can lag 6-24h</h4>
+        <p>Mitigation: Every digest shows "Data as of" timestamp. If >24h stale, digest shows ⚠️ warning. Payment detected in QBO but not yet synced = potential for embarrassing follow-up on paid invoice.</p>
+      </div>
+      <div class="risk-card medium">
+        <div class="risk-severity">MEDIUM — Alert Fatigue</div>
+        <h4>Too many items = team ignores everything</h4>
+        <p>Mitigation: Cap at 15 items per digest. Top 10 by urgency + 5 rotating accounts that haven't surfaced recently. Penny remainders (&lt;$10) auto-filtered.</p>
+      </div>
+      <div class="risk-card medium">
+        <div class="risk-severity">MEDIUM — Dispute/Payment Plan Accounts</div>
+        <h4>Sending collection emails to accounts with known disputes</h4>
+        <p>Mitigation: Status override field per customer (dispute, payment_plan, write_off, do_not_contact). Pre-populated during Phase 0 from Deuce's knowledge. Checked before every draft.</p>
+      </div>
+      <div class="risk-card medium">
+        <div class="risk-severity">MEDIUM — Schedule Gaps</div>
+        <h4>Invoice due Tue/Thu/Sat with no digest that day</h4>
+        <p>Mitigation: "LAST CHANCE" flag on prior digest for invoices due next day. Ad-hoc Slack alert for high-value (>$10K) invoices within 48h regardless of schedule.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deal Owner Map -->
+  <div class="section">
+    <h2>👤 Deal Owner Responsibility Map</h2>
+    <table>
+      <thead><tr><th>Owner</th><th>Accounts</th><th>Approx Outstanding</th><th>Key Accounts</th></tr></thead>
+      <tbody>
+        <tr><td>Danny Sears</td><td>14</td><td>~$450K</td><td>Mars United, PepsiCo, Ferrara, Nestle, Garrett Popcorn</td></tr>
+        <tr><td>Char Short</td><td>3</td><td>~$157K</td><td>Church & Dwight, Kraft Heinz</td></tr>
+        <tr><td>Andy Cooper</td><td>2</td><td>~$55K</td><td>Bayer, Primo Brands</td></tr>
+        <tr><td>Victoria Newton</td><td>1</td><td>$10K</td><td>Gooderfoods</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Success Metrics -->
+  <div class="section">
+    <h2>🎯 Week 1 Success Metrics</h2>
+    <div class="metrics-grid">
+      <div class="metric-card"><div class="target">3x/wk</div><div class="desc">Digest delivery<br>(Mon/Wed/Fri by 7 AM MT)</div></div>
+      <div class="metric-card"><div class="target">>80%</div><div class="desc">Drafts approved<br>without revision</div></div>
+      <div class="metric-card"><div class="target">>90%</div><div class="desc">AR with email context<br>(after HubSpot linking)</div></div>
+      <div class="metric-card"><div class="target">Top 5</div><div class="desc">Overdue accounts<br>contacted within Week 1</div></div>
+      <div class="metric-card"><div class="target"><1 hr</div><div class="desc">Scan → draft ready<br>turnaround time</div></div>
+    </div>
+  </div>
+
+  <!-- Review Findings -->
+  <div class="section">
+    <h2>🔍 Dual-Model Review Findings</h2>
+    <p style="color: var(--text-muted); margin-bottom: 16px;">Plan was reviewed by two independent AI models. All Critical and Important issues have been addressed in this updated plan.</p>
+    <table>
+      <thead><tr><th>#</th><th>Finding</th><th>Severity</th><th>Resolution</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>24h timeline unrealistic</td><td class="urgency-overdue">Critical</td><td>✅ Replanned as 5-day build with Day 1 MVP (scanner-only)</td></tr>
+        <tr><td>2</td><td>70% of AR has no HubSpot context</td><td class="urgency-overdue">Critical</td><td>✅ Phase 0 checklist with step-by-step linking instructions</td></tr>
+        <tr><td>3</td><td>Approval flow undefined</td><td class="urgency-overdue">Critical</td><td>✅ Slack DM thread reply model defined with heartbeat processing</td></tr>
+        <tr><td>4</td><td>No runtime/tech stack specified</td><td class="urgency-overdue">Critical</td><td>✅ OpenClaw cron → Python/shell → BigQuery CLI → Slack</td></tr>
+        <tr><td>5</td><td>Draft delivery mechanism missing</td><td class="urgency-overdue">Critical</td><td>✅ Slack DM with draft text; deal owner copy-pastes to send</td></tr>
+        <tr><td>6</td><td>No-amounts rule too strict</td><td class="urgency-due-soon">Important</td><td>✅ Tiered: no amounts early, include for firm/escalation</td></tr>
+        <tr><td>7</td><td>Voice matching underscoped</td><td class="urgency-due-soon">Important</td><td>✅ Deferred to v2; professional default tone for launch</td></tr>
+        <tr><td>8</td><td>Thread context needs sanitization</td><td class="urgency-due-soon">Important</td><td>✅ Content filtering + post-generation validation added</td></tr>
+        <tr><td>9</td><td>No deduplication logic</td><td class="urgency-due-soon">Important</td><td>✅ Min 7-day gap between follow-ups per customer</td></tr>
+        <tr><td>10</td><td>No dispute/payment plan handling</td><td class="urgency-due-soon">Important</td><td>✅ Status override field with 4 flag types</td></tr>
+        <tr><td>11</td><td>Missing payment acknowledgment template</td><td class="urgency-due-soon">Important</td><td>✅ Added to Phase 2</td></tr>
+        <tr><td>12</td><td>Schedule gaps for mid-week due dates</td><td class="urgency-upcoming">Nice-to-Have+</td><td>✅ "Last chance" flags + ad-hoc alerts for >$10K</td></tr>
+        <tr><td>13</td><td>No error handling</td><td class="urgency-due-soon">Important</td><td>✅ Retry with backoff + stale data warnings + failure alerts</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>AR Email Collection Agent — Recess Digital</p>
+  <p>Generated March 17, 2026 | Dual-model reviewed | Data sourced from BigQuery (Fivetran sync)</p>
+</footer>
+
+</body>
+</html>
