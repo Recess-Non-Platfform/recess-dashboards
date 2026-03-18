@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karen's Knowledge Base — AR Email Intelligence | Recess</title>
+<style>
+  :root {
+    --aqua: #14B9D6;
+    --forest: #108DA3;
+    --sea-green: #1FBBA6;
+    --burnt-orange: #F27935;
+    --bg-dark: #0D1117;
+    --bg-card: #161B22;
+    --bg-card-hover: #1C2333;
+    --border: #30363D;
+    --text-primary: #E6EDF3;
+    --text-secondary: #8B949E;
+    --text-muted: #6E7681;
+    --red: #F85149;
+    --green: #3FB950;
+    --yellow: #D29922;
+    --purple: #A371F7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,17,23,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  nav .container { display: flex; align-items: center; gap: 16px; overflow-x: auto; }
+  nav a {
+    color: var(--text-secondary); text-decoration: none; font-size: 13px;
+    white-space: nowrap; padding: 4px 10px; border-radius: 6px;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--aqua); background: rgba(20,185,214,0.08); }
+  nav .logo { color: var(--aqua); font-weight: 700; font-size: 15px; letter-spacing: -0.5px; }
+  nav .ext-link { color: var(--burnt-orange); border: 1px solid rgba(242,121,53,0.3); }
+  nav .ext-link:hover { background: rgba(242,121,53,0.08); color: var(--burnt-orange); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    background: linear-gradient(180deg, rgba(20,185,214,0.06) 0%, transparent 100%);
+    position: relative;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(20,185,214,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--aqua) 0%, var(--sea-green) 50%, var(--burnt-orange) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .hero .tagline {
+    font-size: 20px; color: var(--text-secondary); font-style: italic;
+    margin-bottom: 24px;
+  }
+  .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  }
+  .badge-aqua { background: rgba(20,185,214,0.15); color: var(--aqua); border: 1px solid rgba(20,185,214,0.3); }
+  .badge-green { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+  .badge-orange { background: rgba(242,121,53,0.15); color: var(--burnt-orange); border: 1px solid rgba(242,121,53,0.3); }
+
+  /* SECTIONS */
+  section { padding: 60px 0; }
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--aqua); margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(24px, 4vw, 36px); font-weight: 700; letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .section-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 32px; max-width: 700px; }
+  .divider { height: 1px; background: var(--border); margin: 0 auto; max-width: 1200px; }
+
+  /* STAT CARDS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); border-color: var(--aqua); }
+  .stat-number {
+    font-size: 32px; font-weight: 800; letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--aqua), var(--sea-green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-card.highlight-orange .stat-number {
+    background: linear-gradient(135deg, var(--burnt-orange), var(--yellow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+  /* GENERIC CARD */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(20,185,214,0.3); }
+  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .card p { color: var(--text-secondary); font-size: 14px; }
+
+  /* DATA TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+    border-bottom: 2px solid var(--border); background: rgba(22,27,34,0.8);
+  }
+  .data-table td {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td { background: rgba(20,185,214,0.03); }
+  .data-table .highlight { color: var(--text-primary); font-weight: 600; }
+
+  /* VOICE CARD */
+  .voice-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px; margin-bottom: 16px; position: relative; overflow: hidden;
+  }
+  .voice-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .voice-card:nth-child(1)::before { background: var(--aqua); }
+  .voice-card:nth-child(2)::before { background: var(--sea-green); }
+  .voice-card:nth-child(3)::before { background: var(--burnt-orange); }
+  .voice-card:nth-child(4)::before { background: var(--purple); }
+  .voice-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .voice-card .voice-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+  .voice-card blockquote {
+    border-left: 3px solid var(--aqua); padding-left: 12px; margin: 12px 0;
+    font-style: italic; color: var(--text-secondary); font-size: 13px;
+  }
+  .voice-card .detail-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; font-size: 13px;
+  }
+  .voice-card .detail-grid dt { color: var(--text-muted); font-weight: 600; }
+  .voice-card .detail-grid dd { color: var(--text-secondary); margin: 0; }
+
+  /* CATEGORY CARD */
+  .cat-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px; margin-bottom: 20px; position: relative; overflow: hidden;
+  }
+  .cat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .cat-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .cat-count {
+    font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 12px;
+  }
+  .cat-card .sub-section { margin-bottom: 16px; }
+  .cat-card .sub-section h4 { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .cat-card .sub-section ul { list-style: none; font-size: 13px; color: var(--text-secondary); }
+  .cat-card .sub-section ul li { padding: 4px 0; padding-left: 16px; position: relative; }
+  .cat-card .sub-section ul li::before { content: '→'; position: absolute; left: 0; color: var(--aqua); }
+  .cat-card .auto-draft {
+    padding: 12px 16px; background: rgba(20,185,214,0.06); border-radius: 8px;
+    border: 1px solid rgba(20,185,214,0.15); font-size: 13px; color: var(--text-secondary);
+  }
+  .cat-card .auto-draft strong { color: var(--aqua); }
+
+  /* PHRASE TAG */
+  .phrase-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .phrase-tag {
+    padding: 8px 16px; border-radius: 8px; font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .phrase-tag .count { font-weight: 800; font-size: 14px; }
+
+  /* LEARNING CARD */
+  .learning-list { list-style: none; counter-reset: learn; }
+  .learning-list li {
+    counter-increment: learn;
+    padding: 16px 20px; margin-bottom: 12px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    font-size: 14px; color: var(--text-secondary);
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: border-color 0.2s;
+  }
+  .learning-list li:hover { border-color: rgba(20,185,214,0.3); }
+  .learning-list li::before {
+    content: counter(learn); display: flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(20,185,214,0.15); color: var(--aqua); font-size: 13px; font-weight: 700;
+  }
+  .learning-list li strong { color: var(--text-primary); }
+
+  /* KB GRID */
+  .kb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+
+  /* SENDER ROW */
+  .sender-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .sender-row:last-child { border-bottom: none; }
+  .sender-info { display: flex; flex-direction: column; gap: 2px; }
+  .sender-name { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .sender-role { font-size: 12px; color: var(--text-muted); }
+  .sender-count { font-size: 14px; font-weight: 700; }
+
+  /* PROGRESS BAR */
+  .progress-row { margin-bottom: 16px; }
+  .progress-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 48px 0; border-top: 1px solid var(--border);
+    color: var(--text-muted); font-size: 13px;
+  }
+  footer .footer-brand {
+    font-size: 18px; font-weight: 700;
+    background: linear-gradient(135deg, var(--aqua), var(--sea-green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .fade-up {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    section { padding: 40px 0; }
+    .hero { padding: 48px 0 40px; }
+    .hero h1 { font-size: 28px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .kb-grid { grid-template-columns: 1fr; }
+    .voice-card .detail-grid { grid-template-columns: 1fr; }
+  }
+
+  /* HUMAN ROUTE CARD */
+  .human-route {
+    border: 2px solid var(--red); border-radius: 12px;
+    padding: 24px; background: rgba(248,81,73,0.04);
+  }
+  .human-route h3 { color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <span class="logo">Karen KB</span>
+    <a href="#volume">Email Volume</a>
+    <a href="#senders">AR Senders</a>
+    <a href="#voices">Voice Profiles</a>
+    <a href="#auto-reply">Auto-Reply KB</a>
+    <a href="#phrases">Phrases</a>
+    <a href="#learnings">Key Learnings</a>
+    <a href="ar-agent-plan.html" target="_blank" class="ext-link">← Agent Plan</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Karen's Knowledge Base</h1>
+    <p style="font-size: 14px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">AR Email Intelligence</p>
+    <p class="tagline">2 years of HubSpot email history. 500 AR emails analyzed. 119 Q&A pairs extracted.</p>
+    <div class="badge-row">
+      <span class="badge badge-aqua">📧 235,941 Total Emails</span>
+      <span class="badge badge-green">🧠 119 Q&A Pairs</span>
+      <span class="badge badge-orange">🏢 31 Companies Profiled</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EMAIL VOLUME -->
+<section id="volume" class="fade-up">
+  <div class="container">
+    <p class="section-label">Data Foundation</p>
+    <h2 class="section-title">Email Volume</h2>
+    <p class="section-subtitle">Total HubSpot email activity over the last 2 years — the raw material Karen learns from.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">235,941</div>
+        <div class="stat-label">Total Emails in HubSpot</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">154,880</div>
+        <div class="stat-label">Outbound (68,725 threads)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">81,061</div>
+        <div class="stat-label">Incoming (39,020 threads)</div>
+      </div>
+      <div class="stat-card highlight-orange">
+        <div class="stat-number">500</div>
+        <div class="stat-label">AR-Specific Emails</div>
+      </div>
+      <div class="stat-card highlight-orange">
+        <div class="stat-number">119</div>
+        <div class="stat-label">Q&A Pairs Extracted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">31</div>
+        <div class="stat-label">Companies Profiled</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AR SENDERS -->
+<section id="senders" class="fade-up">
+  <div class="container">
+    <p class="section-label">Team</p>
+    <h2 class="section-title">Recess AR Senders</h2>
+    <p class="section-subtitle">Who handles AR today — by email volume. Karen's voice is modeled primarily after Char's 114 emails.</p>
+    <div class="kb-grid">
+      <div class="card">
+        <h3>Sender Breakdown</h3>
+        <div class="sender-row">
+          <div class="sender-info">
+            <span class="sender-name">Char Short</span>
+            <span class="sender-role">Account coordinator / primary AR follow-up</span>
+          </div>
+          <span class="sender-count" style="color: var(--aqua);">114</span>
+        </div>
+        <div class="sender-row">
+          <div class="sender-info">
+            <span class="sender-name">Accounting (Pamela Patricio)</span>
+            <span class="sender-role">Accountant — formal invoicing</span>
+          </div>
+          <span class="sender-count" style="color: var(--sea-green);">54</span>
+        </div>
+        <div class="sender-row">
+          <div class="sender-info">
+            <span class="sender-name">Deuce</span>
+            <span class="sender-role">COO — escalation / direct intervention</span>
+          </div>
+          <span class="sender-count" style="color: var(--burnt-orange);">39</span>
+        </div>
+        <div class="sender-row">
+          <div class="sender-info">
+            <span class="sender-name">Victoria Newton</span>
+            <span class="sender-role">Account manager — relationship + AR</span>
+          </div>
+          <span class="sender-count" style="color: var(--purple);">39</span>
+        </div>
+        <div class="sender-row">
+          <div class="sender-info">
+            <span class="sender-name">Andy</span>
+            <span class="sender-role">Sales — relationship context</span>
+          </div>
+          <span class="sender-count" style="color: var(--yellow);">24</span>
+        </div>
+        <div class="sender-row">
+          <div class="sender-info">
+            <span class="sender-name">Danny</span>
+            <span class="sender-role">Sales — relationship context</span>
+          </div>
+          <span class="sender-count" style="color: var(--text-secondary);">20</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Volume Distribution</h3>
+        <div class="progress-row">
+          <div class="progress-header">
+            <span>Char Short</span><span style="color:var(--aqua); font-weight:700;">114 emails (39%)</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:39%; background:var(--aqua);"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-header">
+            <span>Accounting</span><span style="color:var(--sea-green); font-weight:700;">54 emails (19%)</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:19%; background:var(--sea-green);"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-header">
+            <span>Deuce</span><span style="color:var(--burnt-orange); font-weight:700;">39 emails (13%)</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:13%; background:var(--burnt-orange);"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-header">
+            <span>Victoria Newton</span><span style="color:var(--purple); font-weight:700;">39 emails (13%)</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:13%; background:var(--purple);"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-header">
+            <span>Andy</span><span style="color:var(--yellow); font-weight:700;">24 emails (8%)</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:8%; background:var(--yellow);"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-header">
+            <span>Danny</span><span style="color:var(--text-secondary); font-weight:700;">20 emails (7%)</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:7%; background:var(--text-secondary);"></div></div>
+        </div>
+        <div style="margin-top:16px; padding:12px; background:rgba(20,185,214,0.06); border-radius:8px; font-size:12px; color:var(--text-muted);">
+          <strong style="color:var(--aqua);">Karen's default voice</strong> is modeled after Char Short — the primary AR relationship across 114 emails.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VOICE/TONE PROFILES -->
+<section id="voices" class="fade-up">
+  <div class="container">
+    <p class="section-label">Intelligence</p>
+    <h2 class="section-title">Voice & Tone Profiles</h2>
+    <p class="section-subtitle">Each sender has a distinct voice. Karen adapts her tone based on the situation and escalation level.</p>
+
+    <div class="voice-card">
+      <h4 style="color:var(--aqua);">Char Short <span style="color:var(--text-muted); font-size:12px; font-weight:400;">— char@recess.is · 114 emails · Primary AR Voice</span></h4>
+      <div class="voice-meta">Professional, warm, organized. Uses "Hi [First Name] -" opening. This is Karen's default voice.</div>
+      <blockquote>"Hi Kari - Adding in @Ines from our end. We provided all requested documents last Tuesday. Is everything on your end okay for payment now, or do you need any additional information?"</blockquote>
+      <div class="detail-grid">
+        <div>
+          <dt>Tone</dt>
+          <dd>Professional, warm, organized</dd>
+        </div>
+        <div>
+          <dt>Style</dt>
+          <dd>Bullet points for action items, clear follow-up asks</dd>
+        </div>
+        <div>
+          <dt>Key Phrases</dt>
+          <dd>"Let me know if you need anything else", "Adding in [colleague]", "See my feedback below"</dd>
+        </div>
+        <div>
+          <dt>When to Use</dt>
+          <dd>Default voice for most accounts — standard follow-ups, gentle check-ins, firm requests</dd>
+        </div>
+      </div>
+    </div>
+
+    <div class="voice-card">
+      <h4 style="color:var(--sea-green);">Accounting / Pamela Patricio <span style="color:var(--text-muted); font-size:12px; font-weight:400;">— accounting@recess.is · 54 emails</span></h4>
+      <div class="voice-meta">Formal, brief, professional. Structured attachments and sign-offs.</div>
+      <blockquote>"Please see attached invoices for Q1 2026. Thank you! Sincerely, Pamela Patricio, Accountant, Recess"</blockquote>
+      <div class="detail-grid">
+        <div>
+          <dt>Tone</dt>
+          <dd>Formal, brief, professional</dd>
+        </div>
+        <div>
+          <dt>Style</dt>
+          <dd>"Please see attached [invoices/documents]. Thank you! Sincerely, Pamela"</dd>
+        </div>
+        <div>
+          <dt>Key Phrases</dt>
+          <dd>"Please see attached", "Thank you!", "Sincerely"</dd>
+        </div>
+        <div>
+          <dt>When to Use</dt>
+          <dd>Invoice sends, document attachments, formal payment requests</dd>
+        </div>
+      </div>
+    </div>
+
+    <div class="voice-card">
+      <h4 style="color:var(--burnt-orange);">Deuce <span style="color:var(--text-muted); font-size:12px; font-weight:400;">— deuce@recess.is · 39 emails · Escalation</span></h4>
+      <div class="voice-meta">Direct, friendly but firm. Gets to the point. Short sentences.</div>
+      <blockquote>"Appreciate your help on this! I know this isn't fun for either of us :)"</blockquote>
+      <div class="detail-grid">
+        <div>
+          <dt>Tone</dt>
+          <dd>Direct, friendly but firm</dd>
+        </div>
+        <div>
+          <dt>Style</dt>
+          <dd>Short sentences, references specific PO/invoice numbers, appreciative</dd>
+        </div>
+        <div>
+          <dt>Key Phrases</dt>
+          <dd>"Appreciate your help on this!", "I know this isn't fun for either of us :)"</dd>
+        </div>
+        <div>
+          <dt>When to Use</dt>
+          <dd>Final escalation, persistent non-payment, ACH/wire requests</dd>
+        </div>
+      </div>
+    </div>
+
+    <div class="voice-card">
+      <h4 style="color:var(--purple);">Victoria Newton <span style="color:var(--text-muted); font-size:12px; font-weight:400;">— victoria.newton@recess.is · 39 emails</span></h4>
+      <div class="voice-meta">Casual-professional, enthusiastic, detailed. Often includes next-steps lists.</div>
+      <blockquote>"Hey Sarah! Wanted to loop back on the invoices from last month. Here's where we're at..."</blockquote>
+      <div class="detail-grid">
+        <div>
+          <dt>Tone</dt>
+          <dd>Casual-professional, enthusiastic, detailed</dd>
+        </div>
+        <div>
+          <dt>Style</dt>
+          <dd>"Hey [First Name]!", detailed breakdowns, next-steps lists</dd>
+        </div>
+        <div>
+          <dt>Key Phrases</dt>
+          <dd>"Hey!", "Here's where we're at", "Next steps"</dd>
+        </div>
+        <div>
+          <dt>When to Use</dt>
+          <dd>Account management follow-ups that include AR asks</dd>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AUTO-REPLY KNOWLEDGE BASE -->
+<section id="auto-reply" class="fade-up">
+  <div class="container">
+    <p class="section-label">Auto-Reply Engine</p>
+    <h2 class="section-title">Knowledge Base — 119 Q&A Pairs</h2>
+    <p class="section-subtitle">Categorized from 500 AR emails. Each category has incoming patterns, standard responses, and Karen's auto-draft behavior.</p>
+
+    <!-- Category overview stats -->
+    <div class="stat-grid" style="margin-bottom:32px;">
+      <div class="stat-card">
+        <div class="stat-number">56</div>
+        <div class="stat-label">PO / Invoice Rejection</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">13</div>
+        <div class="stat-label">Payment Status</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">W9 / Vendor Setup</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Remittance / ACH</div>
+      </div>
+      <div class="stat-card" style="border-color: var(--red);">
+        <div class="stat-number" style="background:linear-gradient(135deg,var(--red),var(--burnt-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">0</div>
+        <div class="stat-label">Credit/Adjustment (Human Only)</div>
+      </div>
+    </div>
+
+    <!-- Category 1: PO/Invoice Rejection -->
+    <div class="cat-card" style="--cat-color: var(--aqua);">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--aqua);"></div>
+      <h3>
+        <span style="font-size:24px;">📋</span>
+        Category 1: PO / Invoice Rejection
+        <span class="cat-count" style="background:rgba(20,185,214,0.15);color:var(--aqua);">56 pairs — 47%</span>
+      </h3>
+      <p style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;">
+        <strong style="color:var(--text-primary);">The #1 AR blocker.</strong> Nearly half of all Q&A pairs involve PO numbers, invoice rejections, and resubmissions. Karen MUST check deal PO properties before drafting any follow-up.
+      </p>
+      <div class="sub-section">
+        <h4>📥 Common Incoming Patterns</h4>
+        <ul>
+          <li>"Could you share the PO number for this?"</li>
+          <li>"Invoices rejected with error [X]"</li>
+          <li>"Can you resubmit with the correct PO?"</li>
+          <li>"Please include PO on all invoices"</li>
+        </ul>
+      </div>
+      <div class="sub-section">
+        <h4>📤 Standard Recess Responses</h4>
+        <ul>
+          <li>Provide PO number from deal property</li>
+          <li>Reattach invoices with corrections</li>
+          <li>Confirm PO process (one per contract vs one per invoice)</li>
+          <li>Loop in accounting for resubmission</li>
+        </ul>
+      </div>
+      <div class="auto-draft">
+        <strong>🤖 Karen Auto-Draft:</strong> Pull PO number from deal, attach invoice reference, ask what format they need.
+      </div>
+    </div>
+
+    <!-- Category 2: Payment Status -->
+    <div class="cat-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--sea-green);"></div>
+      <h3>
+        <span style="font-size:24px;">💰</span>
+        Category 2: Payment Status
+        <span class="cat-count" style="background:rgba(31,187,166,0.15);color:var(--sea-green);">13 pairs</span>
+      </h3>
+      <div class="sub-section">
+        <h4>📥 Common Incoming Patterns</h4>
+        <ul>
+          <li>"Payment vouchers attached, can you confirm receipt?"</li>
+          <li>"Check was mailed on [date]"</li>
+          <li>"Processing payment this week"</li>
+        </ul>
+      </div>
+      <div class="sub-section">
+        <h4>📤 Standard Recess Responses</h4>
+        <ul>
+          <li>Confirm receipt or flag non-receipt</li>
+          <li>Request tracking info for checks</li>
+          <li>Thank for payment confirmation</li>
+        </ul>
+      </div>
+      <div class="auto-draft">
+        <strong>🤖 Karen Auto-Draft:</strong> Check QBO for payment match, confirm or flag discrepancy.
+      </div>
+    </div>
+
+    <!-- Category 3: W9/Vendor Setup -->
+    <div class="cat-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--yellow);"></div>
+      <h3>
+        <span style="font-size:24px;">📄</span>
+        Category 3: W9 / Vendor Setup
+        <span class="cat-count" style="background:rgba(210,153,34,0.15);color:var(--yellow);">6 pairs</span>
+      </h3>
+      <div class="sub-section">
+        <h4>📥 Common Incoming Patterns</h4>
+        <ul>
+          <li>"Can you send over your W-9?"</li>
+          <li>"Need W9 and Payment Method Forms"</li>
+          <li>"What's your vendor number?"</li>
+        </ul>
+      </div>
+      <div class="sub-section">
+        <h4>📤 Standard Recess Responses</h4>
+        <ul>
+          <li>Attach W9 (standard doc)</li>
+          <li>Provide vendor number if known</li>
+          <li>Loop in accounting for payment method forms</li>
+        </ul>
+      </div>
+      <div class="auto-draft">
+        <strong>🤖 Karen Auto-Draft:</strong> Attach W9 from standard location, note vendor number if available.
+      </div>
+    </div>
+
+    <!-- Category 4: Remittance/ACH -->
+    <div class="cat-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--purple);"></div>
+      <h3>
+        <span style="font-size:24px;">🏦</span>
+        Category 4: Remittance / ACH Info
+        <span class="cat-count" style="background:rgba(163,113,247,0.15);color:var(--purple);">3 pairs</span>
+      </h3>
+      <div class="sub-section">
+        <h4>📥 Common Incoming Patterns</h4>
+        <ul>
+          <li>"Can you resend wire info?"</li>
+          <li>"What account should we pay to?"</li>
+        </ul>
+      </div>
+      <div class="sub-section">
+        <h4>📤 Standard Recess Responses</h4>
+        <ul>
+          <li>Send wire/ACH details</li>
+          <li>Reference notice of assignment if applicable</li>
+        </ul>
+      </div>
+      <div class="auto-draft">
+        <strong>🤖 Karen Auto-Draft:</strong> Provide standard remittance details from config. <span style="color:var(--red); font-weight:700;">⚠ ALWAYS requires human approval — even in Phase 5.</span>
+      </div>
+    </div>
+
+    <!-- Category 5: Credit/Adjustment -->
+    <div class="human-route">
+      <h3>
+        <span style="font-size:24px;">⚖️</span>
+        Category 5: Credit / Adjustment
+        <span class="cat-count" style="background:rgba(248,81,73,0.15);color:var(--red); margin-left:12px;">0 pairs — Always Human</span>
+      </h3>
+      <p style="font-size:14px; color:var(--text-secondary); margin-top:12px;">
+        <strong style="color:var(--red);">Rule:</strong> ALWAYS route to human. Karen never auto-responds to credit or adjustment requests — no exceptions, regardless of automation phase.
+      </p>
+      <div style="margin-top:12px; padding:12px 16px; background:rgba(248,81,73,0.06); border-radius:8px; font-size:13px; color:var(--text-secondary);">
+        Credit requests involve financial decisions that require human judgment. No historical Q&A pairs exist because these were always handled by Deuce or accounting directly.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMMON PHRASES -->
+<section id="phrases" class="fade-up">
+  <div class="container">
+    <p class="section-label">Language Patterns</p>
+    <h2 class="section-title">Common AR Phrases</h2>
+    <p class="section-subtitle">Phrase frequency across 500 AR emails — the building blocks of Recess's AR voice.</p>
+
+    <div style="overflow-x:auto; border-radius:12px; border:1px solid var(--border); margin-bottom:24px;">
+      <table class="data-table">
+        <thead>
+          <tr><th>Phrase</th><th>Uses</th><th>Context</th><th>Frequency</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="highlight">"Let me know if"</td>
+            <td style="color:var(--aqua); font-weight:700;">32</td>
+            <td>Closing, open-ended</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:100%;height:100%;background:var(--aqua);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Hope you"</td>
+            <td style="color:var(--sea-green); font-weight:700;">16</td>
+            <td>Opening warmth</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:50%;height:100%;background:var(--sea-green);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Apologies for"</td>
+            <td style="color:var(--burnt-orange); font-weight:700;">12</td>
+            <td>Acknowledging delays</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:37%;height:100%;background:var(--burnt-orange);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Appreciate your help"</td>
+            <td style="color:var(--purple); font-weight:700;">11</td>
+            <td>Closing, gratitude</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:34%;height:100%;background:var(--purple);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Could you please"</td>
+            <td style="color:var(--aqua); font-weight:700;">7</td>
+            <td>Polite request</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:22%;height:100%;background:var(--aqua);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Can you confirm"</td>
+            <td style="color:var(--sea-green); font-weight:700;">6</td>
+            <td>Verification ask</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:19%;height:100%;background:var(--sea-green);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Wanted to follow up"</td>
+            <td style="color:var(--burnt-orange); font-weight:700;">6</td>
+            <td>Re-engagement</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:19%;height:100%;background:var(--burnt-orange);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"For your reference"</td>
+            <td style="color:var(--purple); font-weight:700;">6</td>
+            <td>Providing info</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:19%;height:100%;background:var(--purple);border-radius:3px;"></div></div></td>
+          </tr>
+          <tr>
+            <td class="highlight">"Thank you for"</td>
+            <td style="color:var(--green); font-weight:700;">5</td>
+            <td>Acknowledgment</td>
+            <td><div style="width:100%;max-width:200px;height:6px;background:var(--border);border-radius:3px;"><div style="width:16%;height:100%;background:var(--green);border-radius:3px;"></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="border-color:rgba(20,185,214,0.3);">
+      <h3 style="color:var(--aqua);">📝 What This Tells Us</h3>
+      <p>The Recess AR voice is <strong style="color:var(--text-primary);">polite, open-ended, and relationship-preserving</strong>. The most common phrase ("Let me know if" — 32 uses) is a soft close that invites dialogue rather than demanding action. Karen's templates should mirror this — annoyingly pleasant, never aggressive.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- KEY LEARNINGS -->
+<section id="learnings" class="fade-up">
+  <div class="container">
+    <p class="section-label">Insights</p>
+    <h2 class="section-title">Key Learnings from Email History</h2>
+    <p class="section-subtitle">Critical patterns discovered from analyzing 2 years of AR correspondence.</p>
+
+    <ol class="learning-list">
+      <li>
+        <div>
+          <strong style="color:var(--red);">PO issues are the #1 AR blocker</strong> — 56 of 119 Q&A pairs (47%) are about PO numbers, invoice rejections, and resubmissions. Karen MUST know the PO number and platform for every deal.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Garrett Popcorn (412 days overdue)</strong> has a specific backstory: they can't do ACH, checks keep getting lost. Deuce has been personally chasing this. Status: playing manual check chase.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Kraft Heinz uses Ariba</strong> — invoices get rejected if formatting/PO doesn't match. Multiple email threads about invoice rejection/resubmission.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Char is the primary AR relationship</strong> — most follow-ups go through her. Karen should default to Char's voice/tone for most accounts.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>accounting@recess.is (Pamela)</strong> handles formal invoice sends. Karen should CC this address on invoice-related correspondence.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Multiple PepsiCo contacts</strong> across different deals/brands — always use the deal-specific contact, not a company-level contact.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>victoria.newton@recess.is</strong> is the billing_email sender for many invoices (she sends from QBO) but the follow-up email should come from the deal owner.
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-brand">Karen Knowledge Base</div>
+    <p style="margin-bottom:8px;">2 years of AR intelligence — 235,941 emails distilled into 119 Q&A pairs.</p>
+    <p>Generated March 17, 2026 · Source: HubSpot CRM Email History</p>
+    <p style="margin-top:8px;"><a href="ar-agent-plan.html" target="_blank" style="color:var(--aqua); text-decoration:none;">← Back to Agent Plan</a></p>
+    <p style="margin-top:12px; color:var(--text-muted); font-size:11px;">Built by Steve for Recess Digital</p>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
