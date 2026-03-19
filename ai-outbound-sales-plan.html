@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Outbound Sales — Final Execution Plan</title>
+<style>
+  :root {
+    --aqua: #14B9D6;
+    --forest: #108DA3;
+    --sea-green: #1FBBA6;
+    --orange: #F27935;
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-border: #2a2d3a;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-bright: #ffffff;
+    --success: #22c55e;
+    --warning: #eab308;
+    --danger: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  h1 { color: var(--aqua); font-size: 2rem; margin-bottom: 0.25rem; }
+  h2 { color: var(--sea-green); font-size: 1.4rem; margin: 2.5rem 0 1rem; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem; }
+  h3 { color: var(--text-bright); font-size: 1.1rem; margin: 1.5rem 0 0.75rem; }
+  .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; }
+  .card-highlight { border-color: var(--aqua); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .stat-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.25rem; text-align: center; }
+  .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--aqua); }
+  .stat-card .label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+  .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+  .badge-new { background: rgba(20,185,214,0.15); color: var(--aqua); }
+  .badge-preserved { background: rgba(31,187,166,0.15); color: var(--sea-green); }
+  .badge-revised { background: rgba(242,121,53,0.15); color: var(--orange); }
+  .badge-risk { background: rgba(239,68,68,0.15); color: var(--danger); }
+  .badge-ok { background: rgba(34,197,94,0.15); color: var(--success); }
+  .badge-warn { background: rgba(234,179,8,0.15); color: var(--warning); }
+  .badge-consensus { background: rgba(20,185,214,0.2); color: var(--aqua); border: 1px solid rgba(20,185,214,0.3); }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th { background: var(--card); color: var(--aqua); text-align: left; padding: 0.75rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 0.75rem; border-bottom: 1px solid var(--card-border); }
+  tr:hover td { background: rgba(20,185,214,0.05); }
+  .phase { border-left: 3px solid var(--aqua); margin: 1.5rem 0; }
+  .phase-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: var(--card); border-radius: 0 12px 0 0; flex-wrap: wrap; gap: 0.5rem; }
+  .phase-title { font-size: 1.1rem; font-weight: 700; color: var(--text-bright); }
+  .phase-meta { color: var(--text-muted); font-size: 0.85rem; }
+  .phase-body { padding: 1rem 1.5rem; }
+  .phase-body li { margin: 0.4rem 0; font-size: 0.9rem; }
+  .callout { border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.9rem; }
+  .callout-info { background: rgba(20,185,214,0.1); border-left: 3px solid var(--aqua); }
+  .callout-warn { background: rgba(234,179,8,0.1); border-left: 3px solid var(--warning); }
+  .callout-danger { background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); }
+  .callout-success { background: rgba(34,197,94,0.1); border-left: 3px solid var(--success); }
+  ul { padding-left: 1.25rem; }
+  ol { padding-left: 1.25rem; }
+  .consensus-box { background: var(--card); border: 2px solid var(--aqua); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; }
+  .consensus-box h3 { color: var(--aqua); margin-top: 0; }
+  .split-view { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .split-view .card { margin: 0; }
+  @media (max-width: 768px) { .split-view { grid-template-columns: 1fr; } .card-grid { grid-template-columns: 1fr; } }
+  .footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); }
+  .verdict { font-size: 1.1rem; font-weight: 600; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0; }
+  strong { color: var(--text-bright); }
+  .review-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem; }
+</style>
+</head>
+<body>
+
+<h1>🎯 AI Outbound Sales — Final Execution Plan</h1>
+<p class="subtitle">Jack's PRD + task-065 Intelligence Engine + 4-Agent Review (Planner, Researcher, Opus Reviewer, Contrarian Reviewer)<br>March 18, 2026 &bull; Recess Digital</p>
+
+<div class="card-grid">
+  <div class="stat-card">
+    <div class="number">6.5→9.5</div>
+    <div class="label">Readiness (PRD → Final Plan)</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">170-230h</div>
+    <div class="label">Total Estimated Effort</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">5</div>
+    <div class="label">Phases</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">~16 wk</div>
+    <div class="label">Timeline</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>🔑 What Jack's PRD Gets Right</h2>
+
+<div class="card card-highlight">
+  <p>Jack's PRD is a <strong>major strategic leap</strong>. The previous plan (task-065) was a sales intelligence layer — it told reps what was happening. The new PRD is a <strong>sales execution system</strong> — it tells reps what to do, drafts the message, builds the list, and orchestrates the send. The "everything is a potential send" mental model is exactly right.</p>
+  <br>
+  <table>
+    <tr><th>Capability</th><th>Previous (task-065)</th><th>Jack's PRD</th></tr>
+    <tr><td>Contact Data</td><td>Reads existing HubSpot</td><td><span class="badge badge-new">Creates & maintains</span> — LinkedIn sync, AI brand inference, email verification</td></tr>
+    <tr><td>List Building</td><td>Not addressed</td><td><span class="badge badge-new">NEW</span> Natural language → target lists</td></tr>
+    <tr><td>Triggers</td><td>RSS + job changes (2)</td><td><span class="badge badge-new">6 TYPES</span> + campaign, supply, LinkedIn, quarterly</td></tr>
+    <tr><td>Outbound Execution</td><td>Draft only, no sends</td><td><span class="badge badge-new">FULL ENGINE</span> Multi-channel orchestration</td></tr>
+    <tr><td>Content</td><td>One-off email drafts</td><td><span class="badge badge-new">AT SCALE</span> Case studies, recaps, slide decks</td></tr>
+    <tr><td>ABM / Champions</td><td>Not addressed</td><td><span class="badge badge-new">NEW</span> 3-5 champions, connection mapping</td></tr>
+    <tr><td>Strategy Framework</td><td>None</td><td><span class="badge badge-new">NEW</span> Case Study > Enablement > Evergreen > Conference</td></tr>
+  </table>
+</div>
+
+<h3>Preserved from task-065 (Both Reviewers Agreed These Are Critical)</h3>
+<div class="card">
+  <ul>
+    <li><strong>"Brief Me [company]"</strong> — Both reviewers called this the #1 quick win. Pre-meeting intelligence in 10 seconds.</li>
+    <li><strong>"Draft email to [name]"</strong> — Zero-friction Slack UX. The "wow moment" for demos.</li>
+    <li><strong>Sponsor Scoop + Partner Pulse</strong> — Weekly digests. Push-based, no behavior change required.</li>
+    <li><strong>Voice Matching</strong> — Genuine differentiator (moved to Phase 3 per reviewer feedback — polish, not foundation).</li>
+    <li><strong>Staleness Detection</strong> — Internal deal hygiene the PRD doesn't cover.</li>
+    <li><strong>👍/👎 Feedback Loop</strong> — Relevance tuning for continuous improvement.</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<h2>🔬 Multi-Model Review: Where Both Reviewers Agreed</h2>
+
+<div class="consensus-box">
+  <h3><span class="badge badge-consensus">CONSENSUS</span> 8 Points of Agreement Across Both Reviews</h3>
+  <ol>
+    <li><strong>LinkedIn "continuous sync" is impossible.</strong> No API exists. Clay-powered batch runs (weekly/biweekly) is the honest architecture. Budget $350-800/mo.</li>
+    <li><strong>Slack works for intelligence delivery (Phases 1-2) but NOT for queue management (Phase 3+).</strong> Reps will receive digests in Slack but won't manage a review queue there. Move queue to HubSpot.</li>
+    <li><strong>Phase 4 (Sequence Engine) is underestimated at 40-60h.</strong> Both say 70-120h. Cross-channel dedup, error handling, and state management are where the real complexity lives.</li>
+    <li><strong>HubSpot tier is a showstopper, not an assumption.</strong> Custom objects + Sequence API require Enterprise ($1,200+/mo). Confirm BEFORE writing code.</li>
+    <li><strong>Brand inference at 60-70% means 30% of contacts degrade every downstream feature.</strong> Need explicit fallback paths for the "unknown brand" cohort.</li>
+    <li><strong>"Brief Me" is the killer quick win.</strong> Ship it first. Immediate value, zero behavior change.</li>
+    <li><strong>BigQuery campaign data needs auditing in Phase 1, not Phase 2.</strong> It's a blocker for the best content type (case studies).</li>
+    <li><strong>Voice matching should move later (Phase 3+).</strong> It's polish, not foundation. Focus on trigger system first.</li>
+  </ol>
+</div>
+
+<h3>Where the Reviewers Diverged</h3>
+
+<div class="split-view">
+  <div class="card">
+    <div class="review-label">Reviewer 1 (Opus)</div>
+    <ul>
+      <li><strong>HubSpot custom objects are viable</strong> — just need cleanup/archive workflows and possibly card extensions for inline actions</li>
+      <li><strong>Ship Smartlead-only MVP first</strong> — email-only sequences before adding LinkedIn orchestration</li>
+      <li><strong>Contact property group as alternative</strong> — add "Suggested Outreach" properties directly on Contact records instead of separate custom objects</li>
+      <li><strong>Biggest risk: Rep adoption</strong> — the system works but reps don't use it</li>
+      <li><strong>Competitive concern:</strong> Apollo.io, 11x.ai, Salesforge, Amplemarket do 60-70% of this. Know the landscape before the sales team brings it up.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="review-label">Reviewer 2 (Contrarian)</div>
+    <ul>
+      <li><strong>HubSpot custom objects have real perf limits</strong> — list views lag above ~10K records, which you'll hit in 3-4 months. Consider HubSpot Tasks instead.</li>
+      <li><strong>Phase ordering is wrong</strong> — ship "Brief Me" and digests in Week 1, not after CRM foundation. Show value before plumbing.</li>
+      <li><strong>Phase 4 should be 80-120h, minimum</strong> — more aggressive on time estimate</li>
+      <li><strong>Biggest risk: Reps won't change behavior</strong> — inertia always wins unless the new thing is 10x better, not 2x. Need a "what goes away" slide.</li>
+      <li><strong>Missing: Leaderboard/gamification</strong> — reps are competitive. Use it.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>🏗️ Final Phased Execution Plan (Post-Review)</h2>
+
+<p>Incorporates all consensus feedback: reordered for fastest visible value, honest time estimates, HubSpot-first for queue management.</p>
+
+<div class="callout callout-danger">
+  <strong>🚨 GATE CHECK — Before Any Work Begins:</strong><br>
+  1. <strong>Confirm HubSpot tier</strong> — Enterprise required for custom objects + sequence API. If Professional, the queue architecture changes entirely.<br>
+  2. <strong>Audit BigQuery campaign data</strong> — Can we auto-generate blinded case studies? What fields exist?<br>
+  3. <strong>Audit Clay account</strong> — Current plan, credit balance, existing workflows for LinkedIn enrichment.<br>
+  These three items determine whether the plan is feasible as designed. ~4h of investigation before committing 170+ hours.
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div>
+      <div class="phase-title">Phase 1: Quick Wins + Data Foundation</div>
+      <div class="tag-list"><span class="badge badge-ok">VISIBLE VALUE IN WEEK 1</span></div>
+    </div>
+    <div class="phase-meta">35-45h &bull; Weeks 1-4</div>
+  </div>
+  <div class="phase-body">
+    <p><em>Two tracks in parallel: reps see value immediately while data infrastructure builds underneath.</em></p>
+    
+    <h3>Track A: Rep-Facing Quick Wins (Weeks 1-2)</h3>
+    <ul>
+      <li><strong>"Brief Me [company]" command</strong> — Type it in Slack, get a one-pager with recent campaigns, key contacts, open deals, talking points. <span class="badge badge-ok">SHIP WEEK 1</span></li>
+      <li><strong>Sponsor Scoop + Partner Pulse weekly digests</strong> — Push-based intelligence in Slack with @-mention routing to deal owners</li>
+      <li><strong>Staleness alerts</strong> — DMs to deal owners when deals go 7+ days without contact</li>
+      <li><strong>"Draft email to [name]"</strong> — Interactive Slack flow. Even rough drafts save 5 min/email × 20 emails/week</li>
+    </ul>
+    
+    <h3>Track B: Data Infrastructure (Weeks 1-4)</h3>
+    <ul>
+      <li>BigQuery CRM queries — company, contact, deal, engagement enrichment</li>
+      <li>Company name resolution + alias table (fuzzy matching for "PepsiCo" vs "Frito-Lay")</li>
+      <li>Pre-materialized daily <code>account_intelligence_summary</code> view</li>
+      <li><strong>Neverbounce email verification</strong> — THE gating deliverable. Every contact verified before any outbound. ~$16/batch.</li>
+      <li>AI brand inference prototype — test accuracy on 50 contacts with confidence scoring</li>
+      <li>LinkedIn→HubSpot sync via Clay (semi-automated batch, weekly cadence)</li>
+      <li><strong>BigQuery campaign data audit</strong> — Can we auto-generate case studies? Validate now, not Phase 2.</li>
+      <li>Unit tests + data validation</li>
+    </ul>
+    
+    <div class="callout callout-success">
+      <strong>Why this order matters:</strong> Both reviewers agreed — if reps don't see value in Week 1, they lose faith by Week 6. "Brief Me" and digests require minimal data infrastructure and deliver immediate gratification. Build trust early.
+    </div>
+    
+    <div class="callout callout-info">
+      <strong>Exit criteria:</strong> "Brief Me" working in Slack. First weekly digest delivered. 90%+ contacts have verified email status. Brand inference accuracy measured on 50-contact sample. Campaign data feasibility confirmed.
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div>
+      <div class="phase-title">Phase 2: Trigger System + Content Engine</div>
+      <div class="tag-list"><span class="badge badge-new">FROM PRD</span><span class="badge badge-preserved">+ TASK-065</span></div>
+    </div>
+    <div class="phase-meta">25-30h &bull; Weeks 4-6</div>
+  </div>
+  <div class="phase-body">
+    <p><em>Expand from passive intelligence to proactive opportunity surfacing.</em></p>
+    <ul>
+      <li>Trigger: <strong>Campaign complete</strong> → Slack notification with blinded case study draft + suggested target list</li>
+      <li>Trigger: <strong>Job change detected</strong> → welcome/intro email draft queued</li>
+      <li>Trigger: <strong>RSS news about target account</strong> → contextual Slack alert to deal owner</li>
+      <li>Trigger: <strong>New supply opportunity</strong> → target list + category-personalized drafts</li>
+      <li><strong>Blinded case study generator</strong> — auto-generate from BigQuery campaign data (if audit confirms feasibility)</li>
+      <li>Email draft guardrails — no dollar amounts, disclaimer on all AI-generated content</li>
+      <li>👍/👎 reaction tracking for relevance feedback</li>
+      <li><strong>Start warming burner domains</strong> — 2-4 week lead time required before Phase 4. Start now.</li>
+    </ul>
+    
+    <div class="callout callout-info">
+      <strong>Exit criteria:</strong> 4+ trigger types actively surfacing opportunities. First blinded case study generated from real data. Reps receiving 3-5 actionable alerts per week. Burner domains warming.
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div>
+      <div class="phase-title">Phase 3: Smart Outreach Prep + Review Queue</div>
+      <div class="tag-list"><span class="badge badge-new">FROM PRD</span><span class="badge badge-revised">HUBSPOT-FIRST</span></div>
+    </div>
+    <div class="phase-meta">30-40h &bull; Weeks 6-9</div>
+  </div>
+  <div class="phase-body">
+    <p><em>This is where the system transitions from intelligence to execution prep. Per both reviewers: queue management belongs in HubSpot, not Slack.</em></p>
+    <ul>
+      <li><strong>Natural language → HubSpot target list builder</strong> ("non-chocolate candy brands for Six Flags Halloween")</li>
+      <li><strong>"Potential Send" queue in HubSpot</strong> — custom objects or Tasks (depends on HubSpot tier) with priority scoring</li>
+      <li>Trigger: <strong>Quarterly category recap</strong> generation</li>
+      <li>Trigger: <strong>LinkedIn post</strong> detection (if data accessible via Clay/Heyreach)</li>
+      <li><strong>Priority scoring</strong> — Case Study > Sales Enablement > Evergreen > Conference (per PRD's FOMO taxonomy)</li>
+      <li><strong>Daily digest batching</strong> — "You have 8 potential sends: 2 high-priority, 4 medium, 2 low"</li>
+      <li>Existing contact protection — no cold outreach to active customers or open deal cycles</li>
+      <li>Sequence conflict detection — don't double-enroll contacts</li>
+      <li><strong>Voice matching</strong> from prior sent emails (moved here from Phase 2 per reviewer feedback)</li>
+      <li>Auto-dismiss unreviewed sends after 14 days + rep capacity limits</li>
+      <li><strong>Cleanup/archive workflow</strong> — prevent HubSpot views from becoming unusable</li>
+    </ul>
+    
+    <div class="callout callout-warn">
+      <strong>Reviewer consensus on Slack vs HubSpot:</strong> Slack is great for receiving intelligence (push-based, ~90% adoption). Slack is terrible for managing a queue (no state, no sorting, no bulk actions, ~40% adoption). Build the review queue where reps already manage their pipeline — HubSpot.
+    </div>
+    
+    <div class="callout callout-info">
+      <strong>Exit criteria:</strong> Full trigger system live. Reps reviewing potential sends in HubSpot. NL list builder working. 5+ sends processed end-to-end (reviewed, approved, ready for sequencing).
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div>
+      <div class="phase-title">Phase 4: Sequence Engine</div>
+      <div class="tag-list"><span class="badge badge-risk">HARDEST PHASE</span><span class="badge badge-revised">REVISED: EMAIL-FIRST MVP</span></div>
+    </div>
+    <div class="phase-meta">70-100h &bull; Weeks 9-14</div>
+  </div>
+  <div class="phase-body">
+    <p><em>Both reviewers agreed: the original 40-60h estimate was too low. Revised to 70-100h with a staged rollout — email first, then LinkedIn.</em></p>
+    
+    <h3>Stage A: Email Sequences via Smartlead (Weeks 9-11)</h3>
+    <ul>
+      <li>Smartlead integration — campaign creation, lead enrollment, sequence management via API</li>
+      <li>Burner domain rotation logic + reputation monitoring</li>
+      <li>Cold/warm routing — scoring model for "when does Smartlead send vs HubSpot?" with rep override</li>
+      <li>Webhook listeners for replies, opens, bounces</li>
+      <li>HubSpot activity sync — all outreach logged back to contact records</li>
+      <li>Cadence templates for 4 sequence types (email-only versions)</li>
+      <li><strong>Run email-only for 2-3 weeks before adding LinkedIn</strong></li>
+    </ul>
+    
+    <h3>Stage B: LinkedIn Sequences via Heyreach (Weeks 12-14)</h3>
+    <ul>
+      <li>Heyreach integration — campaign creation, LinkedIn enrollment, connection status tracking</li>
+      <li><strong>Multi-channel orchestrator</strong> — the custom coordination layer:
+        <ul>
+          <li>State machine for cross-channel contact status</li>
+          <li>Dedup logic (replied on email → pause LinkedIn, and vice versa)</li>
+          <li>Timing engine (don't send email + LinkedIn same day)</li>
+          <li>Volume caps per rep, per domain, per day</li>
+          <li>Error handling + retry logic for webhook failures</li>
+        </ul>
+      </li>
+      <li>End-to-end testing with real contacts (test infrastructure setup included)</li>
+    </ul>
+    
+    <div class="callout callout-danger">
+      <strong>Why staged rollout matters (Reviewer 1):</strong> "Trying to ship both channels simultaneously is how you end up at Week 14 with nothing working." Get email sequences solid first. Layer LinkedIn on top once the foundation is proven.
+    </div>
+    
+    <div class="callout callout-warn">
+      <strong>Blockers (start early):</strong>
+      <ul>
+        <li>Smartlead API key + account setup</li>
+        <li>Heyreach API key</li>
+        <li>Burner domains registered, DNS configured, warmed (start in Phase 2 — needs 2-4 weeks)</li>
+        <li>Google Workspace seats for sending domains (~$6/mo each × 3-5 per rep)</li>
+      </ul>
+    </div>
+    
+    <div class="callout callout-info">
+      <strong>Exit criteria:</strong> A contact can go through a full email sequence via Smartlead with proper domain rotation. Then: a contact can go through a multi-channel cadence (LinkedIn connect → email → LinkedIn message) with cross-channel coordination.
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div>
+      <div class="phase-title">Phase 5: Champion Program + Metrics + Polish</div>
+      <div class="tag-list"><span class="badge badge-new">FROM PRD</span></div>
+    </div>
+    <div class="phase-meta">20-30h &bull; Weeks 14-16</div>
+  </div>
+  <div class="phase-body">
+    <ul>
+      <li><strong>Champion designation</strong> — 3-5 contacts per target account flagged in HubSpot</li>
+      <li><strong>Mutual connection mapping</strong> via Heyreach's <code>get-my-network-for-sender</code> — find warm intro paths across the Recess team</li>
+      <li>Champion priority in all trigger/send flows (champions surface first in every queue)</li>
+      <li><strong>Metrics dashboard</strong> — digest → draft → send → reply → meeting → deal. Full attribution pipeline.</li>
+      <li>Relevance tuning from 👍/👎 reaction data</li>
+      <li>Conference sequence template</li>
+      <li><strong>Leaderboard / gamification</strong> (per contrarian reviewer: "reps are competitive — use it")</li>
+      <li>"What goes away" documentation — explicit list of manual processes this replaces</li>
+    </ul>
+    
+    <div class="callout callout-info">
+      <strong>Exit criteria:</strong> Champion program active for 5+ accounts. Full metrics pipeline working. 80%+ of outbound flowing through the system.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>💰 Cost Model (Reviewer-Validated)</h2>
+
+<table>
+  <tr><th>Item</th><th>Monthly Cost</th><th>Notes</th></tr>
+  <tr><td>Clay (LinkedIn enrichment)</td><td>$349-800</td><td>Credit-based. Watch for overages at scale. Test one saved search first.</td></tr>
+  <tr><td>Smartlead (cold email)</td><td>$39-79</td><td>Per account, not per sender. Cheap.</td></tr>
+  <tr><td>Heyreach (LinkedIn automation)</td><td>$352-632</td><td><strong>⚠️ Per sender.</strong> 8 reps × $44-79 = significant. This scales with team size.</td></tr>
+  <tr><td>Neverbounce (email verification)</td><td>~$50-100</td><td>At volume. Still cheap.</td></tr>
+  <tr><td>Burner domains + Google Workspace</td><td>$50-100</td><td>3-5 domains per sender, $6/mo/seat for sending</td></tr>
+  <tr><td>HubSpot tier (if upgrade needed)</td><td>$750-1,200+</td><td><strong>⚠️ GATE CHECK.</strong> Enterprise for custom objects. Could be the largest line item.</td></tr>
+  <tr style="border-top: 2px solid var(--aqua);"><td><strong>TOTAL (excl. HubSpot upgrade)</strong></td><td><strong>$840-1,711/mo</strong></td><td></td></tr>
+  <tr><td><strong>TOTAL (incl. HubSpot upgrade)</strong></td><td><strong>$1,590-2,911/mo</strong></td><td></td></tr>
+</table>
+
+<div class="callout callout-warn">
+  <strong>Hidden costs flagged by reviewers:</strong>
+  <ul>
+    <li><strong>Engineering maintenance:</strong> Budget 10-20h/mo ongoing for API changes, bug fixes, edge cases, "can you make it do X?" requests</li>
+    <li><strong>Clay credit burn:</strong> LinkedIn enrichment can consume 5-10 credits/contact. 1,000 contacts/month may exhaust the $349 tier</li>
+    <li><strong>Heyreach per-sender pricing:</strong> $44-79/sender × 8 reps = biggest variable cost. Negotiate annual pricing.</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<h2>🔌 API Feasibility (Research-Validated)</h2>
+
+<table>
+  <tr><th>Tool</th><th>Status</th><th>Key Capabilities</th></tr>
+  <tr>
+    <td>HubSpot</td>
+    <td><span class="badge badge-ok">✅ STRONG</span></td>
+    <td>150 req/sec, batch ops, custom objects, engagement tracking, workflow automation. Best API in the stack.</td>
+  </tr>
+  <tr>
+    <td>Smartlead</td>
+    <td><span class="badge badge-ok">✅ STRONG</span></td>
+    <td>Full campaign API: create, enroll, sequence, webhooks for replies/opens/bounces. 60 req/min.</td>
+  </tr>
+  <tr>
+    <td>Heyreach</td>
+    <td><span class="badge badge-ok">✅ GOOD</span></td>
+    <td>Add leads, toggle campaigns, get conversations. 20+ webhook event types. MCP server available. <code>get-my-network-for-sender</code> enables Champion connection mapping.</td>
+  </tr>
+  <tr>
+    <td>Clay</td>
+    <td><span class="badge badge-warn">⚠️ MODERATE</span></td>
+    <td>Workflow tool (not REST API). Webhook triggers IN, HTTP actions OUT. 75+ data providers. LinkedIn Sales Nav source up to 2,500 results.</td>
+  </tr>
+  <tr>
+    <td>Neverbounce</td>
+    <td><span class="badge badge-ok">✅ SIMPLE</span></td>
+    <td>Single + bulk verification. $0.008/email. No rate limit concerns at our volume.</td>
+  </tr>
+  <tr>
+    <td>LinkedIn Sales Nav</td>
+    <td><span class="badge badge-risk">❌ NO API</span></td>
+    <td>SNAP API is enterprise-only, for CRM embedding only. No search export. Must use Clay as intermediary.</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>⚡ Pre-Launch Gate Checks</h2>
+
+<div class="card card-highlight">
+  <p><strong>These must be validated before committing to the build:</strong></p>
+  <ol>
+    <li><strong>HubSpot tier</strong> — Enterprise for custom objects + sequence API, or restructure around Tasks + standard objects</li>
+    <li><strong>BigQuery campaign data</strong> — Structured enough for auto case study generation? Audit fields + completeness</li>
+    <li><strong>Clay account</strong> — Current plan, credit balance, existing LinkedIn workflows</li>
+    <li><strong>Smartlead webhook reliability</strong> — Test webhook delivery, latency, and retry behavior</li>
+    <li><strong>Heyreach connection accept rates</strong> — Baseline LinkedIn connect request performance for Recess reps</li>
+    <li><strong>Named account list</strong> — Confirmed 75-85 accounts with ownership assignments</li>
+  </ol>
+  <p style="margin-top: 1rem; color: var(--warning);"><strong>Estimated effort for gate checks: ~4-6h. Do this first.</strong></p>
+</div>
+
+<!-- ============================================================ -->
+<h2>🎪 Sales Team Presentation Strategy</h2>
+
+<div class="card">
+  <h3>What Will Make Them Excited</h3>
+  <ul>
+    <li><strong>"Brief Me" demo</strong> — Type a company name, get a rich one-pager in 10 seconds. Both reviewers said: make this the hero of your Phase 1 demo.</li>
+    <li><strong>Auto-generated case studies</strong> — Reps hate making case studies but love sending them. If you can generate a blinded case study in 30 seconds, that's magic.</li>
+    <li><strong>"Here are 5 people you should reach out to today and why"</strong> — The daily digest is the dream for reps who struggle with pipeline discipline.</li>
+    <li><strong>Email drafts that are actually good</strong> — Not "Hi {first_name}" garbage. Actually personalized from CRM data + news + campaign history.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>What They'll Push Back On (Be Ready)</h3>
+  <table>
+    <tr><th>Objection</th><th>Response</th></tr>
+    <tr>
+      <td>"So I have to check Slack AND HubSpot now?"</td>
+      <td>Slack is for receiving alerts (no action needed). HubSpot is for your review queue (where you already work). Two surfaces, each doing what it's best at.</td>
+    </tr>
+    <tr>
+      <td>"What if the AI sends something embarrassing?"</td>
+      <td>Human-in-the-loop is a hard requirement. Every email goes through you. The AI drafts, you decide.</td>
+    </tr>
+    <tr>
+      <td>"I already have a system that works."</td>
+      <td>Show the <strong>"what goes away" slide</strong> — no more manual LinkedIn searching, no more Lead IQ copy-paste, no more hand-building lists. Your system stays, the drudgery goes.</td>
+    </tr>
+    <tr>
+      <td>"14-16 weeks? That's a whole quarter."</td>
+      <td>"Brief Me" and digests ship in <strong>Week 1</strong>. Email drafting in Week 2. You'll be using the system before we're done building it.</td>
+    </tr>
+    <tr>
+      <td>"Brand inference is only 70% accurate?"</td>
+      <td>Frame as "AI suggests, you confirm." Unknowns stay blank — we'd rather be empty than wrong.</td>
+    </tr>
+  </table>
+</div>
+
+<div class="callout callout-success">
+  <strong>🏆 The One Slide That Matters:</strong><br>
+  <em>"What goes away"</em> — Show the current 2-4 hour manual workflow next to the new 15-minute AI-assisted flow. Map every manual step to its automated replacement. Reps care about <strong>what they stop doing</strong> more than what the system starts doing.
+</div>
+
+<!-- ============================================================ -->
+<h2>⚠️ Competitive Awareness</h2>
+
+<div class="card">
+  <p>Reviewer 1 flagged: someone on the sales team WILL ask "why don't we just use [X]?" Be ready.</p>
+  <table>
+    <tr><th>Tool</th><th>What It Does</th><th>Why We're Not Using It</th></tr>
+    <tr>
+      <td><strong>Apollo.io</strong> ($99-149/user/mo)</td>
+      <td>Prospecting, enrichment, email sequences, basic LinkedIn</td>
+      <td>Doesn't do blinded case studies, voice matching, trigger-based queuing, or CRM-enriched intelligence. Generic outbound tool.</td>
+    </tr>
+    <tr>
+      <td><strong>11x.ai / Salesforge</strong></td>
+      <td>"AI SDR" — automated outbound agents</td>
+      <td>Black-box AI sending on your behalf. No human-in-the-loop. Dangerous for brand reputation at Recess's level.</td>
+    </tr>
+    <tr>
+      <td><strong>Amplemarket</strong></td>
+      <td>Multi-channel orchestration + AI</td>
+      <td>Closest competitor to what we're building. Worth evaluating — but doesn't integrate with your existing Smartlead/Heyreach/Clay stack or leverage your BigQuery campaign data.</td>
+    </tr>
+  </table>
+  <p style="margin-top: 1rem;"><strong>Our advantage:</strong> Deep integration with Recess's own campaign data, CRM context, and existing tool stack. Off-the-shelf tools don't know about your completed campaigns, your blinded case studies, or your account relationships. That's the moat.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>💣 Top 3 Risks (Ranked by Both Reviewers)</h2>
+
+<div class="card-grid">
+  <div class="card" style="border-color: var(--danger);">
+    <h3 style="color: var(--danger);">#1 Rep Adoption</h3>
+    <p>The system works perfectly but reps don't use it. Inertia beats innovation unless the UX is 10x better.</p>
+    <p style="margin-top: 0.5rem;"><strong>Mitigation:</strong> Ship visible value in Week 1. HubSpot-native for workflows. "What goes away" framing. Leaderboard/gamification. Weekly adoption check-ins for first 8 weeks.</p>
+  </div>
+  <div class="card" style="border-color: var(--warning);">
+    <h3 style="color: var(--warning);">#2 Multi-Channel Orchestration Complexity</h3>
+    <p>Cross-channel dedup, error handling, and state management across three systems that don't natively talk.</p>
+    <p style="margin-top: 0.5rem;"><strong>Mitigation:</strong> Email-first MVP. Don't add LinkedIn orchestration until email sequences are solid. Staged rollout.</p>
+  </div>
+  <div class="card" style="border-color: var(--warning);">
+    <h3 style="color: var(--warning);">#3 HubSpot Tier / Cost Surprise</h3>
+    <p>Custom objects require Enterprise. If currently on Professional, that's a $750+/mo upgrade that wasn't budgeted.</p>
+    <p style="margin-top: 0.5rem;"><strong>Mitigation:</strong> Gate check before any build. If Professional-only, use HubSpot Tasks instead of custom objects (less elegant, equally functional).</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>📊 Total Effort Summary (Post-Review)</h2>
+
+<table>
+  <tr><th>Phase</th><th>Hours</th><th>Weeks</th><th>Key Change from Original</th></tr>
+  <tr><td>Gate Checks</td><td>4-6h</td><td>Week 0</td><td><span class="badge badge-new">ADDED</span> HubSpot tier + BigQuery audit</td></tr>
+  <tr><td>Phase 1: Quick Wins + Data</td><td>35-45h</td><td>1-4</td><td><span class="badge badge-revised">REORDERED</span> Ship Brief Me + digests in Week 1</td></tr>
+  <tr><td>Phase 2: Triggers + Content</td><td>25-30h</td><td>4-6</td><td><span class="badge badge-revised">REVISED</span> Voice matching moved to Phase 3. Start domain warming.</td></tr>
+  <tr><td>Phase 3: Outreach Prep + Queue</td><td>30-40h</td><td>6-9</td><td><span class="badge badge-revised">REVISED</span> HubSpot-first queue (not Slack). Voice matching added.</td></tr>
+  <tr><td>Phase 4: Sequence Engine</td><td>70-100h</td><td>9-14</td><td><span class="badge badge-revised">INCREASED</span> From 40-60h. Email-first MVP, then LinkedIn.</td></tr>
+  <tr><td>Phase 5: Champions + Metrics</td><td>20-30h</td><td>14-16</td><td><span class="badge badge-new">ADDED</span> Leaderboard/gamification</td></tr>
+  <tr style="border-top: 2px solid var(--aqua);"><td><strong>TOTAL</strong></td><td><strong>184-251h</strong></td><td><strong>~16 weeks</strong></td><td></td></tr>
+</table>
+
+<div class="callout callout-success">
+  <strong>Bottom line:</strong> Jack's PRD had the right vision. This plan makes it executable. The key changes: honest LinkedIn sync architecture, HubSpot-first for queue management, realistic Phase 4 estimates, quick wins shipping in Week 1, and explicit gate checks before committing 200+ hours. The sales team sees value immediately. The engineering builds underneath. And every phase delivers standalone value even if the next phase takes longer than expected.
+</div>
+
+<div class="footer">
+  AI Outbound Sales — Final Execution Plan &bull; Recess Digital<br>
+  4-Agent Review: Planner + Researcher + Opus Reviewer + Contrarian Reviewer &bull; March 18, 2026<br>
+  Artifacts: <code>second-brain/artifacts/ai-outbound-sales/</code>
+</div>
+
+</body>
+</html>
