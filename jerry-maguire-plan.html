@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jerry Maguire — AI Outbound Sales System | Recess Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#1a2332',
+      primaryTextColor: '#e4e4e7',
+      primaryBorderColor: '#14B9D6',
+      lineColor: '#14B9D6',
+      secondaryColor: '#1a1d27',
+      tertiaryColor: '#0f1117',
+      noteBkgColor: '#1a2332',
+      noteTextColor: '#e4e4e7',
+      actorBkg: '#1a2332',
+      actorTextColor: '#14B9D6',
+      actorBorder: '#14B9D6',
+      signalColor: '#e4e4e7',
+      signalTextColor: '#e4e4e7',
+      labelBoxBkgColor: '#1a2332',
+      labelBoxBorderColor: '#14B9D6',
+      labelTextColor: '#e4e4e7',
+      loopTextColor: '#F27935',
+      activationBorderColor: '#14B9D6',
+      activationBkgColor: '#1a2332',
+      sequenceNumberColor: '#0f1117'
+    },
+    sequence: { mirrorActors: false, useMaxWidth: true },
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+  });
+</script>
+<style>
+  :root {
+    --aqua: #14B9D6;
+    --forest: #108DA3;
+    --sea-green: #1FBBA6;
+    --orange: #F27935;
+    --bg: #0a0d14;
+    --bg-elevated: #0f1117;
+    --card: #1a1d27;
+    --card-border: #2a2d3a;
+    --card-hover: #222636;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-bright: #ffffff;
+    --success: #22c55e;
+    --warning: #eab308;
+    --danger: #ef4444;
+    --code-bg: #151820;
+    --nav-bg: rgba(10, 13, 20, 0.92);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== STICKY NAV ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0;
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-brand {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--aqua);
+    white-space: nowrap;
+    padding: 0.75rem 1.25rem 0.75rem 0;
+    border-right: 1px solid var(--card-border);
+    margin-right: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0;
+  }
+  .nav-links a {
+    display: block;
+    padding: 0.75rem 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+    border-radius: 6px;
+  }
+  .nav-links a:hover { color: var(--aqua); background: rgba(20,185,214,0.08); }
+
+  /* ===== HERO ===== */
+  .hero {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
+  }
+  .hero h1 span { color: var(--aqua); }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+  .hero-meta .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .hero-meta .tag strong { color: var(--text-bright); }
+
+  /* ===== MAIN CONTENT ===== */
+  .content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ===== STAT CARDS ===== */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: var(--aqua); }
+  .stat-card .number {
+    font-size: 2.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--aqua), var(--sea-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .stat-card .label {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    margin-top: 3.5rem;
+    scroll-margin-top: 5rem;
+  }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--forest);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 2rem 0 0.75rem;
+  }
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sea-green);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+  .card-highlight { border-color: var(--aqua); }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .split-view .card { margin: 0; }
+
+  /* ===== BADGES ===== */
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .badge-aqua { background: rgba(20,185,214,0.15); color: var(--aqua); }
+  .badge-green { background: rgba(31,187,166,0.15); color: var(--sea-green); }
+  .badge-orange { background: rgba(242,121,53,0.15); color: var(--orange); }
+  .badge-red { background: rgba(239,68,68,0.15); color: var(--danger); }
+  .badge-ok { background: rgba(34,197,94,0.15); color: var(--success); }
+  .badge-warn { background: rgba(234,179,8,0.15); color: var(--warning); }
+
+  /* ===== TABLES ===== */
+  .table-wrap { overflow-x: auto; margin: 1rem 0; border-radius: 12px; border: 1px solid var(--card-border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  th {
+    background: var(--card);
+    color: var(--aqua);
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--card-border);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(20,185,214,0.04); }
+  .table-footer td { border-top: 2px solid var(--aqua); font-weight: 700; }
+
+  /* ===== CALLOUTS ===== */
+  .callout {
+    border-radius: 10px;
+    padding: 1.15rem 1.35rem;
+    margin: 1.25rem 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .callout-info { background: rgba(20,185,214,0.08); border-left: 4px solid var(--aqua); }
+  .callout-warn { background: rgba(234,179,8,0.08); border-left: 4px solid var(--warning); }
+  .callout-danger { background: rgba(239,68,68,0.08); border-left: 4px solid var(--danger); }
+  .callout-success { background: rgba(34,197,94,0.08); border-left: 4px solid var(--success); }
+
+  /* ===== CODE ===== */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #c9d1d9;
+    margin: 0.75rem 0;
+    tab-size: 2;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+  }
+  :not(pre) > code {
+    background: rgba(20,185,214,0.1);
+    color: var(--aqua);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.82em;
+  }
+
+  /* Syntax highlights */
+  .kw { color: #ff7b72; }
+  .str { color: #a5d6ff; }
+  .cm { color: #8b949e; font-style: italic; }
+  .fn { color: #d2a8ff; }
+  .num { color: #79c0ff; }
+  .op { color: #ff7b72; }
+  .key { color: #7ee787; }
+
+  /* ===== COLLAPSIBLE ===== */
+  details {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    margin: 1rem 0;
+    transition: border-color 0.2s;
+  }
+  details[open] { border-color: var(--forest); }
+  summary {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-bright);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: none;
+  }
+  summary::before {
+    content: '▸';
+    color: var(--aqua);
+    font-size: 0.85rem;
+    transition: transform 0.2s;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary::-webkit-details-marker { display: none; }
+  details .detail-body { padding: 0 1.25rem 1.25rem; }
+  details pre { margin: 0.5rem 0; }
+
+  /* ===== PHASE BLOCKS ===== */
+  .phase {
+    border-left: 4px solid var(--aqua);
+    border-radius: 0 12px 12px 0;
+    margin: 1.75rem 0;
+    background: var(--bg-elevated);
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    background: var(--card);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .phase-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    letter-spacing: -0.01em;
+  }
+  .phase-meta {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .phase-body {
+    padding: 1.25rem 1.5rem;
+  }
+  .phase-body li { margin: 0.4rem 0; font-size: 0.9rem; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.35rem; }
+
+  /* ===== WALKTHROUGH TIMELINE ===== */
+  .timeline { position: relative; margin: 1.5rem 0; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.45rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--aqua), var(--sea-green), var(--orange));
+    border-radius: 2px;
+  }
+  .timeline-step {
+    position: relative;
+    margin-bottom: 1.25rem;
+    padding-left: 0.5rem;
+  }
+  .timeline-step::before {
+    content: '';
+    position: absolute;
+    left: -1.6rem;
+    top: 0.5rem;
+    width: 10px;
+    height: 10px;
+    background: var(--aqua);
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+  }
+  .timeline-step .step-time {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .timeline-step .step-title { font-weight: 700; color: var(--text-bright); font-size: 0.95rem; }
+  .timeline-step .step-detail { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .timeline-step .step-system {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--forest);
+    background: rgba(16,141,163,0.12);
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.25rem;
+  }
+
+  /* ===== MERMAID ===== */
+  .mermaid { margin: 1.25rem 0; text-align: center; }
+  .mermaid svg { max-width: 100%; }
+
+  /* ===== LISTS ===== */
+  ul, ol { padding-left: 1.35rem; }
+  li { margin: 0.3rem 0; }
+  li::marker { color: var(--forest); }
+
+  /* ===== MISC ===== */
+  strong { color: var(--text-bright); }
+  a { color: var(--aqua); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid var(--card-border); margin: 2.5rem 0; }
+  .text-muted { color: var(--text-muted); }
+  .text-aqua { color: var(--aqua); }
+  .text-orange { color: var(--orange); }
+
+  .footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 4rem;
+    padding: 2rem;
+    border-top: 1px solid var(--card-border);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.85rem; }
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .content { padding: 0 1.25rem 3rem; }
+    .split-view { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-brand { display: none; }
+    h2 { font-size: 1.35rem; }
+    pre { font-size: 0.72rem; padding: 1rem; }
+  }
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">🎬 JERRY MAGUIRE</div>
+    <ul class="nav-links">
+      <li><a href="#executive-summary">Summary</a></li>
+      <li><a href="#goal-scope">Scope</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#integrations">Integrations</a></li>
+      <li><a href="#content-engine">Content</a></li>
+      <li><a href="#phases">Phases</a></li>
+      <li><a href="#walkthroughs">Walkthroughs</a></li>
+      <li><a href="#cost-model">Costs</a></li>
+      <li><a href="#risks">Risks</a></li>
+      <li><a href="#gate-checks">Gates</a></li>
+      <li><a href="#prior-lessons">Lessons</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<header class="hero">
+  <div class="hero-eyebrow">🎬 Codename: Jerry Maguire — "Show Me the Money"</div>
+  <h1>AI Outbound <span>Sales System</span></h1>
+  <p class="subtitle">A complete AI-powered outbound engine — from trigger detection to email in inbox, with human review at every step. Full technical implementation plan.</p>
+  <div class="hero-meta">
+    <span class="tag">📅 <strong>March 2026</strong></span>
+    <span class="tag">⏱️ <strong>184–251h</strong> total effort</span>
+    <span class="tag">📆 <strong>~16 weeks</strong></span>
+    <span class="tag">🔄 <strong>5 Phases</strong></span>
+    <span class="tag">🤖 <strong>GPT-4o</strong> + Claude fallback</span>
+    <span class="tag">☁️ <strong>Cloud Run</strong> + Firestore</span>
+  </div>
+</header>
+
+<main class="content">
+
+<!-- ═══════════════════════ 1. EXECUTIVE SUMMARY ═══════════════════════ -->
+<section class="section" id="executive-summary">
+  <div class="section-label">Section 01</div>
+  <h2>Executive Summary</h2>
+
+  <div class="card card-highlight" style="border-color: var(--aqua);">
+    <p style="font-size: 1.05rem; line-height: 1.8;">
+      <strong>Jerry Maguire</strong> transforms Recess Digital's outbound sales from manual hustle to an AI-orchestrated engine. The system monitors campaign completions, job changes, news signals, and supply opportunities — then auto-generates personalized, voice-matched email drafts for sales reps to review and approve. Approved sends route through <strong>SmartLead</strong> (cold email via warmed burner domains), <strong>HubSpot Sequences</strong> (warm/existing contacts), or <strong>Heyreach</strong> (LinkedIn) — with a multi-channel state machine coordinating cross-platform cadences. Every email is backed by real campaign data from BigQuery, enriched with contact intelligence from Clay, and validated against guardrails that prevent brand-name leaks, dollar amounts, and sending to unverified addresses. Reps keep full control: the AI drafts, humans decide.
+    </p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number">184–251h</div>
+      <div class="label">Total Engineering Effort</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">~16 wk</div>
+      <div class="label">End-to-End Timeline</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">Week 1</div>
+      <div class="label">First Value to Reps</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$0.02–0.08</div>
+      <div class="label">Cost per AI Draft</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">6</div>
+      <div class="label">Trigger Types</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">3</div>
+      <div class="label">Send Channels</div>
+    </div>
+  </div>
+
+  <h3>Key Deliverables by Phase</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Phase</th><th>Deliverable</th><th>When</th></tr>
+      <tr><td>Phase 1</td><td>"Brief Me" command, weekly digests, data foundation, email verification</td><td>Weeks 1–4</td></tr>
+      <tr><td>Phase 2</td><td>Trigger system (6 types), blinded case study generator, domain warming</td><td>Weeks 4–6</td></tr>
+      <tr><td>Phase 3</td><td>NL list builder, HubSpot review queue, voice matching, priority scoring</td><td>Weeks 6–9</td></tr>
+      <tr><td>Phase 4</td><td>SmartLead cold email sequences → multi-channel orchestrator with Heyreach</td><td>Weeks 9–14</td></tr>
+      <tr><td>Phase 5</td><td>Champion program, metrics dashboard, leaderboard, full attribution</td><td>Weeks 14–16</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 2. GOAL & SCOPE ═══════════════════════ -->
+<section class="section" id="goal-scope">
+  <div class="section-label">Section 02</div>
+  <h2>Goal &amp; Scope</h2>
+
+  <div class="card">
+    <h4 style="margin-top:0;">🎯 One-Sentence Goal</h4>
+    <p style="font-size: 1.05rem;">Build an AI-powered outbound sales system that detects opportunities, generates personalized multi-channel outreach, and orchestrates sending — with human approval at every step — reducing rep manual effort by 70%+ while increasing pipeline quality.</p>
+  </div>
+
+  <div class="split-view">
+    <div class="card" style="border-color: var(--success);">
+      <h4 style="color: var(--success); margin-top:0;">✅ In Scope</h4>
+      <ul>
+        <li>AI email copy generation (GPT-4o) for 5 email types: case study, sales enablement, evergreen, signal-based, conference</li>
+        <li>6 trigger types: campaign complete, job change, RSS news, LinkedIn post, supply opportunity, quarterly recap</li>
+        <li>Multi-channel send orchestration: SmartLead (cold), HubSpot Sequences (warm), Heyreach (LinkedIn)</li>
+        <li>Cross-channel state machine with pause-on-reply coordination</li>
+        <li>"Brief Me [company]" instant intelligence command</li>
+        <li>Natural language → target list builder</li>
+        <li>Rep voice matching from prior sent emails</li>
+        <li>HubSpot "Potential Send" review queue (custom objects)</li>
+        <li>Blinded case study auto-generation from BigQuery campaign data</li>
+        <li>Champion designation (3–5 per target account) + mutual connection mapping</li>
+        <li>Full metrics pipeline: draft → send → reply → meeting → deal</li>
+        <li>Contact enrichment via Clay + NeverBounce email verification</li>
+        <li>Quality guardrails: brand name blocking, dollar amount scanning, length limits</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: var(--danger);">
+      <h4 style="color: var(--danger); margin-top:0;">❌ Out of Scope</h4>
+      <ul>
+        <li>Fully autonomous sending (no human-in-the-loop bypass)</li>
+        <li>Real-time LinkedIn API integration (no API exists — Clay batch only)</li>
+        <li>Custom CRM replacement (HubSpot stays as CRM)</li>
+        <li>Inbound lead scoring or marketing automation</li>
+        <li>Phone/call sequence automation</li>
+        <li>Slide deck / PDF auto-generation (future enhancement)</li>
+        <li>Mobile app for reps</li>
+        <li>Multi-tenant / white-label architecture</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Success Criteria</h3>
+  <div class="card">
+    <ol>
+      <li><strong>80%+ of outbound flowing through the system</strong> by end of Phase 5</li>
+      <li><strong>"Brief Me" response time &lt; 10 seconds</strong> from Slack command to intelligence one-pager</li>
+      <li><strong>Rep time savings of 2+ hours/week</strong> per rep on outbound prep</li>
+      <li><strong>AI draft approval rate &gt; 60%</strong> (drafts sent as-is or with minor edits)</li>
+      <li><strong>Reply rate ≥ parity</strong> with manual outbound (baseline measured in Phase 1)</li>
+      <li><strong>Zero brand-name leaks</strong> in sent case study emails</li>
+      <li><strong>Full attribution tracking</strong>: trigger → draft → send → reply → meeting → deal</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 3. TECHNICAL ARCHITECTURE ═══════════════════════ -->
+<section class="section" id="architecture">
+  <div class="section-label">Section 03</div>
+  <h2>Technical Architecture</h2>
+
+  <h3>System Overview</h3>
+  <p>The system is a <strong>serverless, event-driven architecture</strong> running on Google Cloud Run. Five data sources feed a central AI orchestrator that generates drafts, routes them through human review, and dispatches approved sends across three channels.</p>
+
+  <div class="mermaid">
+graph TB
+    subgraph "Data Sources"
+        BQ["BigQuery<br/>Campaign Data"]
+        HS["HubSpot CRM<br/>Contacts/Deals"]
+        CLAY["Clay<br/>LinkedIn Enrichment"]
+        RSS["RSS Feeds<br/>News Monitoring"]
+        LI["LinkedIn<br/>Posts/Job Changes"]
+    end
+
+    subgraph "AI Orchestrator — Google Cloud Run"
+        TRIGGER["Trigger Engine<br/>Scheduled + Webhook"]
+        AI["Copy Generation Engine<br/>GPT-4o via API"]
+        QUEUE["Draft Queue<br/>Firestore"]
+        ORCH["Multi-Channel<br/>Orchestrator"]
+    end
+
+    subgraph "Human Review"
+        SLACK["Slack Notifications<br/>+ Quick Actions"]
+        HSQUEUE["HubSpot Queue<br/>Custom Objects"]
+    end
+
+    subgraph "Send Infrastructure"
+        SL["SmartLead<br/>Cold Email"]
+        HR["Heyreach<br/>LinkedIn"]
+        HSSEQ["HubSpot Sequences<br/>Warm Email"]
+    end
+
+    BQ --> TRIGGER
+    HS --> TRIGGER
+    CLAY --> HS
+    RSS --> TRIGGER
+    LI --> TRIGGER
+
+    TRIGGER --> AI
+    AI --> QUEUE
+    QUEUE --> SLACK
+    QUEUE --> HSQUEUE
+
+    HSQUEUE -->|Rep Approves| ORCH
+    ORCH --> SL
+    ORCH --> HR
+    ORCH --> HSSEQ
+
+    SL -->|Webhooks| ORCH
+    HR -->|Webhooks| ORCH
+    ORCH -->|Activity Sync| HS
+  </div>
+
+  <h3>Infrastructure Layout</h3>
+  <div class="card">
+    <pre><code>┌─────────────────────────────────────────────────────┐
+│                 Google Cloud Run                     │
+│                                                     │
+│  ┌─────────────────┐  ┌──────────────────────────┐  │
+│  │ Trigger Service  │  │  Orchestrator Service    │  │
+│  │ (scheduled scans │  │  (webhook handler +      │  │
+│  │  + signal detect)│  │   state machine +        │  │
+│  │                  │  │   API integrations)      │  │
+│  └────────┬─────────┘  └──────────┬───────────────┘  │
+│           │                       │                  │
+│  ┌────────┴───────────────────────┴──────────────┐   │
+│  │        Draft Generation Service                │   │
+│  │   (GPT-4o calls + guardrail validation)        │   │
+│  └────────────────────────────────────────────────┘   │
+│                                                       │
+│  ┌────────────────────────────────────────────────┐   │
+│  │         Slack Bolt App Service                  │   │
+│  │   (slash commands + interactive messages)       │   │
+│  └────────────────────────────────────────────────┘   │
+└───────────────────────────────────────────────────────┘
+         │              │              │
+    ┌────┴────┐   ┌────┴────┐   ┌────┴────┐
+    │Firestore│   │  Cloud   │   │  Cloud  │
+    │ (state) │   │Scheduler │   │Logging  │
+    └─────────┘   └──────────┘   └─────────┘</code></pre>
+  </div>
+
+  <h3>Where Each Component Runs</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Component</th><th>Runtime</th><th>Why</th></tr>
+      <tr><td>Trigger Engine</td><td>Cloud Run (cron via Cloud Scheduler)</td><td>Daily/6-hourly scans; scales to zero when idle</td></tr>
+      <tr><td>Draft Generation</td><td>Cloud Run (Python/FastAPI)</td><td>Calls OpenAI API, runs guardrail validation</td></tr>
+      <tr><td>Multi-Channel Orchestrator</td><td>Cloud Run (webhook-triggered)</td><td>Stateful orchestration with Firestore persistence</td></tr>
+      <tr><td>Slack Bolt App</td><td>Cloud Run</td><td>Handles slash commands, interactive messages</td></tr>
+      <tr><td>State Storage</td><td>Google Firestore</td><td>Real-time, schemaless, free tier covers our volume</td></tr>
+      <tr><td>Analytics &amp; Campaign Data</td><td>BigQuery</td><td>Already houses Recess campaign results</td></tr>
+      <tr><td>CRM &amp; Rep Interface</td><td>HubSpot</td><td>Where reps already work — zero adoption friction</td></tr>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>Why Cloud Run, not Make.com?</strong> Make.com is great for simple webhook→action flows but becomes unmanageable for stateful orchestration with error handling, retries, and cross-channel coordination. Cloud Run scales to zero (costs nothing idle), scales up automatically, and runs standard Python. <strong>Estimated cost: $5–20/month</strong> at our volume.
+  </div>
+
+  <h3>What Triggers What</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Trigger</th><th>Mechanism</th><th>Frequency</th></tr>
+      <tr><td>Campaign complete</td><td>Cloud Scheduler → Cloud Run</td><td>Daily at 7am MT: scans BigQuery for newly completed campaigns</td></tr>
+      <tr><td>Job change</td><td>Clay workflow → webhook</td><td>Weekly Clay enrichment on all contacts; detects title/company changes</td></tr>
+      <tr><td>RSS news</td><td>Cloud Scheduler → Cloud Run</td><td>Every 6 hours: polls RSS feeds for target company names, GPT-4o assesses relevance</td></tr>
+      <tr><td>LinkedIn post</td><td>Clay/Heyreach → webhook</td><td>Daily: Clay checks LinkedIn activity for contacts</td></tr>
+      <tr><td>New supply opportunity</td><td>Slack slash command → Cloud Run</td><td>On-demand: rep types <code>/outbound [description]</code></td></tr>
+      <tr><td>Quarterly recap</td><td>Cloud Scheduler → Cloud Run</td><td>First Monday of each quarter: aggregates campaign data by category</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 4. DATA ARCHITECTURE ═══════════════════════ -->
+<section class="section" id="data">
+  <div class="section-label">Section 04</div>
+  <h2>Data Architecture</h2>
+
+  <h3>What Lives Where</h3>
+  <div class="mermaid">
+graph TB
+    subgraph "BigQuery — Analytics &amp; Source Data"
+        BQ1["campaign_results<br/>Performance metrics"]
+        BQ2["account_intelligence_summary<br/>Daily materialized view"]
+        BQ3["brand_names<br/>Blocklist for case studies"]
+        BQ4["outbound_analytics<br/>Draft→Send→Reply metrics"]
+    end
+
+    subgraph "Google Firestore — Orchestration State"
+        FS1["potential_sends<br/>Draft content + metadata"]
+        FS2["orchestration_state<br/>Per-contact channel status"]
+        FS3["rep_voice_profiles<br/>Cached style guides"]
+        FS4["trigger_events<br/>Raw signal log"]
+    end
+
+    subgraph "HubSpot — CRM &amp; Rep Interface"
+        HS1["Contacts<br/>Master contact records"]
+        HS2["Companies<br/>Target accounts"]
+        HS3["Deals<br/>Pipeline"]
+        HS4["Custom: Potential Send<br/>Rep review queue"]
+        HS5["Sequences<br/>Warm email cadences"]
+        HS6["Engagements<br/>Activity timeline"]
+    end
+
+    subgraph "SmartLead — Cold Email Execution"
+        SL1["Campaigns<br/>Sequence definitions"]
+        SL2["Leads<br/>Enrolled contacts"]
+        SL3["Email Accounts<br/>Warmed burner domains"]
+    end
+
+    subgraph "Heyreach — LinkedIn Execution"
+        HR1["Campaigns<br/>LinkedIn sequences"]
+        HR2["Leads<br/>LinkedIn profiles"]
+        HR3["Senders<br/>Rep LinkedIn accounts"]
+    end
+  </div>
+
+  <h3>Contact Sync Strategy</h3>
+  <div class="mermaid">
+graph LR
+    HS["HubSpot<br/>SOURCE OF TRUTH"] -->|"Orchestrator reads"| FS["Firestore<br/>Working copy"]
+    FS -->|"On enrollment"| SL["SmartLead<br/>Lead record"]
+    FS -->|"On enrollment"| HR["Heyreach<br/>Lead record"]
+    SL -->|"Webhooks"| FS
+    HR -->|"Webhooks"| FS
+    FS -->|"Activity sync"| HS
+  </div>
+
+  <div class="callout callout-info">
+    <strong>Sync rules:</strong> HubSpot is always the source of truth. SmartLead and Heyreach get copies at enrollment time. Activity flows back through the orchestrator. <strong>No direct sync between SmartLead ↔ Heyreach</strong> — all coordination goes through the orchestrator.
+  </div>
+
+  <h3>The "Potential Send" Object — Core Schema</h3>
+  <p>This is the central data object connecting "AI generated a draft" to "rep reviews and sends."</p>
+
+  <details>
+    <summary>Firestore Document Schema — <code>potential_sends/{id}</code></summary>
+    <div class="detail-body">
+      <pre><code>{
+  <span class="key">"id"</span>: <span class="str">"ps_2026031901_casestudy_laundry"</span>,
+  <span class="key">"created_at"</span>: <span class="str">"2026-03-19T09:00:00Z"</span>,
+  <span class="key">"updated_at"</span>: <span class="str">"2026-03-19T14:30:00Z"</span>,
+
+  <span class="key">"trigger"</span>: {
+    <span class="key">"type"</span>: <span class="str">"campaign_complete"</span>,
+    <span class="key">"source_id"</span>: <span class="str">"campaign_bq_445"</span>,
+    <span class="key">"description"</span>: <span class="str">"Blinded laundry brand — in-store sampling + digital"</span>,
+    <span class="key">"detected_at"</span>: <span class="str">"2026-03-19T08:45:00Z"</span>
+  },
+
+  <span class="key">"sequence_type"</span>: <span class="str">"case_study"</span>,
+  <span class="key">"priority"</span>: <span class="num">1</span>,
+  <span class="key">"priority_label"</span>: <span class="str">"High — Post-FOMO"</span>,
+
+  <span class="key">"draft"</span>: {
+    <span class="key">"version"</span>: <span class="num">2</span>,
+    <span class="key">"model"</span>: <span class="str">"gpt-4o-2025-08-06"</span>,
+    <span class="key">"subject"</span>: <span class="str">"How a laundry brand drove 34% incremental lift"</span>,
+    <span class="key">"body"</span>: <span class="str">"Hi {{first_name}},\n\nWith Henkel expanding..."</span>,
+    <span class="key">"preview_text"</span>: <span class="str">"A leading laundry brand just saw 34% incremental lift..."</span>,
+    <span class="key">"followup_drafts"</span>: [
+      { <span class="key">"step"</span>: <span class="num">2</span>, <span class="key">"delay_days"</span>: <span class="num">3</span>, <span class="key">"subject"</span>: <span class="str">"Re: How a laundry brand..."</span> },
+      { <span class="key">"step"</span>: <span class="num">3</span>, <span class="key">"delay_days"</span>: <span class="num">5</span>, <span class="key">"subject"</span>: <span class="str">"Quick question, {{first_name}}"</span> }
+    ],
+    <span class="key">"guardrail_checks"</span>: {
+      <span class="key">"no_dollar_amounts"</span>: <span class="str">"pass"</span>,
+      <span class="key">"no_brand_names"</span>: <span class="str">"pass"</span>,
+      <span class="key">"length_check"</span>: <span class="str">"pass"</span>
+    }
+  },
+
+  <span class="key">"contacts"</span>: [
+    {
+      <span class="key">"hubspot_id"</span>: <span class="str">"12345678"</span>,
+      <span class="key">"name"</span>: <span class="str">"Ellen Smith"</span>,
+      <span class="key">"title"</span>: <span class="str">"Brand Manager, Persil"</span>,
+      <span class="key">"company"</span>: <span class="str">"Henkel"</span>,
+      <span class="key">"email_status"</span>: <span class="str">"verified"</span>,
+      <span class="key">"channel_routing"</span>: <span class="str">"multi_channel"</span>,
+      <span class="key">"in_active_sequence"</span>: <span class="kw">false</span>
+    }
+  ],
+  <span class="key">"contact_count"</span>: <span class="num">14</span>,
+
+  <span class="key">"assigned_rep"</span>: {
+    <span class="key">"name"</span>: <span class="str">"Jack Shannon"</span>,
+    <span class="key">"slack_id"</span>: <span class="str">"U06FDAS93"</span>
+  },
+
+  <span class="key">"status"</span>: <span class="str">"queued"</span>,
+  <span class="key">"hubspot_custom_object_id"</span>: <span class="str">"hs_ps_987654"</span>,
+  <span class="key">"auto_dismiss_at"</span>: <span class="str">"2026-04-02T09:00:00Z"</span>
+}</code></pre>
+    </div>
+  </details>
+
+  <details>
+    <summary>HubSpot Custom Object Properties — "Potential Send"</summary>
+    <div class="detail-body">
+      <div class="table-wrap">
+        <table>
+          <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+          <tr><td><code>potential_send_id</code></td><td>Text</td><td>Links to Firestore doc</td></tr>
+          <tr><td><code>trigger_type</code></td><td>Dropdown</td><td>campaign_complete, new_supply, rss, linkedin_post, job_change, quarterly_recap, evergreen, conference</td></tr>
+          <tr><td><code>sequence_type</code></td><td>Dropdown</td><td>case_study, sales_enablement, evergreen, conference</td></tr>
+          <tr><td><code>priority</code></td><td>Number</td><td>1 (highest) to 4</td></tr>
+          <tr><td><code>status</code></td><td>Dropdown</td><td>queued, reviewed, approved, sent, dismissed</td></tr>
+          <tr><td><code>email_subject</code></td><td>Text</td><td>Draft subject line</td></tr>
+          <tr><td><code>email_body</code></td><td>Rich text</td><td>Draft body (editable by rep)</td></tr>
+          <tr><td><code>contact_count</code></td><td>Number</td><td>How many contacts in this send</td></tr>
+          <tr><td><code>channel_routing</code></td><td>Text</td><td>"10 email, 3 LinkedIn, 1 multi-channel"</td></tr>
+          <tr><td><code>assigned_rep</code></td><td>Owner</td><td>Which rep reviews this</td></tr>
+          <tr><td><code>auto_dismiss_date</code></td><td>DateTime</td><td>14 days after creation</td></tr>
+          <tr><td colspan="3" style="color: var(--text-muted); font-style: italic;">Associations: linked to Contact records (many-to-one)</td></tr>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Multi-Channel Orchestration State — Firestore Document</summary>
+    <div class="detail-body">
+      <pre><code>{
+  <span class="key">"contact_id"</span>: <span class="str">"hs_12345678"</span>,
+  <span class="key">"potential_send_id"</span>: <span class="str">"ps_abc123"</span>,
+  <span class="key">"channels"</span>: {
+    <span class="key">"smartlead"</span>: {
+      <span class="key">"campaign_id"</span>: <span class="str">"sl_12345"</span>,
+      <span class="key">"status"</span>: <span class="str">"active"</span>,
+      <span class="key">"emails_sent"</span>: <span class="num">1</span>,
+      <span class="key">"last_event"</span>: <span class="str">"opened"</span>
+    },
+    <span class="key">"heyreach"</span>: {
+      <span class="key">"campaign_id"</span>: <span class="str">"camp_abc123"</span>,
+      <span class="key">"status"</span>: <span class="str">"waiting_accept"</span>
+    },
+    <span class="key">"hubspot"</span>: <span class="kw">null</span>
+  },
+  <span class="key">"orchestration"</span>: {
+    <span class="key">"cadence_template"</span>: <span class="str">"multi_channel_standard"</span>,
+    <span class="key">"current_step"</span>: <span class="num">2</span>,
+    <span class="key">"next_step_at"</span>: <span class="str">"2026-03-22T10:00:00Z"</span>,
+    <span class="key">"paused"</span>: <span class="kw">false</span>
+  }
+}</code></pre>
+    </div>
+  </details>
+
+  <h3>Draft Versioning</h3>
+  <div class="card">
+    <p>All draft versions are stored in Firestore. HubSpot always shows the latest. When a rep edits in HubSpot, a webhook fires to update Firestore.</p>
+    <pre><code>Draft v1 → AI generates initial draft
+Draft v2 → Auto-revision if guardrail check fails
+Draft v3 → Rep edits in HubSpot (manual)
+Draft v4 → Rep makes final tweaks
+→ Status: "approved" → version locked, sent to SmartLead/HubSpot</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 5. INTEGRATION DETAILS ═══════════════════════ -->
+<section class="section" id="integrations">
+  <div class="section-label">Section 05</div>
+  <h2>Integration Details</h2>
+
+  <p>Every external system, every API call, every webhook. No hand-waving.</p>
+
+  <h3>API Feasibility Summary</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tool</th><th>Status</th><th>Key Capabilities</th></tr>
+      <tr><td>HubSpot</td><td><span class="badge badge-ok">✅ STRONG</span></td><td>150 req/sec, batch ops, custom objects, engagement tracking, workflow automation</td></tr>
+      <tr><td>SmartLead</td><td><span class="badge badge-ok">✅ STRONG</span></td><td>Full campaign API: create, enroll, sequence, webhooks for replies/opens/bounces. 60 req/min</td></tr>
+      <tr><td>Heyreach</td><td><span class="badge badge-ok">✅ GOOD</span></td><td>Add leads, toggle campaigns, get conversations. 20+ webhook events. MCP server available</td></tr>
+      <tr><td>Clay</td><td><span class="badge badge-warn">⚠️ MODERATE</span></td><td>Workflow tool (not REST API). Webhook triggers IN, HTTP actions OUT. 75+ data providers</td></tr>
+      <tr><td>NeverBounce</td><td><span class="badge badge-ok">✅ SIMPLE</span></td><td>Single + bulk verification. $0.008/email. No rate limit concerns</td></tr>
+      <tr><td>LinkedIn Sales Nav</td><td><span class="badge badge-red">❌ NO API</span></td><td>Enterprise-only SNAP API for CRM embedding. Must use Clay as intermediary</td></tr>
+    </table>
+  </div>
+
+  <!-- SmartLead -->
+  <h3>SmartLead — Cold Email Path</h3>
+  <p>For net-new contacts who have never interacted with Recess. Uses warmed burner email domains to protect the company domain.</p>
+
+  <div class="mermaid">
+sequenceDiagram
+    participant T as Trigger Engine
+    participant AI as GPT-4o (Cloud Run)
+    participant FS as Firestore
+    participant HS as HubSpot
+    participant SL as Slack
+    participant REP as Sales Rep
+    participant SM as SmartLead
+
+    T->>AI: Trigger fires (campaign complete, etc.)
+    AI->>FS: Store draft + metadata
+    FS->>HS: Sync: Create "Potential Send" custom object
+    FS->>SL: Notify rep via Slack
+
+    REP->>HS: Reviews draft in HubSpot
+    REP->>HS: Clicks "Approve & Send"
+    HS->>FS: Status update: approved (webhook)
+
+    Note over FS,SM: Orchestrator takes over
+
+    FS->>SM: Step 1: Create campaign
+    SM-->>FS: Returns campaign_id
+    FS->>SM: Step 2: Add leads
+    FS->>SM: Step 3: Set email sequence
+    FS->>SM: Step 4: Start campaign
+
+    SM->>FS: Webhook: reply received
+    FS->>HS: Log reply + update deal
+    FS->>SL: Notify rep: "Reply from Ellen!"
+    FS->>SM: Pause sequence for contact
+  </div>
+
+  <details>
+    <summary>SmartLead API Calls — Full Sequence</summary>
+    <div class="detail-body">
+      <h4>Step 1: Create Campaign</h4>
+      <pre><code><span class="kw">POST</span> https://server.smartlead.ai/api/v1/campaigns/create
+<span class="cm">Content-Type: application/json</span>
+<span class="cm">Authorization: Bearer {SMARTLEAD_API_KEY}</span>
+
+{
+  <span class="key">"name"</span>: <span class="str">"Case Study — Laundry Category — Mar 2026"</span>,
+  <span class="key">"track_settings"</span>: {
+    <span class="key">"track_opens"</span>: <span class="kw">true</span>,
+    <span class="key">"track_link_clicks"</span>: <span class="kw">true</span>
+  }
+}
+<span class="cm">// Response: { "id": 12345, "status": "DRAFTED" }</span></code></pre>
+
+      <h4>Step 2: Add Leads</h4>
+      <pre><code><span class="kw">POST</span> https://server.smartlead.ai/api/v1/campaigns/{campaign_id}/leads
+
+{
+  <span class="key">"lead_list"</span>: [
+    {
+      <span class="key">"email"</span>: <span class="str">"ellen.smith@henkel.com"</span>,
+      <span class="key">"first_name"</span>: <span class="str">"Ellen"</span>,
+      <span class="key">"last_name"</span>: <span class="str">"Smith"</span>,
+      <span class="key">"company"</span>: <span class="str">"Henkel"</span>,
+      <span class="key">"custom_fields"</span>: {
+        <span class="key">"title"</span>: <span class="str">"Brand Manager, Persil"</span>,
+        <span class="key">"hubspot_contact_id"</span>: <span class="str">"12345678"</span>
+      }
+    }
+  ],
+  <span class="key">"settings"</span>: {
+    <span class="key">"ignore_global_block_list"</span>: <span class="kw">false</span>,
+    <span class="key">"ignore_community_bounce_list"</span>: <span class="kw">false</span>
+  }
+}</code></pre>
+
+      <h4>Step 3: Set Email Sequence</h4>
+      <pre><code><span class="kw">POST</span> https://server.smartlead.ai/api/v1/campaigns/{campaign_id}/sequences
+
+{
+  <span class="key">"sequences"</span>: [
+    {
+      <span class="key">"seq_number"</span>: <span class="num">1</span>,
+      <span class="key">"seq_delay_details"</span>: { <span class="key">"delay_in_days"</span>: <span class="num">0</span> },
+      <span class="key">"subject"</span>: <span class="str">"How a laundry brand drove 34% incremental lift"</span>,
+      <span class="key">"email_body"</span>: <span class="str">"&lt;p&gt;Hi {{first_name}},&lt;/p&gt;..."</span>
+    },
+    {
+      <span class="key">"seq_number"</span>: <span class="num">2</span>,
+      <span class="key">"seq_delay_details"</span>: { <span class="key">"delay_in_days"</span>: <span class="num">3</span> },
+      <span class="key">"subject"</span>: <span class="str">"Re: How a laundry brand drove 34% incremental lift"</span>,
+      <span class="key">"email_body"</span>: <span class="str">"&lt;p&gt;Hi {{first_name}}, just circling back...&lt;/p&gt;"</span>
+    },
+    {
+      <span class="key">"seq_number"</span>: <span class="num">3</span>,
+      <span class="key">"seq_delay_details"</span>: { <span class="key">"delay_in_days"</span>: <span class="num">5</span> },
+      <span class="key">"subject"</span>: <span class="str">"Quick question, {{first_name}}"</span>,
+      <span class="key">"email_body"</span>: <span class="str">"&lt;p&gt;Hi {{first_name}}, I know you're busy...&lt;/p&gt;"</span>
+    }
+  ]
+}</code></pre>
+
+      <h4>Step 4: Configure Sending Accounts</h4>
+      <pre><code><span class="kw">POST</span> https://server.smartlead.ai/api/v1/campaigns/{campaign_id}/email-accounts
+
+{
+  <span class="key">"email_account_ids"</span>: [<span class="num">101</span>, <span class="num">102</span>, <span class="num">103</span>]
+  <span class="cm">// Pre-warmed: jack@outreach1.recesspartners.com, etc.</span>
+}</code></pre>
+
+      <h4>Step 5: Start Campaign</h4>
+      <pre><code><span class="kw">POST</span> https://server.smartlead.ai/api/v1/campaigns/{campaign_id}/schedule
+
+{
+  <span class="key">"schedule"</span>: {
+    <span class="key">"timezone"</span>: <span class="str">"America/Denver"</span>,
+    <span class="key">"days_of_the_week"</span>: [<span class="num">1, 2, 3, 4, 5</span>],
+    <span class="key">"start_hour"</span>: <span class="str">"08:00"</span>,
+    <span class="key">"end_hour"</span>: <span class="str">"17:00"</span>,
+    <span class="key">"min_time_btw_emails"</span>: <span class="num">5</span>,
+    <span class="key">"max_new_leads_per_day"</span>: <span class="num">30</span>
+  }
+}</code></pre>
+
+      <h4>Webhook Handler — Reply Received</h4>
+      <pre><code><span class="cm">// Incoming from SmartLead:</span>
+<span class="kw">POST</span> https://ai-outbound-orchestrator-xxxxx.run.app/webhooks/smartlead
+
+{
+  <span class="key">"event_type"</span>: <span class="str">"REPLY"</span>,
+  <span class="key">"campaign_id"</span>: <span class="num">12345</span>,
+  <span class="key">"lead"</span>: {
+    <span class="key">"email"</span>: <span class="str">"ellen.smith@henkel.com"</span>,
+    <span class="key">"custom_fields"</span>: { <span class="key">"hubspot_contact_id"</span>: <span class="str">"12345678"</span> }
+  },
+  <span class="key">"reply_body"</span>: <span class="str">"Hi Jack, yes I'd love to see the case study..."</span>,
+  <span class="key">"timestamp"</span>: <span class="str">"2026-03-20T14:30:00Z"</span>
+}
+
+<span class="cm">// Our handler then:
+// 1. Pauses the sequence for this contact in SmartLead
+// 2. Logs the reply as an engagement in HubSpot
+// 3. Sends a Slack notification to the rep
+// 4. If multi-channel is active, pauses LinkedIn in Heyreach too</span></code></pre>
+    </div>
+  </details>
+
+  <!-- HubSpot Warm Path -->
+  <h3>HubSpot — Warm/Existing Contact Path</h3>
+  <p>For contacts Recess already has a relationship with. Uses real company email addresses via HubSpot Sequences.</p>
+
+  <details>
+    <summary>HubSpot Sequence Enrollment API</summary>
+    <div class="detail-body">
+      <pre><code><span class="kw">POST</span> https://api.hubapi.com/automation/v4/sequences/{sequence_id}/enrollments
+<span class="cm">Authorization: Bearer {HUBSPOT_API_KEY}</span>
+
+{
+  <span class="key">"contactId"</span>: <span class="str">"12345678"</span>,
+  <span class="key">"userId"</span>: <span class="num">98765</span>,  <span class="cm">// Rep's HubSpot user ID (sends from their email)</span>
+  <span class="key">"stepOverrides"</span>: {
+    <span class="key">"0"</span>: {
+      <span class="key">"subject"</span>: <span class="str">"Quick idea for Always at retail"</span>,
+      <span class="key">"body"</span>: <span class="str">"&lt;p&gt;Hi Maria,&lt;/p&gt;&lt;p&gt;P&amp;G's last earnings call emphasized...&lt;/p&gt;"</span>
+    }
+  }
+}</code></pre>
+      <p style="margin-top: 0.75rem; color: var(--text-muted);"><strong>Note:</strong> Requires Sales Hub Professional or Enterprise. The <code>stepOverrides</code> field injects AI-generated copy per-contact.</p>
+    </div>
+  </details>
+
+  <!-- Heyreach -->
+  <h3>Heyreach — LinkedIn Path</h3>
+  <p>For contacts without valid email, or as part of a multi-channel cadence.</p>
+
+  <details>
+    <summary>Heyreach API Calls — Lead Enrollment + Webhooks</summary>
+    <div class="detail-body">
+      <h4>Add Lead to Campaign</h4>
+      <pre><code><span class="kw">POST</span> https://api.heyreach.io/api/public/v2/leads
+<span class="cm">X-API-KEY: {HEYREACH_API_KEY}</span>
+
+{
+  <span class="key">"campaign_id"</span>: <span class="str">"camp_abc123"</span>,
+  <span class="key">"leads"</span>: [
+    {
+      <span class="key">"linkedin_url"</span>: <span class="str">"https://linkedin.com/in/ellen-smith"</span>,
+      <span class="key">"first_name"</span>: <span class="str">"Ellen"</span>,
+      <span class="key">"last_name"</span>: <span class="str">"Smith"</span>,
+      <span class="key">"company"</span>: <span class="str">"Henkel"</span>,
+      <span class="key">"custom_variables"</span>: {
+        <span class="key">"hubspot_id"</span>: <span class="str">"12345678"</span>,
+        <span class="key">"personalized_note"</span>: <span class="str">"Hi Ellen — saw Henkel's recent push into sustainable packaging. Would love to connect."</span>
+      }
+    }
+  ]
+}</code></pre>
+
+      <h4>Webhook — Reply on LinkedIn</h4>
+      <pre><code><span class="kw">POST</span> https://ai-outbound-orchestrator-xxxxx.run.app/webhooks/heyreach
+
+{
+  <span class="key">"event"</span>: <span class="str">"MESSAGE_REPLY"</span>,
+  <span class="key">"campaign_id"</span>: <span class="str">"camp_abc123"</span>,
+  <span class="key">"lead"</span>: {
+    <span class="key">"linkedin_url"</span>: <span class="str">"https://linkedin.com/in/ellen-smith"</span>,
+    <span class="key">"custom_variables"</span>: { <span class="key">"hubspot_id"</span>: <span class="str">"12345678"</span> }
+  },
+  <span class="key">"message"</span>: <span class="str">"Thanks Jack! Yes, let's find time to chat."</span>
+}</code></pre>
+    </div>
+  </details>
+
+  <!-- Channel Routing -->
+  <h3>Cold vs. Warm Routing Logic</h3>
+  <details>
+    <summary>Python — <code>route_contact()</code> Decision Function</summary>
+    <div class="detail-body">
+      <pre><code><span class="kw">def</span> <span class="fn">route_contact</span>(contact: <span class="kw">dict</span>) -> <span class="kw">str</span>:
+    <span class="str">"""Determine send channel for a contact."""</span>
+
+    <span class="cm"># Active customer or open deal → always HubSpot (warm)</span>
+    <span class="kw">if</span> contact.get(<span class="str">'has_open_deal'</span>) <span class="kw">or</span> contact.get(<span class="str">'is_customer'</span>):
+        <span class="kw">return</span> <span class="str">'hubspot_sequence'</span>
+
+    <span class="cm"># Prior engagement in last 90 days → HubSpot (warm)</span>
+    <span class="kw">if</span> contact.get(<span class="str">'last_engagement_date'</span>) <span class="kw">and</span> \
+       days_since(contact[<span class="str">'last_engagement_date'</span>]) < <span class="num">90</span>:
+        <span class="kw">return</span> <span class="str">'hubspot_sequence'</span>
+
+    <span class="cm"># No valid email → LinkedIn only</span>
+    <span class="kw">if</span> contact.get(<span class="str">'email_status'</span>) != <span class="str">'verified'</span>:
+        <span class="kw">return</span> <span class="str">'heyreach_linkedin'</span>
+
+    <span class="cm"># Default: cold via SmartLead</span>
+    <span class="kw">return</span> <span class="str">'smartlead_cold'</span></code></pre>
+    </div>
+  </details>
+
+  <!-- Multi-Channel State Machine -->
+  <h3>Multi-Channel State Machine</h3>
+  <p>When a contact has both email and LinkedIn, the orchestrator runs a coordinated cadence:</p>
+
+  <div class="mermaid">
+stateDiagram-v2
+    [*] --> Queued: Draft approved
+
+    Queued --> LinkedIn_Connect: Day 1
+    LinkedIn_Connect --> Waiting_Accept: Request sent
+
+    Waiting_Accept --> Email_1: Day 3
+    Waiting_Accept --> Connected: Accept received
+
+    Connected --> LinkedIn_Message: Day 5
+    Email_1 --> Email_2: Day 6 (no reply)
+
+    LinkedIn_Message --> Replied: Reply on LinkedIn
+    Email_1 --> Replied: Reply on email
+    Email_2 --> Replied: Reply on email
+
+    Email_2 --> LinkedIn_Message_2: Day 8
+    LinkedIn_Message_2 --> Email_3: Day 11
+    Email_3 --> Completed: Sequence done
+
+    Replied --> All_Paused: Pause all channels
+    All_Paused --> Rep_Followup: Rep takes over
+  </div>
+
+  <details>
+    <summary>Cross-Channel Pause Logic — Python</summary>
+    <div class="detail-body">
+      <pre><code><span class="kw">async def</span> <span class="fn">handle_reply</span>(contact_id: <span class="kw">str</span>, channel: <span class="kw">str</span>, reply_data: <span class="kw">dict</span>):
+    <span class="str">"""Reply on one channel → pause all others immediately."""</span>
+
+    state = <span class="kw">await</span> firestore.get(<span class="str">f"orchestration/{contact_id}"</span>)
+
+    <span class="cm"># 1. Pause SmartLead if active</span>
+    <span class="kw">if</span> state[<span class="str">'channels'</span>][<span class="str">'smartlead'</span>] <span class="kw">and</span> \
+       state[<span class="str">'channels'</span>][<span class="str">'smartlead'</span>][<span class="str">'status'</span>] == <span class="str">'active'</span>:
+        <span class="kw">await</span> smartlead.pause_lead(
+            campaign_id=state[<span class="str">'channels'</span>][<span class="str">'smartlead'</span>][<span class="str">'campaign_id'</span>],
+            lead_id=state[<span class="str">'channels'</span>][<span class="str">'smartlead'</span>][<span class="str">'lead_id'</span>]
+        )
+
+    <span class="cm"># 2. Pause Heyreach if active</span>
+    <span class="kw">if</span> state[<span class="str">'channels'</span>][<span class="str">'heyreach'</span>] <span class="kw">and</span> \
+       state[<span class="str">'channels'</span>][<span class="str">'heyreach'</span>][<span class="str">'status'</span>] <span class="kw">in</span> (<span class="str">'active'</span>, <span class="str">'waiting_accept'</span>):
+        <span class="kw">await</span> heyreach.toggle_lead(action=<span class="str">'pause'</span>)
+
+    <span class="cm"># 3. Update HubSpot</span>
+    <span class="kw">await</span> hubspot.update_contact(contact_id, {
+        <span class="str">'outbound_status'</span>: <span class="str">'Replied'</span>,
+        <span class="str">'outbound_reply_channel'</span>: channel,
+        <span class="str">'outbound_reply_date'</span>: datetime.utcnow().isoformat()
+    })
+
+    <span class="cm"># 4. Notify rep</span>
+    <span class="kw">await</span> slack.send_message(
+        channel=state[<span class="str">'rep_slack_id'</span>],
+        text=<span class="str">f"🎉 Reply from {state['contact_name']} via {channel}!"</span>
+    )</code></pre>
+    </div>
+  </details>
+
+  <h3>Complete API Reference</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>System</th><th>Endpoint</th><th>Used For</th><th>Rate Limit</th></tr>
+      <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/contacts</code></td><td>Create/update contacts</td><td>150/sec</td></tr>
+      <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/{custom_object}</code></td><td>Create Potential Send records</td><td>150/sec</td></tr>
+      <tr><td>HubSpot</td><td><code>POST /automation/v4/sequences/{id}/enrollments</code></td><td>Enroll in warm sequences</td><td>100/day/seq</td></tr>
+      <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/emails</code></td><td>Log email activities</td><td>150/sec</td></tr>
+      <tr><td>SmartLead</td><td><code>POST /api/v1/campaigns/create</code></td><td>Create cold campaigns</td><td>60/min</td></tr>
+      <tr><td>SmartLead</td><td><code>POST /api/v1/campaigns/{id}/leads</code></td><td>Add contacts to campaign</td><td>60/min</td></tr>
+      <tr><td>SmartLead</td><td><code>POST /api/v1/campaigns/{id}/sequences</code></td><td>Set email content</td><td>60/min</td></tr>
+      <tr><td>SmartLead</td><td><code>POST /api/v1/campaigns/{id}/schedule</code></td><td>Start sending</td><td>60/min</td></tr>
+      <tr><td>Heyreach</td><td><code>POST /api/public/v2/leads</code></td><td>Add leads to LinkedIn campaign</td><td>TBD</td></tr>
+      <tr><td>Heyreach</td><td><code>GET /api/public/v2/conversations</code></td><td>Pull LinkedIn messages</td><td>TBD</td></tr>
+      <tr><td>Heyreach</td><td><code>POST /api/public/v2/network/sender</code></td><td>Mutual connections (Champion)</td><td>TBD</td></tr>
+      <tr><td>OpenAI</td><td><code>POST /v1/chat/completions</code></td><td>Generate email drafts</td><td>10K RPM (T4)</td></tr>
+      <tr><td>NeverBounce</td><td><code>POST /v4/single/check</code></td><td>Verify email addresses</td><td>100K/day</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 6. CONTENT/COPY GENERATION ═══════════════════════ -->
+<section class="section" id="content-engine">
+  <div class="section-label">Section 06</div>
+  <h2>Content &amp; Copy Generation Engine</h2>
+
+  <h3>The AI Model</h3>
+  <div class="card card-highlight">
+    <p><strong>Primary: OpenAI GPT-4o</strong> (via API, not ChatGPT UI)</p>
+    <ul style="margin-top: 0.75rem;">
+      <li><strong>Best-in-class for sales copy</strong> — consistently produces natural, non-robotic email language</li>
+      <li><strong>128K context window</strong> — full campaign data + contact profile + prior emails + brand research in one call</li>
+      <li><strong>Function calling</strong> — structured JSON output for template fields (subject, body, CTA)</li>
+      <li><strong>Cost:</strong> ~$2.50/1M input tokens, ~$10/1M output → <strong>~$0.02–0.08 per email draft</strong></li>
+      <li><strong>Latency:</strong> 2–5 seconds per draft, acceptable for async queue-based generation</li>
+    </ul>
+    <p style="margin-top: 0.75rem;"><strong>Fallback: Anthropic Claude 3.5 Sonnet</strong> — used if GPT-4o is rate-limited or down.</p>
+  </div>
+
+  <details>
+    <summary>Core API Call Pattern</summary>
+    <div class="detail-body">
+      <pre><code><span class="kw">import</span> openai
+
+client = openai.OpenAI(api_key=os.environ[<span class="str">"OPENAI_API_KEY"</span>])
+
+response = client.chat.completions.create(
+    model=<span class="str">"gpt-4o"</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: SYSTEM_PROMPT},  <span class="cm"># Voice + guardrails</span>
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: draft_prompt}       <span class="cm"># Data + template</span>
+    ],
+    response_format={<span class="str">"type"</span>: <span class="str">"json_object"</span>},
+    temperature=<span class="num">0.7</span>,
+)
+
+draft = json.loads(response.choices[<span class="num">0</span>].message.content)
+<span class="cm"># Returns: { "subject": "...", "body": "...", "preview_text": "..." }</span></code></pre>
+    </div>
+  </details>
+
+  <h3>Email Types &amp; Data Sources</h3>
+  <p>Every email draft is generated from a <strong>prompt payload</strong> — a structured bundle of data injected into the prompt template. Five distinct types:</p>
+
+  <!-- Case Study -->
+  <details>
+    <summary>📊 Case Study Emails — Prompt Template &amp; Example Output</summary>
+    <div class="detail-body">
+      <p><strong>Trigger:</strong> Campaign completes in BigQuery (<code>status = 'completed'</code>, has metrics)</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Data</th><th>Source</th></tr>
+          <tr><td>Campaign performance</td><td>BigQuery <code>campaign_results</code></td></tr>
+          <tr><td>Target contacts</td><td>HubSpot CRM — competitors in same <code>brand_category</code></td></tr>
+          <tr><td>Contact's company context</td><td>HubSpot + BigQuery — deals, prior campaigns</td></tr>
+          <tr><td>Rep's voice samples</td><td>HubSpot <code>engagements</code> API — last 20 sent emails</td></tr>
+        </table>
+      </div>
+
+      <h4>Prompt Template</h4>
+      <pre><code><span class="cm">SYSTEM PROMPT:</span>
+You are a sales copywriter for Recess, a digital commerce and experiential
+marketing company. Write a cold outbound email using a blinded case study.
+
+<span class="cm">RULES:</span>
+- NEVER use the actual brand name. Use "[leading {category} brand]" instead
+- NEVER include specific dollar amounts or revenue figures
+- DO include percentage lifts, ROAS multiples, engagement metrics
+- Keep subject line under 50 characters
+- Email body under 150 words
+- End with a single clear CTA (meeting request)
+- Match the writing style of the VOICE SAMPLES provided
+
+<span class="cm">USER PROMPT:</span>
+Generate a case study outreach email using this data:
+
+CAMPAIGN DATA:
+- Category: {category}
+- Channel: {channel_type}
+- Key metrics: {incremental_sales_lift}% lift, {roas}x ROAS, {impressions} impr.
+
+RECIPIENT:
+- Name: {first_name} {last_name}, {title} at {company}
+- Brand Category: {brand_category}
+
+TEMPLATE: Personalized insight → Bridge → Blinded proof point → CTA
+
+Return JSON: {"subject": "...", "body": "...", "preview_text": "..."}</code></pre>
+
+      <h4>Example Output</h4>
+      <pre><code>{
+  <span class="key">"subject"</span>: <span class="str">"How a laundry brand drove 34% incremental lift"</span>,
+  <span class="key">"body"</span>: <span class="str">"Hi Ellen,\n\nWith Henkel expanding Persil's retail footprint this year, I imagine driving trial at shelf is top of mind — especially against the private label surge in laundry.\n\nA leading laundry brand recently partnered with us on an in-store sampling + digital program that delivered a 34% incremental sales lift and 4.2x ROAS across 1,200 retail locations.\n\nRecess designs commerce and experiential programs that connect brands to shoppers at the point of decision.\n\nWould it make sense to share the full case study? Happy to walk through it in 15 minutes.\n\nBest,\nJack"</span>,
+  <span class="key">"preview_text"</span>: <span class="str">"A leading laundry brand just saw 34% incremental lift..."</span>
+}</code></pre>
+    </div>
+  </details>
+
+  <!-- Sales Enablement -->
+  <details>
+    <summary>🎪 Sales Enablement Emails — Prompt Template &amp; Example Output</summary>
+    <div class="detail-body">
+      <p><strong>Trigger:</strong> Manual from rep — <code>/outbound [description]</code></p>
+      <pre><code><span class="cm">SYSTEM PROMPT:</span>
+You are writing a sales enablement email for a specific supply opportunity.
+The angle is PRE-FOMO: "A competitor might book this before you."
+
+<span class="cm">RULES:</span>
+- Be specific about the opportunity (retailer, event, timing)
+- Personalize by contact's brand/category
+- Keep under 120 words, match VOICE SAMPLES
+
+<span class="cm">USER PROMPT:</span>
+OPPORTUNITY: {opportunity_description}
+RECIPIENT: {first_name} {last_name}, {title} at {company}
+PRIOR CAMPAIGNS IN CATEGORY (proof points): {recent_campaigns_summary}
+
+Return JSON: {"subject": "...", "body": "...", "preview_text": "..."}</code></pre>
+
+      <h4>Example Output</h4>
+      <pre><code>{
+  <span class="key">"subject"</span>: <span class="str">"Six Flags Halloween — candy sampling across 15 parks"</span>,
+  <span class="key">"body"</span>: <span class="str">"Hi Sarah,\n\nRecess is building out the candy and snack sampling program for Six Flags' Halloween events across 15 parks this fall. Given Haribo's push into seasonal occasions, I thought this could be a strong fit.\n\nLast year we ran a similar activation for a leading gummy brand that drove 28% trial-to-purchase conversion — and the retailer is already on board for co-promotion.\n\nSpots are filling by category. Would it be worth a 10-minute call to see if this aligns with your fall plans?\n\nBest,\nJack"</span>
+}</code></pre>
+    </div>
+  </details>
+
+  <!-- Evergreen -->
+  <details>
+    <summary>🌿 Evergreen Emails — Research Agent + Draft Agent</summary>
+    <div class="detail-body">
+      <p><strong>Trigger:</strong> Weekly batch or on-demand. <strong>Most data-intensive type</strong> — runs a research agent step before drafting.</p>
+
+      <pre><code><span class="cm">STEP 1 — Research Agent (GPT-4o with web search tool):</span>
+"Research {brand} at {company}. Find:
+ - Most recent earnings highlights related to {brand_category}
+ - Category trends (private label impact, market share shifts)
+ - Recent product launches or innovation
+ - Competitive dynamics
+ Return a structured research brief."
+
+<span class="cm">STEP 2 — Draft Agent (GPT-4o):</span>
+Uses the research brief + contact data + Recess case studies
+Following: Personalized insight (from research) → Bridge to Recess
+→ Positioning → Blinded proof point → CTA</code></pre>
+
+      <h4>Example Output</h4>
+      <pre><code>{
+  <span class="key">"subject"</span>: <span class="str">"Private label pressure on feminine care + an idea"</span>,
+  <span class="key">"body"</span>: <span class="str">"Hi Maria,\n\nP&G's last earnings call emphasized household penetration as the #1 priority for Always — and with private label gaining 3.2 points of share in feminine care this year, I imagine driving trial and loyalty at retail is front and center.\n\nI believe Recess can help. We design in-store and experiential programs that drive measurable conversion at the point of purchase.\n\nA leading carbonated soft drink brand recently ran a program with us that delivered 22% incremental sales lift and a 3.8x ROAS — a similar approach could work well for Always at key retailers.\n\nWould a 15-minute call make sense to explore this?\n\nBest,\nJack"</span>
+}</code></pre>
+    </div>
+  </details>
+
+  <!-- Signal-Based -->
+  <details>
+    <summary>📡 Signal-Based Emails — Job Change / RSS / LinkedIn Post</summary>
+    <div class="detail-body">
+      <p><strong>Trigger:</strong> Automated detection via Clay (job changes), RSS polling (news), or Heyreach/Clay (LinkedIn posts)</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Signal</th><th>Source</th><th>Data Captured</th></tr>
+          <tr><td>Job change</td><td>Clay workflow → webhook</td><td>New title, company, start date, previous role</td></tr>
+          <tr><td>RSS news</td><td>RSS feed polling (Cloud Run cron)</td><td>Article title, URL, summary, matched company</td></tr>
+          <tr><td>LinkedIn post</td><td>Clay/Heyreach monitoring</td><td>Post content, engagement metrics, topic</td></tr>
+        </table>
+      </div>
+
+      <h4>Job Change Prompt</h4>
+      <pre><code><span class="cm">TONE: Warm, congratulatory, low-pressure. Relationship-building, not a hard sell.
+CTA: "grab coffee" or "catch up" — not "book a demo."</span>
+
+SIGNAL:
+- {first_name} just started as {new_title} at {new_company}
+- Previously: {old_title} at {old_company}
+
+RECESS CONTEXT:
+- We work with several brands in {brand_category}
+- Relevant case study: {blinded_case_study_one_liner}
+
+Return JSON: {"subject": "...", "body": "...", "preview_text": "..."}</code></pre>
+    </div>
+  </details>
+
+  <!-- Voice Matching -->
+  <h3>Voice Matching — How It Works</h3>
+  <div class="card">
+    <ol>
+      <li><strong>Data collection:</strong> Pull rep's last 20–30 sent emails from HubSpot Engagements API<br>
+        <code>GET /crm/v3/objects/emails?filter=hs_email_direction=SENT&hubspot_owner_id={rep_id}&limit=30</code></li>
+      <li><strong>Style extraction:</strong> GPT-4o one-time "voice analysis" prompt:<br>
+        <em>"Analyze these 20 emails. Extract: greeting style, sentence length tendency, sign-off preference, humor level, common phrases. Return a 100-word style guide."</em></li>
+      <li><strong>Caching:</strong> Style guide stored in Firestore (keyed by <code>rep_id</code>), refreshed monthly or after 10+ new emails</li>
+      <li><strong>Injection:</strong> Style guide + 3–5 raw email samples included in every draft prompt as <code>VOICE SAMPLES</code></li>
+    </ol>
+    <p style="margin-top: 0.5rem;"><strong>Cost:</strong> ~$0.03 for initial analysis. $0 ongoing (cached).</p>
+  </div>
+
+  <!-- Guardrails -->
+  <h3>Quality Guardrails</h3>
+  <p>Enforced <strong>before</strong> any draft reaches a human:</p>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Guardrail</th><th>Enforcement</th></tr>
+      <tr><td>No dollar amounts</td><td>Post-generation regex: <code>/\$[\d,.]+/</code> → auto-redact and re-prompt</td></tr>
+      <tr><td>No brand names in case studies</td><td>Prompt instruction + post-scan against blocklist from BigQuery <code>brand_names</code></td></tr>
+      <tr><td>AI content disclaimer</td><td>Tagged <code>ai_generated: true</code> in HubSpot. Slack shows "🤖 AI Draft — review before sending"</td></tr>
+      <tr><td>No competitor disparagement</td><td>Prompt instruction: "Never disparage competitors by name"</td></tr>
+      <tr><td>Length limits</td><td>Subject &lt; 60 chars, body &lt; 200 words. Re-prompt if exceeded.</td></tr>
+      <tr><td>Email verification gate</td><td>Won't generate for contacts with <code>email_status != 'verified'</code></td></tr>
+      <tr><td>Active customer protection</td><td>Open deal contacts flagged → warm messaging, not cold outreach</td></tr>
+      <tr><td>Sequence conflict check</td><td>Already enrolled in active sequence → queue is held</td></tr>
+    </table>
+  </div>
+
+  <details>
+    <summary>Python — Draft Validation Function</summary>
+    <div class="detail-body">
+      <pre><code><span class="kw">def</span> <span class="fn">validate_draft</span>(draft: <span class="kw">dict</span>, contact: <span class="kw">dict</span>, campaign: <span class="kw">dict</span>) -> <span class="kw">tuple</span>[<span class="kw">bool</span>, <span class="kw">list</span>[<span class="kw">str</span>]]:
+    <span class="str">"""Post-generation validation. Returns (is_valid, issues)."""</span>
+    issues = []
+
+    <span class="cm"># No dollar amounts</span>
+    <span class="kw">if</span> re.search(<span class="str">r'\$[\d,.]+</span>', draft[<span class="str">'body'</span>]):
+        issues.append(<span class="str">"DOLLAR_AMOUNT_DETECTED"</span>)
+
+    <span class="cm"># No real brand names in case study emails</span>
+    <span class="kw">if</span> campaign.get(<span class="str">'type'</span>) == <span class="str">'case_study'</span>:
+        <span class="kw">for</span> brand <span class="kw">in</span> BRAND_BLOCKLIST:
+            <span class="kw">if</span> brand.lower() <span class="kw">in</span> draft[<span class="str">'body'</span>].lower():
+                issues.append(<span class="str">f"BRAND_NAME_LEAKED: {brand}"</span>)
+
+    <span class="cm"># Length checks</span>
+    <span class="kw">if</span> len(draft[<span class="str">'subject'</span>]) > <span class="num">60</span>:
+        issues.append(<span class="str">"SUBJECT_TOO_LONG"</span>)
+    <span class="kw">if</span> len(draft[<span class="str">'body'</span>].split()) > <span class="num">200</span>:
+        issues.append(<span class="str">"BODY_TOO_LONG"</span>)
+
+    <span class="cm"># Contact eligibility</span>
+    <span class="kw">if</span> contact.get(<span class="str">'email_status'</span>) != <span class="str">'verified'</span>:
+        issues.append(<span class="str">"EMAIL_NOT_VERIFIED"</span>)
+
+    <span class="kw">return</span> (len(issues) == <span class="num">0</span>, issues)</code></pre>
+      <p style="margin-top: 0.5rem;">If validation fails, the system auto-retries (up to 2 re-prompts) with specific issues flagged. If still fails → queued with warning flag for manual review.</p>
+    </div>
+  </details>
+
+  <h3>Draft Storage &amp; Flow</h3>
+  <div class="mermaid">
+graph LR
+    AI["GPT-4o generates draft"] --> FS["Google Firestore<br/>Draft DB"]
+    FS -->|"Sync"| HSO["HubSpot Custom Object<br/>'Potential Send'"]
+    FS -->|"Notify"| SLACK["Slack Message<br/>with preview + actions"]
+  </div>
+  <p><strong>Primary store: Firestore</strong> (sub-ms reads, real-time listeners, free tier). <strong>Sync to HubSpot</strong> for rep-facing review. <strong>Slack:</strong> notification only — source of truth is Firestore → HubSpot.</p>
+</section>
+
+<!-- ═══════════════════════ 7. PHASED EXECUTION ═══════════════════════ -->
+<section class="section" id="phases">
+  <div class="section-label">Section 07</div>
+  <h2>Phased Execution Plan</h2>
+
+  <div class="callout callout-danger">
+    <strong>🚨 GATE CHECK — Before Any Work Begins:</strong><br>
+    1. <strong>Confirm HubSpot tier</strong> — Enterprise required for custom objects + Sequence API<br>
+    2. <strong>Audit BigQuery campaign data</strong> — Can we auto-generate blinded case studies?<br>
+    3. <strong>Audit Clay account</strong> — Current plan, credit balance, existing workflows<br>
+    <strong>Estimated effort: ~4–6h. Do this first.</strong>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 1: Quick Wins + Data Foundation</div>
+        <div class="tag-list">
+          <span class="badge badge-ok">VISIBLE VALUE IN WEEK 1</span>
+        </div>
+      </div>
+      <div class="phase-meta">35–45h · Weeks 1–4</div>
+    </div>
+    <div class="phase-body">
+      <p><em>Two tracks in parallel: reps see value immediately while data infrastructure builds underneath.</em></p>
+
+      <h4>Track A: Rep-Facing Quick Wins (Weeks 1–2)</h4>
+      <ul>
+        <li><strong>"Brief Me [company]" command</strong> — Type in Slack, get a one-pager in 10 seconds. <span class="badge badge-ok">SHIP WEEK 1</span></li>
+        <li><strong>Sponsor Scoop + Partner Pulse</strong> weekly digests — Push-based intelligence in Slack</li>
+        <li><strong>Staleness alerts</strong> — DMs to deal owners when deals go 7+ days without contact</li>
+        <li><strong>"Draft email to [name]"</strong> — Interactive Slack flow, saves 5 min/email × 20 emails/week</li>
+      </ul>
+
+      <h4>Track B: Data Infrastructure (Weeks 1–4)</h4>
+      <ul>
+        <li>BigQuery CRM queries — company, contact, deal, engagement enrichment</li>
+        <li>Company name resolution + alias table (fuzzy matching for "PepsiCo" vs "Frito-Lay")</li>
+        <li>Pre-materialized daily <code>account_intelligence_summary</code> view</li>
+        <li><strong>NeverBounce email verification</strong> — gating deliverable. ~$16/batch</li>
+        <li>AI brand inference prototype — test accuracy on 50 contacts with confidence scoring</li>
+        <li>LinkedIn → HubSpot sync via Clay (semi-automated batch, weekly)</li>
+        <li><strong>BigQuery campaign data audit</strong> — validate for auto case study generation</li>
+      </ul>
+
+      <div class="callout callout-success">
+        <strong>Why this order:</strong> Both reviewers agreed — if reps don't see value in Week 1, they lose faith by Week 6. "Brief Me" and digests require minimal data infrastructure and deliver immediate gratification.
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> "Brief Me" working in Slack. First weekly digest delivered. 90%+ contacts have verified email status. Brand inference accuracy measured. Campaign data feasibility confirmed.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase" style="border-left-color: var(--sea-green);">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 2: Trigger System + Content Engine</div>
+        <div class="tag-list">
+          <span class="badge badge-aqua">FROM PRD</span>
+          <span class="badge badge-green">+ TASK-065</span>
+        </div>
+      </div>
+      <div class="phase-meta">25–30h · Weeks 4–6</div>
+    </div>
+    <div class="phase-body">
+      <p><em>Expand from passive intelligence to proactive opportunity surfacing.</em></p>
+      <ul>
+        <li>Trigger: <strong>Campaign complete</strong> → Slack notification with blinded case study draft + suggested target list</li>
+        <li>Trigger: <strong>Job change detected</strong> → welcome/intro email draft queued</li>
+        <li>Trigger: <strong>RSS news about target account</strong> → contextual Slack alert to deal owner</li>
+        <li>Trigger: <strong>New supply opportunity</strong> → target list + category-personalized drafts</li>
+        <li><strong>Blinded case study generator</strong> — auto-generate from BigQuery campaign data</li>
+        <li>Email draft guardrails — no dollar amounts, disclaimer on all AI content</li>
+        <li>👍/👎 reaction tracking for relevance feedback</li>
+        <li><strong>Start warming burner domains</strong> — 2–4 week lead time required before Phase 4</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> 4+ trigger types actively surfacing. First blinded case study from real data. Reps receiving 3–5 actionable alerts/week. Burner domains warming.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase" style="border-left-color: var(--orange);">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 3: Smart Outreach Prep + Review Queue</div>
+        <div class="tag-list">
+          <span class="badge badge-aqua">FROM PRD</span>
+          <span class="badge badge-orange">HUBSPOT-FIRST</span>
+        </div>
+      </div>
+      <div class="phase-meta">30–40h · Weeks 6–9</div>
+    </div>
+    <div class="phase-body">
+      <p><em>System transitions from intelligence to execution prep. Queue management in HubSpot, not Slack.</em></p>
+      <ul>
+        <li><strong>Natural language → HubSpot target list builder</strong> ("non-chocolate candy brands for Six Flags Halloween")</li>
+        <li><strong>"Potential Send" queue in HubSpot</strong> — custom objects with priority scoring</li>
+        <li>Trigger: <strong>Quarterly category recap</strong> generation</li>
+        <li>Trigger: <strong>LinkedIn post</strong> detection (via Clay/Heyreach)</li>
+        <li><strong>Priority scoring</strong> — Case Study &gt; Sales Enablement &gt; Evergreen &gt; Conference</li>
+        <li><strong>Daily digest batching</strong> — "You have 8 potential sends: 2 high, 4 medium, 2 low"</li>
+        <li>Active customer protection + sequence conflict detection</li>
+        <li><strong>Voice matching</strong> from prior sent emails (moved here per reviewer feedback)</li>
+        <li>Auto-dismiss unreviewed sends after 14 days + rep capacity limits</li>
+        <li>Cleanup/archive workflow — prevent HubSpot views from becoming unusable</li>
+      </ul>
+
+      <div class="callout callout-warn">
+        <strong>Reviewer consensus:</strong> Slack is great for receiving intelligence (~90% adoption). Slack is terrible for managing a queue (~40% adoption). Build the review queue where reps already manage their pipeline — HubSpot.
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> Full trigger system live. Reps reviewing in HubSpot. NL list builder working. 5+ sends processed end-to-end.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase" style="border-left-color: var(--danger);">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 4: Sequence Engine</div>
+        <div class="tag-list">
+          <span class="badge badge-red">HARDEST PHASE</span>
+          <span class="badge badge-orange">EMAIL-FIRST MVP</span>
+        </div>
+      </div>
+      <div class="phase-meta">70–100h · Weeks 9–14</div>
+    </div>
+    <div class="phase-body">
+      <p><em>Both reviewers agreed: original 40–60h was too low. Revised with staged rollout.</em></p>
+
+      <h4>Stage A: Email Sequences via SmartLead (Weeks 9–11)</h4>
+      <ul>
+        <li>SmartLead integration — campaign creation, lead enrollment, sequence management via API</li>
+        <li>Burner domain rotation logic + reputation monitoring</li>
+        <li>Cold/warm routing — scoring model with rep override</li>
+        <li>Webhook listeners for replies, opens, bounces</li>
+        <li>HubSpot activity sync — all outreach logged back to contact records</li>
+        <li>Cadence templates for 4 sequence types (email-only versions)</li>
+        <li><strong>Run email-only for 2–3 weeks before adding LinkedIn</strong></li>
+      </ul>
+
+      <h4>Stage B: LinkedIn Sequences via Heyreach (Weeks 12–14)</h4>
+      <ul>
+        <li>Heyreach integration — campaign creation, enrollment, connection tracking</li>
+        <li><strong>Multi-channel orchestrator</strong>:
+          <ul>
+            <li>State machine for cross-channel contact status</li>
+            <li>Dedup logic (replied on email → pause LinkedIn)</li>
+            <li>Timing engine (don't send email + LinkedIn same day)</li>
+            <li>Volume caps per rep, per domain, per day</li>
+            <li>Error handling + retry logic for webhook failures</li>
+          </ul>
+        </li>
+        <li>End-to-end testing with real contacts</li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <strong>Reviewer 1:</strong> "Trying to ship both channels simultaneously is how you end up at Week 14 with nothing working." Get email solid first. Layer LinkedIn on top.
+      </div>
+
+      <div class="callout callout-warn">
+        <strong>Blockers (start early):</strong> SmartLead API key + account, Heyreach API key, burner domains registered/DNS'd/warmed (start Phase 2), Google Workspace seats (~$6/mo each × 3–5 per rep)
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> Full email sequence via SmartLead with domain rotation. Then: multi-channel cadence (LinkedIn connect → email → LinkedIn message) with cross-channel coordination.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase" style="border-left-color: var(--sea-green);">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 5: Champion Program + Metrics + Polish</div>
+        <div class="tag-list">
+          <span class="badge badge-aqua">FROM PRD</span>
+        </div>
+      </div>
+      <div class="phase-meta">20–30h · Weeks 14–16</div>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li><strong>Champion designation</strong> — 3–5 contacts per target account in HubSpot</li>
+        <li><strong>Mutual connection mapping</strong> via Heyreach's <code>get-my-network-for-sender</code></li>
+        <li>Champion priority in all trigger/send flows</li>
+        <li><strong>Metrics dashboard</strong> — digest → draft → send → reply → meeting → deal. Full attribution.</li>
+        <li>Relevance tuning from 👍/👎 reaction data</li>
+        <li>Conference sequence template</li>
+        <li><strong>Leaderboard / gamification</strong> (per contrarian reviewer)</li>
+        <li><strong>"What goes away"</strong> documentation — explicit list of manual processes replaced</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> Champion program active for 5+ accounts. Full metrics pipeline working. 80%+ outbound through the system.
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Summary -->
+  <h3>Total Effort Summary</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Phase</th><th>Hours</th><th>Weeks</th><th>Key Change from Original</th></tr>
+      <tr><td>Gate Checks</td><td>4–6h</td><td>Week 0</td><td><span class="badge badge-aqua">ADDED</span></td></tr>
+      <tr><td>Phase 1: Quick Wins + Data</td><td>35–45h</td><td>1–4</td><td><span class="badge badge-orange">REORDERED</span> Ship Brief Me Week 1</td></tr>
+      <tr><td>Phase 2: Triggers + Content</td><td>25–30h</td><td>4–6</td><td><span class="badge badge-orange">REVISED</span> Voice matching → Phase 3</td></tr>
+      <tr><td>Phase 3: Outreach Prep + Queue</td><td>30–40h</td><td>6–9</td><td><span class="badge badge-orange">REVISED</span> HubSpot-first queue</td></tr>
+      <tr><td>Phase 4: Sequence Engine</td><td>70–100h</td><td>9–14</td><td><span class="badge badge-red">INCREASED</span> from 40–60h</td></tr>
+      <tr><td>Phase 5: Champions + Metrics</td><td>20–30h</td><td>14–16</td><td><span class="badge badge-aqua">ADDED</span> Leaderboard</td></tr>
+      <tr class="table-footer"><td><strong>TOTAL</strong></td><td><strong>184–251h</strong></td><td><strong>~16 weeks</strong></td><td></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 8. END-TO-END WALKTHROUGHS ═══════════════════════ -->
+<section class="section" id="walkthroughs">
+  <div class="section-label">Section 08</div>
+  <h2>End-to-End Walkthroughs</h2>
+
+  <p>Two concrete scenarios showing <strong>every step</strong> from trigger to completion — systems, API calls, data movements, what the user sees.</p>
+
+  <!-- Scenario A -->
+  <h3>Scenario A: Blinded Laundry Case Study → Cold Outbound via SmartLead</h3>
+  <p class="text-muted">A campaign for Church &amp; Dwight (OxiClean) just completed with strong results. System generates a blinded case study targeting competitor laundry brands.</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="step-time">T+0</div>
+      <div class="step-title">Trigger fires</div>
+      <div class="step-detail">Daily cron scan: <code>SELECT * FROM campaign_results WHERE status='completed' AND case_study_generated=false</code></div>
+      <div class="step-system">Cloud Scheduler → Cloud Run</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+2s</div>
+      <div class="step-title">Data assembly</div>
+      <div class="step-detail">BigQuery for metrics. HubSpot for contacts at Henkel, Unilever, P&amp;G fabric — filtered: <code>brand_category='Laundry'</code>, <code>email_status='verified'</code>, <code>NOT in_active_sequence</code></div>
+      <div class="step-system">Cloud Run → BigQuery + HubSpot API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+5s</div>
+      <div class="step-title">AI generates blinded case study</div>
+      <div class="step-detail">Prompt includes 34% lift, 4.2x ROAS, "in-store sampling + digital." Brand name never in output — only "[leading laundry brand]"</div>
+      <div class="step-system">GPT-4o API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+8s</div>
+      <div class="step-title">14 personalized email drafts generated</div>
+      <div class="step-detail">3-step sequence per contact. Each personalized with rep voice matching (Jack's cached style guide).</div>
+      <div class="step-system">GPT-4o API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+10s</div>
+      <div class="step-title">Guardrail validation</div>
+      <div class="step-detail">Regex scan for $ amounts ✅, brand blocklist ✅, length check ✅. All 14 pass.</div>
+      <div class="step-system">Cloud Run</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+12s</div>
+      <div class="step-title">Draft stored + HubSpot synced + Slack notified</div>
+      <div class="step-detail">Firestore doc created. Custom object in HubSpot linked to 14 contacts. Slack DM to Jack: "📬 New: Blinded laundry case study — 14 contacts (10 SmartLead, 3 HubSpot, 1 LinkedIn)"</div>
+      <div class="step-system">Firestore → HubSpot API → Slack API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+2h</div>
+      <div class="step-title">Jack reviews in HubSpot</div>
+      <div class="step-detail">Opens Potential Send record. Sees all contacts with channel routing. Edits one line. Removes 2 contacts in active deals. Clicks "Approve &amp; Send."</div>
+      <div class="step-system">HubSpot UI → Webhook → Cloud Run</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+2h 5s</div>
+      <div class="step-title">Orchestrator routes 12 contacts</div>
+      <div class="step-detail"><code>route_contact()</code> evaluates each: 8 → SmartLead, 3 → HubSpot sequence, 1 → Heyreach. SmartLead campaign created, leads added, sequences set, sending accounts attached, scheduled M-F 8am–5pm MT.</div>
+      <div class="step-system">Cloud Run → SmartLead + HubSpot + Heyreach APIs</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 1, 9:15am</div>
+      <div class="step-title">First cold emails sent</div>
+      <div class="step-detail">SmartLead sends batch via warmed burner domain <code>jack@outreach1.recesspartners.com</code></div>
+      <div class="step-system">SmartLead</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 2, 2:30pm</div>
+      <div class="step-title">Ellen opens email</div>
+      <div class="step-detail">SmartLead webhook → Firestore updated → HubSpot engagement logged</div>
+      <div class="step-system">SmartLead → Cloud Run → HubSpot</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 3, 9:00am</div>
+      <div class="step-title">🎉 Ellen replies!</div>
+      <div class="step-detail">Reply detected → SmartLead sequence paused → reply logged in HubSpot → Slack DM to Jack: "Reply from Ellen Smith (Henkel)!" → Jack responds manually from real email.</div>
+      <div class="step-system">SmartLead → Cloud Run → HubSpot + Slack</div>
+    </div>
+  </div>
+
+  <!-- Scenario B -->
+  <h3>Scenario B: Six Flags Halloween Candy → Multi-Channel</h3>
+  <p class="text-muted">New supply opportunity: candy &amp; snack sampling across 15 Six Flags parks. Targeting non-chocolate candy brands.</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="step-time">T+0</div>
+      <div class="step-title">Rep inputs opportunity via Slack</div>
+      <div class="step-detail">Jack: <code>/outbound Six Flags Halloween — candy &amp; snack sampling across 15 parks. Non-chocolate candy brands.</code></div>
+      <div class="step-system">Slack Bolt → Cloud Run</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+3s</div>
+      <div class="step-title">Target list built</div>
+      <div class="step-detail">HubSpot query: <code>brand_category IN ('Candy', 'Confectionery', 'Snacks')</code>. GPT-4o filters out chocolate brands. 22 contacts: Haribo, Trolli, Sour Patch, Kind, etc.</div>
+      <div class="step-system">HubSpot API + GPT-4o</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+8s</div>
+      <div class="step-title">22 personalized drafts generated</div>
+      <div class="step-detail">Known brands get brand-specific copy ("Given Haribo's push into seasonal occasions..."). Unknown brands get category-level copy ("As a leader in the candy space...").</div>
+      <div class="step-system">GPT-4o API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">T+1h</div>
+      <div class="step-title">Jack reviews &amp; approves</div>
+      <div class="step-detail">23 contacts (added 2 personal contacts, removed 1). Routing: 15 SmartLead cold, 4 HubSpot warm, 3 multi-channel.</div>
+      <div class="step-system">HubSpot UI</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 1</div>
+      <div class="step-title">Multi-channel begins</div>
+      <div class="step-detail">3 multi-channel: LinkedIn connect request via Heyreach. 15 cold contacts start receiving emails via SmartLead.</div>
+      <div class="step-system">Heyreach + SmartLead</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 3</div>
+      <div class="step-title">Cross-channel coordination</div>
+      <div class="step-detail">Multi-channel contacts: email sent via SmartLead (regardless of LinkedIn accept). Sarah at Haribo accepts LinkedIn connection → state updated.</div>
+      <div class="step-system">Orchestrator → Firestore</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 5</div>
+      <div class="step-title">🎉 Sarah replies on LinkedIn</div>
+      <div class="step-detail">Heyreach webhook → orchestrator pauses SmartLead email sequence for Sarah → HubSpot updated → Slack notification to Jack. Rest continue through cadence.</div>
+      <div class="step-system">Heyreach → Cloud Run → SmartLead + HubSpot</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 14</div>
+      <div class="step-title">Sequences complete</div>
+      <div class="step-detail">No-reply contacts: <code>outbound_status='Sequence Complete - No Reply'</code>. Eligible for new sequences after 30-day cooldown.</div>
+      <div class="step-system">Orchestrator → HubSpot</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 9. COST MODEL ═══════════════════════ -->
+<section class="section" id="cost-model">
+  <div class="section-label">Section 09</div>
+  <h2>Cost Model</h2>
+
+  <h3>Monthly Recurring Costs</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Item</th><th>Monthly Cost</th><th>Notes</th></tr>
+      <tr><td>Clay (LinkedIn enrichment)</td><td>$349–800</td><td>Credit-based. Watch for overages. Test one saved search first.</td></tr>
+      <tr><td>SmartLead (cold email)</td><td>$39–79</td><td>Per account, not per sender. Cheap.</td></tr>
+      <tr><td>Heyreach (LinkedIn automation)</td><td>$352–632</td><td><strong>⚠️ Per sender.</strong> 8 reps × $44–79 = significant. Scales with team.</td></tr>
+      <tr><td>NeverBounce (email verification)</td><td>~$50–100</td><td>$0.008/email. At volume, still cheap.</td></tr>
+      <tr><td>Burner domains + Google Workspace</td><td>$50–100</td><td>3–5 domains per sender, $6/mo/seat</td></tr>
+      <tr><td>OpenAI API (GPT-4o)</td><td>$50–150</td><td>~$0.02–0.08 per draft × volume. Includes research agent calls.</td></tr>
+      <tr><td>Google Cloud Run + Firestore</td><td>$5–20</td><td>Scales to zero. Free tier covers most of our volume.</td></tr>
+      <tr><td>HubSpot tier (if upgrade needed)</td><td>$750–1,200+</td><td><span class="badge badge-red">⚠️ GATE CHECK</span> Enterprise for custom objects. Largest potential line item.</td></tr>
+      <tr class="table-footer"><td><strong>TOTAL (excl. HubSpot upgrade)</strong></td><td><strong>$895–1,881/mo</strong></td><td></td></tr>
+      <tr class="table-footer"><td><strong>TOTAL (incl. HubSpot upgrade)</strong></td><td><strong>$1,645–3,081/mo</strong></td><td></td></tr>
+    </table>
+  </div>
+
+  <h3>One-Time Setup Costs</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+      <tr><td>Burner domain registration</td><td>$40–80</td><td>3–5 domains @ $10–15 each</td></tr>
+      <tr><td>DNS configuration + email warmup</td><td>Engineering time</td><td>SPF, DKIM, DMARC setup per domain</td></tr>
+      <tr><td>SmartLead account setup</td><td>$0</td><td>Included in subscription</td></tr>
+      <tr><td>Heyreach account setup</td><td>$0</td><td>Included in subscription</td></tr>
+      <tr><td>HubSpot custom object schema</td><td>Engineering time</td><td>~4h to design and create</td></tr>
+    </table>
+  </div>
+
+  <h3>Variable Costs That Scale</h3>
+  <div class="card">
+    <ul>
+      <li><strong>OpenAI API:</strong> ~$0.02–0.08 per draft. Evergreen emails cost more (research agent step). 1,000 drafts/month ≈ $50–80.</li>
+      <li><strong>Clay credits:</strong> 5–10 credits per contact enrichment. 1,000 contacts/month may exhaust the $349 tier.</li>
+      <li><strong>Heyreach per-sender:</strong> Every new rep = $44–79/mo more. Negotiate annual pricing.</li>
+      <li><strong>NeverBounce:</strong> Scales linearly at $0.008/email. Predictable.</li>
+    </ul>
+  </div>
+
+  <div class="callout callout-warn">
+    <strong>Hidden costs flagged by reviewers:</strong>
+    <ul>
+      <li><strong>Engineering maintenance:</strong> Budget 10–20h/mo ongoing for API changes, bug fixes, edge cases, "can you make it do X?" requests</li>
+      <li><strong>Clay credit burn:</strong> LinkedIn enrichment can consume credits fast at scale</li>
+      <li><strong>Heyreach per-sender pricing:</strong> $44–79/sender × 8 reps = biggest variable cost</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 10. RISKS & MITIGATIONS ═══════════════════════ -->
+<section class="section" id="risks">
+  <div class="section-label">Section 10</div>
+  <h2>Risks &amp; Mitigations</h2>
+
+  <h3>Top 3 Risks (Ranked by Both Reviewers)</h3>
+  <div class="card-grid">
+    <div class="card" style="border-color: var(--danger);">
+      <h4 style="color: var(--danger); margin-top:0;">#1 — Rep Adoption</h4>
+      <p>The system works perfectly but reps don't use it. Inertia beats innovation unless UX is 10x better.</p>
+      <p><strong>Likelihood:</strong> High &nbsp;|&nbsp; <strong>Impact:</strong> Critical</p>
+      <p style="margin-top: 0.5rem;"><strong>Mitigations:</strong></p>
+      <ul>
+        <li>Ship visible value in Week 1 ("Brief Me" + digests)</li>
+        <li>HubSpot-native for all workflows — zero new tools</li>
+        <li>"What goes away" framing: show the 2–4h manual workflow vs. 15-min AI flow</li>
+        <li>Leaderboard/gamification (reps are competitive)</li>
+        <li>Weekly adoption check-ins for first 8 weeks</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: var(--warning);">
+      <h4 style="color: var(--warning); margin-top:0;">#2 — Multi-Channel Orchestration Complexity</h4>
+      <p>Cross-channel dedup, error handling, and state management across three systems that don't natively talk.</p>
+      <p><strong>Likelihood:</strong> Medium &nbsp;|&nbsp; <strong>Impact:</strong> High</p>
+      <p style="margin-top: 0.5rem;"><strong>Mitigations:</strong></p>
+      <ul>
+        <li>Email-first MVP — don't add LinkedIn until email is solid</li>
+        <li>Staged rollout (Phase 4 Stage A → Stage B)</li>
+        <li>Comprehensive state machine with explicit error states</li>
+        <li>Webhook retry logic + dead letter queue for failed events</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: var(--warning);">
+      <h4 style="color: var(--warning); margin-top:0;">#3 — HubSpot Tier / Cost Surprise</h4>
+      <p>Custom objects require Enterprise. If on Professional, that's $750+/mo unbudgeted.</p>
+      <p><strong>Likelihood:</strong> Medium &nbsp;|&nbsp; <strong>Impact:</strong> Medium</p>
+      <p style="margin-top: 0.5rem;"><strong>Mitigations:</strong></p>
+      <ul>
+        <li>Gate check before any build (Week 0)</li>
+        <li>Fallback: HubSpot Tasks instead of custom objects (less elegant, equally functional)</li>
+        <li>Alternative: Contact property group for lightweight MVP</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Additional Risks</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Risk</th><th>Type</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+      <tr>
+        <td>Brand inference at 60–70% accuracy</td>
+        <td>Technical</td>
+        <td>High</td>
+        <td>Medium</td>
+        <td>Explicit fallback for "unknown brand" cohort. AI suggests, rep confirms. Empty beats wrong.</td>
+      </tr>
+      <tr>
+        <td>Email deliverability / domain reputation</td>
+        <td>Technical</td>
+        <td>Medium</td>
+        <td>High</td>
+        <td>Dedicated warmed burner domains. Auto-pause on bounce spike. Daily reputation monitoring.</td>
+      </tr>
+      <tr>
+        <td>LinkedIn automation detection</td>
+        <td>Technical</td>
+        <td>Low</td>
+        <td>High</td>
+        <td>Heyreach handles compliance. Conservative volume caps. Human-like timing patterns.</td>
+      </tr>
+      <tr>
+        <td>API breaking changes (SmartLead, Heyreach)</td>
+        <td>Technical</td>
+        <td>Medium</td>
+        <td>Medium</td>
+        <td>Pin API versions. Integration tests. 10–20h/mo maintenance budget.</td>
+      </tr>
+      <tr>
+        <td>Competitive alternatives (Apollo, 11x.ai)</td>
+        <td>Adoption</td>
+        <td>Medium</td>
+        <td>Low</td>
+        <td>Our moat: deep integration with Recess campaign data, CRM context, blinded case studies. Off-the-shelf can't replicate.</td>
+      </tr>
+      <tr>
+        <td>HubSpot custom object perf limits (&gt;10K records)</td>
+        <td>Technical</td>
+        <td>Medium</td>
+        <td>Medium</td>
+        <td>Cleanup/archive workflow. Auto-dismiss after 14 days. Won't hit 10K for 3–4 months.</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Competitive Landscape</h3>
+  <div class="card">
+    <p>Someone on the sales team <em>will</em> ask "why don't we just use [X]?" — be ready:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Tool</th><th>What It Does</th><th>Why We're Not Using It</th></tr>
+        <tr>
+          <td><strong>Apollo.io</strong> ($99–149/user/mo)</td>
+          <td>Prospecting, enrichment, email sequences</td>
+          <td>Doesn't do blinded case studies, voice matching, trigger-based queuing, or CRM-enriched intelligence</td>
+        </tr>
+        <tr>
+          <td><strong>11x.ai / Salesforge</strong></td>
+          <td>"AI SDR" — automated outbound agents</td>
+          <td>Black-box AI, no human-in-the-loop. Dangerous for brand reputation.</td>
+        </tr>
+        <tr>
+          <td><strong>Amplemarket</strong></td>
+          <td>Multi-channel orchestration + AI</td>
+          <td>Closest competitor. But doesn't integrate with our SmartLead/Heyreach/Clay/BigQuery stack.</td>
+        </tr>
+      </table>
+    </div>
+    <p style="margin-top: 0.75rem;"><strong>Our moat:</strong> Deep integration with Recess's own campaign data, CRM context, and existing tool stack. Off-the-shelf tools don't know about your completed campaigns, your blinded case studies, or your account relationships.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 11. GATE CHECKS ═══════════════════════ -->
+<section class="section" id="gate-checks">
+  <div class="section-label">Section 11</div>
+  <h2>Pre-Launch Gate Checks</h2>
+
+  <div class="callout callout-danger">
+    <strong>These must be validated BEFORE committing to the build. ~4–6h of investigation before committing 200+ hours.</strong>
+  </div>
+
+  <div class="card card-highlight">
+    <ol style="font-size: 1rem; line-height: 2;">
+      <li><strong>HubSpot tier</strong> — Enterprise required for custom objects + Sequence API. If Professional, queue architecture changes entirely (Tasks + standard objects).</li>
+      <li><strong>BigQuery campaign data</strong> — Structured enough for auto case study generation? Audit fields + completeness. Are <code>incremental_sales_lift</code>, <code>roas</code>, <code>category</code> reliably populated?</li>
+      <li><strong>Clay account</strong> — Current plan, credit balance, existing workflows for LinkedIn enrichment. Can we run weekly batch enrichment within the plan's credit limit?</li>
+      <li><strong>SmartLead webhook reliability</strong> — Test webhook delivery, latency, and retry behavior. Set up test endpoint + send test campaign.</li>
+      <li><strong>Heyreach connection accept rates</strong> — Baseline LinkedIn connect request performance for Recess reps. What's the current accept rate?</li>
+      <li><strong>Named account list</strong> — Confirmed 75–85 target accounts with ownership assignments.</li>
+    </ol>
+  </div>
+
+  <h3>Go / No-Go Criteria</h3>
+  <div class="split-view">
+    <div class="card" style="border-color: var(--success);">
+      <h4 style="color: var(--success); margin-top: 0;">✅ Go If</h4>
+      <ul>
+        <li>HubSpot tier supports custom objects OR Tasks fallback is acceptable</li>
+        <li>BigQuery has campaign metrics for at least 10 completed campaigns</li>
+        <li>Clay credits sufficient for weekly batch of 500+ contacts</li>
+        <li>SmartLead webhooks deliver reliably within 30 seconds</li>
+        <li>Named account list confirmed by sales leadership</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: var(--danger);">
+      <h4 style="color: var(--danger); margin-top: 0;">❌ No-Go If</h4>
+      <ul>
+        <li>HubSpot upgrade budget is rejected and Tasks fallback deemed insufficient</li>
+        <li>BigQuery campaign data is too sparse for any automated case studies</li>
+        <li>No Clay account or budget for enrichment tools</li>
+        <li>Sales team rejects "AI drafts emails" concept entirely</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 12. PRIOR LESSONS ═══════════════════════ -->
+<section class="section" id="prior-lessons">
+  <div class="section-label">Section 12</div>
+  <h2>Prior Lessons Applied</h2>
+
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <tr><th>Lesson</th><th>How This Plan Avoids the Mistake</th></tr>
+        <tr>
+          <td><strong>Ship value early, plumbing later</strong> — Previous plans built infrastructure for weeks before showing anything to users</td>
+          <td>Phase 1 ships "Brief Me" and weekly digests in <strong>Week 1</strong>. Data foundation builds in parallel. Reps see value before they're asked to change behavior.</td>
+        </tr>
+        <tr>
+          <td><strong>Don't build a custom UI when an existing one will do</strong> — Custom apps have adoption risk</td>
+          <td>Review queue lives in <strong>HubSpot</strong> (where reps already are). Intelligence push via <strong>Slack</strong> (where reps already look). Zero new tools to learn.</td>
+        </tr>
+        <tr>
+          <td><strong>Honest estimates beat optimistic ones</strong> — Underestimated complexity leads to death marches</td>
+          <td>Phase 4 bumped from 40–60h to <strong>70–100h</strong> based on two independent reviewer assessments. Staged rollout (email-first) reduces blast radius.</td>
+        </tr>
+        <tr>
+          <td><strong>Gate checks before commitment</strong> — Discovering blockers mid-build wastes everything already invested</td>
+          <td>Explicit <strong>Week 0 gate checks</strong> (4–6h) before committing 200+ hours. HubSpot tier, BigQuery audit, Clay account — resolved upfront.</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn "continuous sync" is a myth</strong> — No API exists; people keep assuming it does</td>
+          <td>Plan explicitly uses <strong>Clay batch enrichment</strong> (weekly/biweekly), not real-time sync. Budget $350–800/mo. No fantasy architectures.</td>
+        </tr>
+        <tr>
+          <td><strong>Multi-model review catches blind spots</strong> — Single-reviewer plans miss obvious issues</td>
+          <td>This plan went through <strong>4-agent review</strong> (Planner, Researcher, Opus Reviewer, Contrarian Reviewer). 8 consensus points identified. Time estimates validated by two independent models.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ APPENDIX ═══════════════════════ -->
+<section class="section" id="appendix">
+  <div class="section-label">Appendix</div>
+  <h2>Decision Log &amp; Sales Presentation Strategy</h2>
+
+  <h3>Architecture Decision Log</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Decision</th><th>Choice</th><th>Why</th><th>Alternative Considered</th></tr>
+      <tr><td>AI model</td><td>GPT-4o</td><td>Best sales copy quality, structured output, 128K context</td><td>Claude 3.5 Sonnet (backup)</td></tr>
+      <tr><td>Draft storage</td><td>Firestore + HubSpot mirror</td><td>Firestore for speed, HubSpot for rep UX</td><td>HubSpot-only (too slow), Postgres (overkill)</td></tr>
+      <tr><td>Orchestrator hosting</td><td>Cloud Run</td><td>Scales to zero, serverless, Python, cheap</td><td>Make.com (can't handle state), VM (wasteful)</td></tr>
+      <tr><td>Cold email</td><td>SmartLead</td><td>Full API, campaign automation, domain rotation, webhooks</td><td>Instantly (less mature API)</td></tr>
+      <tr><td>LinkedIn</td><td>Heyreach</td><td>API + MCP server, webhooks, sender network mapping</td><td>Phantombuster (no API)</td></tr>
+      <tr><td>Rep review surface</td><td>HubSpot custom objects</td><td>Where reps already live. Zero adoption friction.</td><td>Custom web app (adoption risk), Slack (no state)</td></tr>
+      <tr><td>State machine</td><td>Firestore documents</td><td>Real-time, schemaless, scales, free tier sufficient</td><td>Redis (need to manage), Postgres (schema overhead)</td></tr>
+    </table>
+  </div>
+
+  <h3>Sales Team Presentation Strategy</h3>
+  <div class="split-view">
+    <div class="card" style="border-color: var(--success);">
+      <h4 style="color: var(--success); margin-top:0;">What Will Make Them Excited</h4>
+      <ul>
+        <li><strong>"Brief Me" demo</strong> — Type a company, get intelligence in 10 seconds. Hero of Phase 1 demo.</li>
+        <li><strong>Auto-generated case studies</strong> — Reps hate making them, love sending them. 30-second generation = magic.</li>
+        <li><strong>"5 people you should reach out to today"</strong> — Daily digest for pipeline discipline.</li>
+        <li><strong>Email drafts that are actually good</strong> — Not "Hi {first_name}" garbage. Actually personalized.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: var(--warning);">
+      <h4 style="color: var(--warning); margin-top:0;">Objections to Prepare For</h4>
+      <div class="table-wrap" style="margin: 0;">
+        <table>
+          <tr><td>"Check Slack AND HubSpot?"</td><td>Slack = receiving alerts. HubSpot = managing queue. Two surfaces, each doing what it's best at.</td></tr>
+          <tr><td>"AI sends something embarrassing?"</td><td>Human-in-the-loop is a hard requirement. AI drafts, you decide.</td></tr>
+          <tr><td>"14–16 weeks?"</td><td>"Brief Me" ships Week 1. You'll use it before we're done building.</td></tr>
+          <tr><td>"Brand inference only 70%?"</td><td>AI suggests, you confirm. Empty beats wrong.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-success">
+    <strong>🏆 The One Slide That Matters: "What Goes Away"</strong><br>
+    Show the current 2–4 hour manual workflow next to the new 15-minute AI-assisted flow. Map every manual step to its automated replacement. Reps care about <strong>what they stop doing</strong> more than what the system starts doing.
+  </div>
+
+  <h3>Monitoring &amp; Alerting</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>What</th><th>Tool</th><th>Alert Channel</th></tr>
+      <tr><td>Cloud Run errors (5xx, timeouts)</td><td>Google Cloud Monitoring</td><td>Slack #eng-alerts</td></tr>
+      <tr><td>SmartLead webhook failures</td><td>Firestore counter</td><td>Slack DM to ops</td></tr>
+      <tr><td>Domain reputation drop</td><td>SmartLead health check (daily)</td><td>Slack #sales-ops + auto-pause</td></tr>
+      <tr><td>Draft generation failures</td><td>Firestore <code>failed_drafts</code></td><td>Slack #eng-alerts if &gt;5/hour</td></tr>
+      <tr><td>HubSpot rate limit warnings</td><td>Response header monitoring</td><td>Cloud Logging alert at &gt;10 429s/hour</td></tr>
+      <tr><td>Stale drafts (&gt;7 days unreviewed)</td><td>Cloud Scheduler daily check</td><td>Slack DM to assigned rep</td></tr>
+      <tr><td>Email bounce spike</td><td>SmartLead webhook</td><td>Auto-pause domain + #sales-ops</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<div class="footer">
+  <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">🎬 <strong style="color: var(--aqua);">Jerry Maguire</strong> — "Show Me the Money"</p>
+  <p>AI Outbound Sales System · Recess Digital · March 2026</p>
+  <p style="margin-top: 0.5rem;">4-Agent Review: Planner + Researcher + Opus Reviewer + Contrarian Reviewer</p>
+  <p style="margin-top: 0.25rem; font-size: 0.75rem;">Artifacts: <code>second-brain/artifacts/ai-outbound-sales/</code></p>
+</div>
+
+</main>
+</body>
+</html>
