@@ -1,171 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blockers Dashboard — Recess</title>
-<style>
-  :root { --bg: #0f1117; --card: #1a1d27; --border: #2a2d3a; --text: #e4e4e7; --muted: #71717a; --red: #ef4444; --amber: #f59e0b; --green: #22c55e; --blue: #3b82f6; --purple: #a855f7; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; max-width: 960px; margin: 0 auto; }
-  h1 { font-size: 1.5rem; margin-bottom: .25rem; }
-  .subtitle { color: var(--muted); font-size: .85rem; margin-bottom: 1.5rem; }
-  .summary-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem; flex: 1; min-width: 120px; }
-  .stat .label { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; }
-  .stat .value { font-size: 1.4rem; font-weight: 700; margin-top: .15rem; }
-  .stat .value.red { color: var(--red); }
-  .stat .value.amber { color: var(--amber); }
-  .stat .value.green { color: var(--green); }
-  .section-title { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 .75rem; display: flex; align-items: center; gap: .5rem; }
-  .badge { font-size: .65rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
-  .badge-critical { background: var(--red); color: #fff; }
-  .badge-waiting { background: var(--amber); color: #000; }
-  .badge-monitoring { background: var(--blue); color: #fff; }
-  .badge-queued { background: var(--border); color: var(--muted); }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin-bottom: .75rem; }
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem; }
-  .card-title { font-weight: 600; font-size: .9rem; }
-  .card-id { color: var(--muted); font-size: .75rem; font-family: monospace; }
-  .card-body { color: var(--muted); font-size: .82rem; line-height: 1.5; }
-  .card-body strong { color: var(--text); font-weight: 600; }
-  .impact { display: inline-block; margin-top: .5rem; font-size: .75rem; padding: 2px 8px; border-radius: 4px; }
-  .impact-high { background: rgba(239,68,68,.15); color: var(--red); border: 1px solid rgba(239,68,68,.3); }
-  .impact-med { background: rgba(245,158,11,.15); color: var(--amber); border: 1px solid rgba(245,158,11,.3); }
-  .impact-low { background: rgba(34,197,94,.15); color: var(--green); border: 1px solid rgba(34,197,94,.3); }
-  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: .5rem; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 2px; }
-  .footer { color: var(--muted); font-size: .7rem; margin-top: 2rem; text-align: center; border-top: 1px solid var(--border); padding-top: 1rem; }
-  .owner-tag { font-size: .7rem; padding: 1px 6px; border-radius: 3px; background: rgba(168,85,247,.15); color: var(--purple); border: 1px solid rgba(168,85,247,.3); }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚧 Deuce's Blockers — All Projects</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e4e4e4;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        h1 { font-size: 2.2rem; color: #fff; }
+        .last-updated { color: #888; font-size: 0.9rem; }
+        .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px 28px;
+            min-width: 140px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .stat-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        .stat-card a { text-decoration: none; color: inherit; display: block; }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: #fff; }
+        .stat-value.critical { color: #ff6b6b; }
+        .stat-value.warning { color: #ffd93d; }
+        .stat-value.info { color: #4ecdc4; }
+        .stat-label { color: #888; font-size: 0.9rem; margin-top: 4px; }
+        .section { margin-bottom: 48px; scroll-margin-top: 20px; }
+        .section-title {
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .priority-badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        .priority-badge.p1 { background: #ff6b6b; color: white; }
+        .priority-badge.p2 { background: #ffd93d; color: #333; }
+        .priority-badge.p3 { background: #4ecdc4; color: #333; }
+        .blocker-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        .blocker-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.15);
+        }
+        .blocker-card.critical { border-left: 4px solid #ff6b6b; }
+        .blocker-card.warning { border-left: 4px solid #ffd93d; }
+        .blocker-card.info { border-left: 4px solid #4ecdc4; }
+        .blocker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .blocker-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .blocker-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .blocker-meta span { display: flex; align-items: center; gap: 4px; }
+        .project-tag {
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            padding: 3px 10px;
+            border-radius: 12px;
+            color: #aaa;
+        }
+        .blocker-description { color: #aaa; margin: 12px 0; line-height: 1.6; }
+        .unlocks {
+            background: rgba(107, 203, 119, 0.1);
+            border: 1px solid rgba(107, 203, 119, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .unlocks strong { color: #6bcb77; }
+        .steps-list {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .steps-list h4 { color: #4ecdc4; font-size: 0.85rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .steps-list ol { padding-left: 20px; }
+        .steps-list li { color: #ccc; margin: 8px 0; line-height: 1.5; }
+        .steps-list code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.85em;
+        }
+        .steps-list a { color: #4ecdc4; }
+        .ready-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .ready-card {
+            background: rgba(78, 205, 196, 0.05);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+        .ready-card h4 { color: #4ecdc4; font-size: 0.95rem; margin-bottom: 6px; }
+        .ready-card p { color: #888; font-size: 0.85rem; }
+        .resolved-banner {
+            background: rgba(107, 203, 119, 0.08);
+            border: 1px solid rgba(107, 203, 119, 0.2);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            color: #6bcb77;
+            font-size: 0.9rem;
+        }
+        .resolved-banner strong { color: #8be89a; }
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 600px) {
+            body { padding: 20px 16px; }
+            h1 { font-size: 1.6rem; }
+            .stat-card { min-width: 100px; padding: 16px; }
+            .stat-value { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>🚧 Deuce's Blockers</h1>
+            <span class="last-updated">Updated: March 25, 2026 · 05:00 PM MT</span>
+        </header>
 
-<h1>Blockers Dashboard</h1>
-<p class="subtitle">Updated Wed Mar 25, 2026 — 8:00 AM MT</p>
+        <div class="resolved-banner">
+            <strong>🎉 Since last update:</strong> 6 blockers resolved — Steve Timekeeper fully live (Recall.ai + calendar + launchd), LinkedIn pillars confirmed, Shield subscription reactivated, Airtable tokens working. Memory Reliability (task-068) shipped.
+        </div>
 
-<div class="summary-bar">
-  <div class="stat"><div class="label">In Progress</div><div class="value">3</div></div>
-  <div class="stat"><div class="label">Active Blockers</div><div class="value red">3</div></div>
-  <div class="stat"><div class="label">Queued</div><div class="value amber">12</div></div>
-  <div class="stat"><div class="label">Done (recent)</div><div class="value green">2</div></div>
-</div>
+        <div class="stats-row">
+            <div class="stat-card">
+                <a href="#blocked">
+                    <div class="stat-value critical">2</div>
+                    <div class="stat-label">Blocked Tasks</div>
+                </a>
+            </div>
+            <div class="stat-card">
+                <a href="#input">
+                    <div class="stat-value warning">5</div>
+                    <div class="stat-label">Need Input</div>
+                </a>
+            </div>
+            <div class="stat-card">
+                <a href="#ready">
+                    <div class="stat-value info">12</div>
+                    <div class="stat-label">Ready to Work</div>
+                </a>
+            </div>
+            <div class="stat-card">
+                <a href="#tracking">
+                    <div class="stat-value" style="color: #a78bfa;">3</div>
+                    <div class="stat-label">In Progress</div>
+                </a>
+            </div>
+        </div>
 
-<!-- CRITICAL / WAITING ON DEUCE -->
-<div class="section-title"><span class="badge badge-critical">Critical</span> Waiting on Deuce</div>
+        <div class="section" id="blocked">
+            <h2 class="section-title">🔴 Blocked — Needs Deuce Action</h2>
 
-<div class="card" style="border-left: 3px solid var(--red);">
-  <div class="card-header">
-    <span class="card-title">Karen AR — Awaiting Draft Quality Feedback</span>
-    <span class="card-id">task-067</span>
-  </div>
-  <div class="card-body">
-    Pipeline built end-to-end. 21 customers, $693K outstanding. Mon/Wed/Fri 7am cron active. Payment detection + state machine implemented. 148 tests passing.<br>
-    <strong>Blocker:</strong> Need Deuce feedback on Karen voice / email draft quality to close task. <span class="owner-tag">Deuce</span>
-  </div>
-  <span class="impact impact-high">Revenue impact: $693K outstanding</span>
-  <div class="progress-bar"><div class="progress-fill" style="width:90%; background: var(--red);"></div></div>
-</div>
+            <div class="blocker-card critical">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p1">#1</span>
+                        Karen AR Agent — Review Email Drafts
+                    </div>
+                    <span class="project-tag">task-067</span>
+                </div>
+                <div class="blocker-description">Karen delivered 11 email drafts to your Slack DM on Mar 18. $693K outstanding across 21 customers. Pipeline is built (scanner, recommender, drafter, Slack delivery, payment detection, state machine) — 148 tests passing. Need your feedback on Karen's voice and draft quality before closing the task.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Mon/Wed/Fri automated AR follow-ups from karen@recess.is — $693K outstanding</div>
+                <div class="blocker-meta">
+                    <span>⏱️ 15 min to review drafts</span>
+                    <span>💰 $693K AR at stake</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Steps</h4>
+                    <ol>
+                        <li>Check your Slack DM with Steve — look for Karen AR scan messages from ~Mar 18</li>
+                        <li>Review 2-3 email drafts for tone, accuracy, and appropriateness</li>
+                        <li>Reply with feedback: approve as-is, or note what to adjust (tone, aggressiveness, CC rules, etc.)</li>
+                    </ol>
+                </div>
+            </div>
 
-<div class="card" style="border-left: 3px solid var(--red);">
-  <div class="card-header">
-    <span class="card-title">LinkedIn Weekly Report — Shield API Subscription Inactive</span>
-    <span class="card-id">task-069 / B-069-1</span>
-  </div>
-  <div class="card-body">
-    Content calendar system built. Mon+Wed draft gen, posting-day reminders, Friday weekly report cron all wired.<br>
-    <strong>Blocker:</strong> Shield API returns 400 "subscription inactive." Need to check/renew at app.shieldapp.ai > Settings > Billing. <span class="owner-tag">Deuce</span>
-  </div>
-  <span class="impact impact-med">Blocks performance metrics in weekly report</span>
-  <div class="progress-bar"><div class="progress-fill" style="width:70%; background: var(--amber);"></div></div>
-</div>
+            <div class="blocker-card critical">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p1">#2</span>
+                        News Monitoring — Verify 2-Week Delivery Window
+                    </div>
+                    <span class="project-tag">task-064</span>
+                </div>
+                <div class="blocker-description">After the cron delivery gap incident (newsletters never delivered to Slack), rebuilt all 4 jobs. New DoD: 2 completed weeks of perfect delivery (tracking 3/18 through 4/1). Sponsor Scoop confirmed delivered 3/18. Thu Morning Byte + Partner Pulse still need first verified runs.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> task-064 can close once 2-week window passes with zero missed deliveries</div>
+                <div class="blocker-meta">
+                    <span>⏱️ Waiting until Apr 1</span>
+                    <span>📊 Tracking: Week 1 in progress</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Status</h4>
+                    <ol>
+                        <li>Sponsor Scoop: delivered 3/18 ✅</li>
+                        <li>Morning Byte (Thu): first real run pending</li>
+                        <li>Partner Pulse (Thu): first real run pending</li>
+                        <li>Window closes: April 1, 2026</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
 
-<!-- MONITORING -->
-<div class="section-title"><span class="badge badge-monitoring">Monitoring</span> In Progress — Tracking</div>
+        <div class="section" id="input">
+            <h2 class="section-title">🟡 Tasks Needing Input (Lower Priority)</h2>
 
-<div class="card" style="border-left: 3px solid var(--blue);">
-  <div class="card-header">
-    <span class="card-title">Newsletter Delivery — 2-Week Verification Window</span>
-    <span class="card-id">task-064</span>
-  </div>
-  <div class="card-body">
-    Rebuilt all 4 newsletter crons (agentTurn+announce) after major incident. Tracking 3/18–4/1 for 2 completed weeks of perfect delivery.<br>
-    <strong>Status:</strong> Week 1 in progress. Sponsor Scoop delivered 3/18. Thu Morning Byte + Partner Pulse runs pending 3/20. No failures yet.
-  </div>
-  <span class="impact impact-med">Reliability verification in progress</span>
-  <div class="progress-bar"><div class="progress-fill" style="width:50%; background: var(--blue);"></div></div>
-</div>
+            <div class="blocker-card warning">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p2">#3</span>
+                        Improve Asana time estimation + calendar blocking
+                    </div>
+                    <span class="project-tag">task-002</span>
+                </div>
+                <div class="blocker-meta">
+                    <span>Status: queue</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Needs Input</h4>
+                    <ol>
+                        <li>Confirm Top 3 priorities + estimates each Friday after 9am reminder</li>
+                        <li>Which calendar(s) are the source of truth?</li>
+                        <li>Preferred block lengths and time-of-day preferences</li>
+                    </ol>
+                </div>
+            </div>
 
-<!-- RECENTLY COMPLETED -->
-<div class="section-title"><span class="badge badge-waiting">Recent</span> Completed This Week</div>
+            <div class="blocker-card warning">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p2">#4</span>
+                        Automate 1:1 meeting follow-ups
+                    </div>
+                    <span class="project-tag">task-004</span>
+                </div>
+                <div class="blocker-meta">
+                    <span>Status: queue</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Needs Input</h4>
+                    <ol>
+                        <li>Confirm target Slack decisions channel</li>
+                        <li>Confirm Asana project/list + task template per person</li>
+                        <li>How to identify correct 1:1 task when multiple meetings exist</li>
+                    </ol>
+                </div>
+            </div>
 
-<div class="card" style="border-left: 3px solid var(--green); opacity: .8;">
-  <div class="card-header">
-    <span class="card-title">Memory Reliability Hardening</span>
-    <span class="card-id">task-068 ✅</span>
-  </div>
-  <div class="card-body">
-    MEMORY.md restructured 337→94 lines. memory_search mandatory rule added. Decision logging rule added. Sweep cron hardened.
-  </div>
-</div>
+            <div class="blocker-card warning">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p2">#5</span>
+                        Dockerize Clawdbot system
+                    </div>
+                    <span class="project-tag">task-003</span>
+                </div>
+                <div class="blocker-meta">
+                    <span>Status: queue</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Needs Input</h4>
+                    <ol>
+                        <li>Confirm which tokens/keys must be provided at runtime</li>
+                        <li>Target deployment environment (local only vs. server)</li>
+                        <li>Preferred base image and security hardening requirements</li>
+                    </ol>
+                </div>
+            </div>
 
-<div class="card" style="border-left: 3px solid var(--green); opacity: .8;">
-  <div class="card-header">
-    <span class="card-title">Karen AR — Payment Detection & State Machine</span>
-    <span class="card-id">task-067 phases 1-5 ✅</span>
-  </div>
-  <div class="card-body">
-    All pipeline phases complete. Cron scheduled Mon/Wed/Fri 7am. 148 tests passing. Only remaining: Deuce feedback on drafts.
-  </div>
-</div>
+            <div class="blocker-card warning">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p3">#6</span>
+                        Build prompt database
+                    </div>
+                    <span class="project-tag">task-008</span>
+                </div>
+                <div class="blocker-meta">
+                    <span>Status: approved</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Needs Input</h4>
+                    <ol>
+                        <li>Authentication method</li>
+                        <li>Hosting location</li>
+                    </ol>
+                </div>
+            </div>
 
-<!-- QUEUED HIGHLIGHTS -->
-<div class="section-title"><span class="badge badge-queued">Queued</span> Next Up (Top 5)</div>
+            <div class="blocker-card warning">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p3">#7</span>
+                        GitHub PR Approval Gate
+                    </div>
+                    <span class="project-tag">ENG-PR-GATE-01</span>
+                </div>
+                <div class="blocker-meta">
+                    <span>Status: proposed</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Needs Input</h4>
+                    <ol>
+                        <li>Which repos should be enabled first</li>
+                        <li>Exact definition of high-risk change category</li>
+                        <li>Preferred reviewer assignment rules</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
 
-<div class="card" style="opacity: .7;">
-  <div class="card-header">
-    <span class="card-title">Mission Control — Weekly Schedule View</span>
-    <span class="card-id">task-070</span>
-  </div>
-  <div class="card-body">Jobs registry → API → 7-column calendar UI. Task packet created, awaiting phase proposal.</div>
-</div>
+        <div class="section" id="tracking">
+            <h2 class="section-title" style="color: #a78bfa;">🟣 In Progress (No Blockers)</h2>
+            <div class="ready-grid">
+                <div class="ready-card" style="border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.05);">
+                    <h4 style="color: #a78bfa;">task-067 — Karen AR Agent</h4>
+                    <p>Pipeline built, 148 tests, Mon/Wed/Fri cron live. Awaiting draft feedback.</p>
+                    <p style="font-size: 0.75rem; color: #666;">$693K outstanding · 21 customers</p>
+                </div>
+                <div class="ready-card" style="border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.05);">
+                    <h4 style="color: #a78bfa;">task-069 — LinkedIn Content Calendar</h4>
+                    <p>Shield synced (100 posts), all crons live. PR #69 created. Weekly reports to C0AM3T8JVFB.</p>
+                    <p style="font-size: 0.75rem; color: #666;">Goal: 2-3 posts/week</p>
+                </div>
+                <div class="ready-card" style="border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.05);">
+                    <h4 style="color: #a78bfa;">task-064 — News Monitoring</h4>
+                    <p>Unified engine built. Tracking 2-week perfect delivery window (3/18-4/1).</p>
+                    <p style="font-size: 0.75rem; color: #666;">5/6 DoD complete</p>
+                </div>
+            </div>
+        </div>
 
-<div class="card" style="opacity: .7;">
-  <div class="card-header">
-    <span class="card-title">Prompt Database (Reddit-style voting)</span>
-    <span class="card-id">task-008</span>
-  </div>
-  <div class="card-body">Approved. Data model, UI, voting, search, tags. Ready to build when prioritized.</div>
-</div>
+        <div class="section" id="ready">
+            <h2 class="section-title" style="color: #4ecdc4;">✅ Ready to Work (No Blockers)</h2>
+            <div class="ready-grid">
+                <div class="ready-card">
+                    <h4>task-070</h4>
+                    <p>Mission Control — Weekly Schedule View</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue · Priority: high</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-014</h4>
+                    <p>AI news scan + plain-English team summary</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue · Weekly Tuesdays</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-009</h4>
+                    <p>Improve decisions posting: configurable Slack channel</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-010</h4>
+                    <p>Auto-create next meeting + link previous notes</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-013</h4>
+                    <p>Wellness coach: unified dashboard</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-018</h4>
+                    <p>Move recess-engage to RECESSDigital org</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-031</h4>
+                    <p>Heartbeat logging</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-033</h4>
+                    <p>Proactive sensing loop</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-025</h4>
+                    <p>Address npm audit vulnerabilities</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue · Priority: low</p>
+                </div>
+            </div>
+        </div>
 
-<div class="card" style="opacity: .7;">
-  <div class="card-header">
-    <span class="card-title">Move recess-engage to RECESSDigital org</span>
-    <span class="card-id">task-018</span>
-  </div>
-  <div class="card-body">Transfer enables org-level branch protection. Waiting on GitHub plan upgrade.</div>
-</div>
-
-<div class="card" style="opacity: .7;">
-  <div class="card-header">
-    <span class="card-title">1:1 Meeting Follow-ups Automation</span>
-    <span class="card-id">task-004</span>
-  </div>
-  <div class="card-body">Pipeline built + tested. Blocked on Slack token + Deuce inputs for production rollout.</div>
-</div>
-
-<div class="card" style="opacity: .7;">
-  <div class="card-header">
-    <span class="card-title">AI News Scan — Weekly Tuesday Digest</span>
-    <span class="card-id">task-014</span>
-  </div>
-  <div class="card-body">Script + approval flow built. Cron not yet enabled, pending dry-run approval.</div>
-</div>
-
-<div class="footer">
-  Auto-generated by Steve — Wed Mar 25, 2026 8:00 AM MT<br>
-  Source: tasks.json | Refresh: daily 8am MT
-</div>
-
+        <footer>
+            <p>🤖 Managed by Steve · Auto-generated from tasks.json + project blockers</p>
+            <p style="margin-top: 8px;">Reply in Slack to unblock items or change priorities.</p>
+            <p style="margin-top: 8px; color: #444;">Last scan: March 25, 2026 · 05:00 PM MT</p>
+        </footer>
+    </div>
 </body>
 </html>
