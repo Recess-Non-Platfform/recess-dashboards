@@ -43,6 +43,7 @@
         .stat-value.critical { color: #ff6b6b; }
         .stat-value.warning { color: #ffd93d; }
         .stat-value.info { color: #4ecdc4; }
+        .stat-value.success { color: #6bcb77; }
         .stat-label { color: #888; font-size: 0.9rem; margin-top: 4px; }
         .section { margin-bottom: 48px; scroll-margin-top: 20px; }
         .section-title {
@@ -62,6 +63,14 @@
         .priority-badge.p1 { background: #ff6b6b; color: white; }
         .priority-badge.p2 { background: #ffd93d; color: #333; }
         .priority-badge.p3 { background: #4ecdc4; color: #333; }
+        .resolved-badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            background: #6bcb77;
+            color: #fff;
+        }
         .blocker-card {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
@@ -77,7 +86,6 @@
         .blocker-card.critical { border-left: 4px solid #ff6b6b; }
         .blocker-card.warning { border-left: 4px solid #ffd93d; }
         .blocker-card.info { border-left: 4px solid #4ecdc4; }
-        .blocker-card.not-focus { opacity: 0.5; border-left: 4px solid #555; }
         .blocker-header {
             display: flex;
             justify-content: space-between;
@@ -143,22 +151,18 @@
             border-radius: 12px;
             padding: 16px 20px;
         }
-        .ready-card.not-focus {
-            opacity: 0.5;
-            background: rgba(100, 100, 100, 0.05);
-            border: 1px solid rgba(100, 100, 100, 0.2);
-        }
         .ready-card h4 { color: #4ecdc4; font-size: 0.95rem; margin-bottom: 6px; }
-        .ready-card.not-focus h4 { color: #888; }
         .ready-card p { color: #888; font-size: 0.85rem; }
-        .not-focus-label {
-            font-size: 0.7rem;
-            background: #555;
-            color: #aaa;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 8px;
+        .resolved-section {
+            background: rgba(107, 203, 119, 0.05);
+            border: 1px solid rgba(107, 203, 119, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
         }
+        .resolved-section h3 { color: #6bcb77; font-size: 1.1rem; margin-bottom: 12px; }
+        .resolved-item { color: #888; font-size: 0.9rem; margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .resolved-item .strike { text-decoration: line-through; }
         footer {
             margin-top: 60px;
             padding-top: 24px;
@@ -179,183 +183,101 @@
     <div class="container">
         <header>
             <h1>🚧 Deuce's Blockers</h1>
-            <span class="last-updated">Updated: March 26, 2026 · 07:37 AM MT</span>
+            <span class="last-updated">Updated: March 26, 2026 · 08:00 AM MT</span>
         </header>
 
         <div class="stats-row">
             <div class="stat-card">
                 <a href="#blocked">
-                    <div class="stat-value critical">7</div>
+                    <div class="stat-value critical">2</div>
                     <div class="stat-label">Blocked Tasks</div>
                 </a>
             </div>
             <div class="stat-card">
                 <a href="#input">
-                    <div class="stat-value warning">24</div>
-                    <div class="stat-label">Items Need Input</div>
+                    <div class="stat-value warning">5</div>
+                    <div class="stat-label">Need Input</div>
                 </a>
             </div>
             <div class="stat-card">
                 <a href="#ready">
-                    <div class="stat-value info">17</div>
+                    <div class="stat-value info">18</div>
                     <div class="stat-label">Ready to Work</div>
                 </a>
             </div>
             <div class="stat-card">
-                <a href="#blocked">
-                    <div class="stat-value" style="color: #888;">~114</div>
-                    <div class="stat-label">Min to Clear All</div>
+                <a href="#resolved">
+                    <div class="stat-value success">7</div>
+                    <div class="stat-label">Cleared Since Last</div>
                 </a>
             </div>
         </div>
 
-        <div class="section" id="blocked">
-            <h2 class="section-title">🔴 Blocked Tasks</h2>
+        <div class="resolved-section" id="resolved">
+            <h3>&#10024; Recently Cleared (was 7 blockers, now 0)</h3>
+            <div class="resolved-item">&#9989; <span class="strike">Recall.ai Account & API Key</span> — resolved Mar 15</div>
+            <div class="resolved-item">&#9989; <span class="strike">steve@recess.is Calendar Access</span> — resolved Mar 15</div>
+            <div class="resolved-item">&#9989; <span class="strike">Load launchd Service (Timekeeper)</span> — resolved Mar 15</div>
+            <div class="resolved-item">&#9989; <span class="strike">Airtable API Access (Transcripts)</span> — resolved Mar 15</div>
+            <div class="resolved-item">&#9989; <span class="strike">Proceed Without Impressions Data</span> — resolved (Shield reactivated Mar 25)</div>
+            <div class="resolved-item">&#9989; <span class="strike">Confirm Content Pillars & Voice Profile</span> — confirmed Mar 15</div>
+            <div class="resolved-item">&#9989; <span class="strike">LinkedIn Follower Count Baseline</span> — Shield sync captured baseline Mar 25</div>
+        </div>
 
-            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 Steve Timekeeper </h3>
+        <div class="section" id="blocked">
+            <h2 class="section-title">🔴 Active Blockers (Deuce Action Required)</h2>
+
+            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 LinkedIn Content Pipeline</h3>
 
             <div class="blocker-card critical">
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p1">#1</span>
-                        Recall.ai Account & API Key
+                        Review Top 10 Transcript-Sourced Post Ideas
                     </div>
+                    <span class="project-tag">task-069</span>
                 </div>
-                <div class="blocker-description">Steve joins Google Meet calls via Recall.ai's bot-as-a-service API. Without an API key, the bot can't join any meetings. You'll sign up, grab a key, and paste it into a config file on this Mac.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve Timekeeper bot can join Google Meet calls and keep time on agenda items</div>
+                <div class="blocker-description">Steve mined 62 meeting transcripts from 2026 and presented the top 10 LinkedIn post ideas in Slack DM. Need Deuce to review and select which ones to draft first.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Steve starts generating transcript-based LinkedIn drafts (Tue/Thu cadence) with your prioritized topics</div>
                 <div class="blocker-meta">
-                    <span>⏱️ 10 min</span>
-                    
+                    <span>&#9201;&#65039; 5 min</span>
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li><strong>Open Recall.ai:</strong> Go to <a href='https://www.recall.ai/'>https://www.recall.ai</a></li><li><strong>Sign up</strong> for an account (use your Recess email)</li><li><strong>Go to the API Keys section</strong> in the Recall.ai dashboard (usually under Settings or Developer)</li><li><strong>Create a new API key</strong> and <strong>copy it</strong> immediately — some dashboards only show it once</li><li><strong>Save the key to the env file.</strong> Open Terminal and run:<br><code>nano ~/clawd/Projects/steve-timekeeper/.env</code><br>Add this line (replacing the placeholder):<br><code>RECALL_API_KEY=your_key_here</code><br>Press <strong>Ctrl+O</strong> then <strong>Enter</strong> to save, then <strong>Ctrl+X</strong> to exit</li><li><strong>Verify:</strong> Run <code>cat ~/clawd/Projects/steve-timekeeper/.env</code> — you should see your API key</li></ol>
+                    <ol><li>Check Slack DM thread from Mar 25 with the 10 post ideas from call transcripts</li><li>Reply with which ones to draft or prioritize (e.g. "do #3, #7, #1 first")</li></ol>
                 </div>
             </div>
+
+            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 Karen AR Collection Agent</h3>
 
             <div class="blocker-card critical">
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p1">#2</span>
-                        steve@recess.is Calendar Access
+                        Link 14 Missing HubSpot Customers (~$486K AR)
                     </div>
+                    <span class="project-tag">task-067</span>
                 </div>
-                <div class="blocker-description">The watcher monitors Steve's calendar for meeting invites.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Auto-join meetings when steve@recess.is is invited</div>
+                <div class="blocker-description">Karen has 90% HubSpot coverage but 14 customers (~$486K in outstanding AR) are missing the QBO Customer ID link. Without it, Karen can't pull deal context or contact info for those accounts.</div>
+                <div class="unlocks"><strong>Unlocks:</strong> Karen can draft collection emails for ALL outstanding accounts, not just the 90% already linked</div>
                 <div class="blocker-meta">
-                    <span>⏱️ 5 min</span>
-                    
+                    <span>&#9201;&#65039; 20 min</span>
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Ensure <code>steve@recess.is</code> exists in Google Workspace</li><li>Run: <code>gog auth login</code> (if needed)</li><li>Test: <code>gog calendar events list --calendar steve@recess.is</code></li><li>Verify events are returned</li></ol>
+                    <ol><li>Open HubSpot: go to Companies</li><li>For each unlinked customer, click Edit and add the QBO Customer ID in the custom field</li><li>The 14 unlinked accounts are listed in the Karen scan output (check Slack DM or karen-ar-agent/output/)</li></ol>
                 </div>
             </div>
+        </div>
 
-            <div class="blocker-card critical">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p1">#3</span>
-                        Load launchd Service
-                    </div>
-                </div>
-                <div class="blocker-description">Service is configured but not loaded.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve runs 24/7, auto-joining meetings</div>
-                <div class="blocker-meta">
-                    <span>⏱️ 2 min</span>
-                    <span>⚠️ Depends on: Recall.ai API Key, Calendar Access</span>
-                </div>
-                <div class="steps-list">
-                    <h4>Steps</h4>
-                    <ol><li>Create <code>.env</code> file with API key</li><li>Run: <code>launchctl load ~/Library/LaunchAgents/com.recess.steve-timekeeper.plist</code></li><li>Verify: <code>launchctl list | grep steve</code></li></ol>
-                </div>
-            </div>
-
-            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 LinkedIn Content Writing </h3>
-
-            <div class="blocker-card critical">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p1">#4</span>
-                        Airtable API Access (Transcripts Base)
-                    </div>
-                </div>
-                <div class="blocker-description">Steve needs read access to your Fireflies transcripts in Airtable to scan meeting notes for LinkedIn content opportunities. You'll create a token and paste it into a config file on this Mac — never send tokens over Slack or any chat.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve can scan meeting transcripts for LinkedIn content ideas automatically</div>
-                <div class="blocker-meta">
-                    <span>⏱️ 8 min</span>
-                    
-                </div>
-                <div class="steps-list">
-                    <h4>Steps</h4>
-                    <ol><li><strong>Open Airtable token page:</strong> Go to <a href='https://airtable.com/create/tokens'>https://airtable.com/create/tokens</a> (log in if prompted)</li><li><strong>Click</strong> the blue <strong>"Create new token"</strong> button (top right)</li><li><strong>Name the token:</strong> Type <code>Steve LinkedIn Reader</code> in the Name field</li><li><strong>Add a scope:</strong> Click <strong>"Add a scope"</strong> → select <strong><code>data.records:read</code></strong> (this gives read-only access — Steve can't modify anything)</li><li><strong>Add a base:</strong> Click <strong>"Add a base"</strong> → search for and select your <strong>Fireflies transcripts base</strong> (the one where meeting recordings/transcripts land)</li><li><strong>Click "Create token"</strong> → a token starting with <code>pat...</code> appears. <strong>Copy it now</strong> — Airtable only shows it once</li><li><strong>Get the Base ID:</strong> Open the Fireflies transcripts base in Airtable. Look at the URL bar — it looks like <code>https://airtable.com/<strong>appABC123XYZ</strong>/tblXXX/...</code>. Copy the part that starts with <code>app</code> (e.g. <code>appABC123XYZ</code>)</li><li><strong>Save both values to the env file.</strong> Open Terminal and run:<br><code>nano ~/clawd/Projects/linkedin-content-writer/.env</code><br>Paste these two lines (replacing the placeholder values):<br><code>AIRTABLE_PAT=pat_your_token_here</code><br><code>AIRTABLE_BASE_ID=appYour_base_id_here</code><br>Press <strong>Ctrl+O</strong> then <strong>Enter</strong> to save, then <strong>Ctrl+X</strong> to exit</li><li><strong>Verify:</strong> Run <code>cat ~/clawd/Projects/linkedin-content-writer/.env</code> — you should see your two values (not the placeholders)</li></ol>
-                </div>
-            </div>
-
-            <div class="blocker-card critical">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p1">#5</span>
-                        Decision: Proceed Without Impressions Data?
-                    </div>
-                </div>
-                <div class="blocker-description">Project has been ON HOLD since March 11 because no tool exposes LinkedIn impressions data (Shield has no API, PhantomBuster only gives likes/comments/shares). Without impressions, Steve can't calculate engagement rates. Two paths forward:</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Content generation pipeline can start (Option A) or stays paused (Option B)</div>
-                <div class="blocker-meta">
-                    <span>⏱️ 1 min</span>
-                    
-                </div>
-                <div class="steps-list">
-                    <h4>Steps</h4>
-                    <ol><li><strong>Option A — Go without impressions (recommended):</strong> Steve skips the analytics/learning loop for now and focuses on content generation + Slack approval flow. You'll still see likes/comments/shares via Shield manually. Reply in Slack: <code>go without impressions</code></li><li><strong>Option B — Stay on hold:</strong> Wait for LinkedIn to open their API or a third-party tool to add impressions. Could be months. Reply in Slack: <code>stay on hold</code></li></ol>
-                </div>
-            </div>
-
-            <div class="blocker-card critical">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p1">#6</span>
-                        Confirm Content Pillars & Voice Profile
-                    </div>
-                </div>
-                <div class="blocker-description">Steve analyzed 158 of your LinkedIn posts via Shield and built a voice profile. Before generating drafts, confirm these are still accurate:</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Steve can start drafting content in your authentic voice</div>
-                <div class="blocker-meta">
-                    <span>⏱️ 2 min</span>
-                    
-                </div>
-                <div class="steps-list">
-                    <h4>Steps</h4>
-                    <ol><li><strong>Review your content pillars:</strong><br>• <strong>CPG Industry Analysis (40%)</strong> — react to earnings, news with your POV<br>• <strong>Sampling/Retail Media (30%)</strong> — Recess methodology, venue partnerships<br>• <strong>Startup Ops (30%)</strong> — behind-the-scenes of scaling, COO lessons</li><li><strong>Review your tone profile:</strong> Analytical + Opinionated + Data-backed. Lead with specific numbers, quote industry leaders then add your take, end with clear POV</li><li><strong>Review your best practices:</strong> Text posts get 3x reach vs images. Fridays perform 5x better. Sweet spot is 500-1200 characters. Power hashtags: #RetailMedia #CPGMarketing</li><li><strong>Reply in Slack</strong> with one of:<br>• <code>confirmed</code> — pillars and voice are good as-is<br>• Or tell Steve what to change (e.g. "drop Startup Ops to 20%, add Leadership/Management at 10%")</li></ol>
-                </div>
-            </div>
-
-            <div class="blocker-card critical">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p1">#7</span>
-                        Provide Current LinkedIn Follower Count
-                    </div>
-                </div>
-                <div class="blocker-description">The goal is to 3x your LinkedIn followers in 2026. Steve needs today's number as the baseline to measure against.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> 3x growth goal has a measurable baseline — Steve will track weekly progress</div>
-                <div class="blocker-meta">
-                    <span>⏱️ 1 min</span>
-                    
-                </div>
-                <div class="steps-list">
-                    <h4>Steps</h4>
-                    <ol><li><strong>Open LinkedIn:</strong> Go to <a href='https://www.linkedin.com/in/me/'>linkedin.com/in/me</a></li><li><strong>Find follower count:</strong> It's displayed below your name/headline on your profile page (e.g. "4,231 followers")</li><li><strong>Reply in Slack</strong> with the number (e.g. <code>follower count: 4231</code>)</li></ol>
-                </div>
-            </div>
-
-            <h3 style="color: #ffd93d; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(255,217,61,0.2); padding-bottom: 8px;">📋 Other Tasks Needing Input</h3>
+        <div class="section" id="input">
+            <h2 class="section-title">🟡 Queued Tasks Needing Input (Lower Priority)</h2>
 
             <div class="blocker-card warning">
                 <div class="blocker-header">
                     <div class="blocker-title">
-                        <span class="priority-badge p2">#8</span>
-                        Improve Asana time estimation + calendar blocking 
+                        <span class="priority-badge p2">#3</span>
+                        Improve Asana time estimation + calendar blocking
                     </div>
                     <span class="project-tag">task-002</span>
                 </div>
@@ -364,32 +286,15 @@
                 </div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Confirm Top 3 priorities + estimates each Friday after 9am reminder — Provide ordered list + estimates; optionally no-go windows/deep-work prefs</li><li>❓ Exact source of calendar truth (which calendar(s) to use)</li><li>❓ Preferred block lengths and time-of-day preferences by default</li></ol>
+                    <ol><li>Confirm Top 3 priorities + estimates each Friday after 9am reminder</li><li>Which calendar(s) to use as source of truth</li><li>Preferred block lengths and time-of-day preferences</li></ol>
                 </div>
             </div>
 
             <div class="blocker-card warning">
                 <div class="blocker-header">
                     <div class="blocker-title">
-                        <span class="priority-badge p2">#9</span>
-                        Dockerize Clawdbot system 
-                    </div>
-                    <span class="project-tag">task-003</span>
-                </div>
-                <div class="blocker-meta">
-                    <span>Status: queue</span>
-                </div>
-                <div class="steps-list">
-                    <h4>Needs Input</h4>
-                    <ol><li>Collect required env vars — Confirm which tokens/keys must be provided at runtime</li><li>❓ Target deployment environment (local only vs. server)</li><li>❓ Preferred base image and security hardening requirements</li></ol>
-                </div>
-            </div>
-
-            <div class="blocker-card warning">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p2">#10</span>
-                        Automate 1:1 meeting follow-ups (summary → Asana → decisions Slack) 
+                        <span class="priority-badge p2">#4</span>
+                        Automate 1:1 meeting follow-ups
                     </div>
                     <span class="project-tag">task-004</span>
                 </div>
@@ -398,15 +303,15 @@
                 </div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Confirm target Slack decisions channel — Provide channel ID/name</li><li>Confirm Asana project/list + task template per person — Provide Asana project/list and any existing template/tasks</li><li>❓ How to identify the correct 1:1 task when multiple meetings exist</li><li>❓ Airtable base/table + fields for Fireflies transcripts</li><li>❓ Decisions Slack channel ID: pending</li><li>❓ Asana project/list + task naming convention: pending</li></ol>
+                    <ol><li>Confirm target Slack decisions channel ID</li><li>Confirm Asana project/list + task template per person</li></ol>
                 </div>
             </div>
 
             <div class="blocker-card warning">
                 <div class="blocker-header">
                     <div class="blocker-title">
-                        <span class="priority-badge p2">#11</span>
-                        Build prompt database (Reddit-style voting + tags) 
+                        <span class="priority-badge p2">#5</span>
+                        Build prompt database (Reddit-style voting + tags)
                     </div>
                     <span class="project-tag">task-008</span>
                 </div>
@@ -415,15 +320,32 @@
                 </div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>❓ Authentication method</li><li>❓ Hosting location</li></ol>
+                    <ol><li>Authentication method</li><li>Hosting location</li></ol>
                 </div>
             </div>
 
             <div class="blocker-card warning">
                 <div class="blocker-header">
                     <div class="blocker-title">
-                        <span class="priority-badge p2">#12</span>
-                        Implement GitHub PR Approval Gate for Code Changes 
+                        <span class="priority-badge p2">#6</span>
+                        Dockerize Clawdbot system
+                    </div>
+                    <span class="project-tag">task-003</span>
+                </div>
+                <div class="blocker-meta">
+                    <span>Status: queue</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Needs Input</h4>
+                    <ol><li>Confirm which env vars/tokens must be provided at runtime</li><li>Target deployment environment (local only vs. server)</li></ol>
+                </div>
+            </div>
+
+            <div class="blocker-card warning">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p2">#7</span>
+                        GitHub PR Approval Gate
                     </div>
                     <span class="project-tag">ENG-PR-GATE-01</span>
                 </div>
@@ -432,120 +354,96 @@
                 </div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>❓ Which repos should be enabled first</li><li>❓ Exact definition of high‑risk change category</li><li>❓ Preferred reviewer assignment rules</li></ol>
+                    <ol><li>Which repos to enable first</li><li>Definition of high-risk change category</li><li>Preferred reviewer assignment rules</li></ol>
                 </div>
             </div>
-
-        </div>
-
-        <div class="section" id="input">
-            <h2 class="section-title">🟡 Items Needing Input</h2>
-            <p style="color: #888; margin-bottom: 20px;">See blocked tasks above — each contains specific questions or steps needing your input.</p>
         </div>
 
         <div class="section" id="ready">
-            <h2 class="section-title" style="color: #4ecdc4;">✅ Ready to Work (No Blockers)</h2>
+            <h2 class="section-title" style="color: #4ecdc4;">&#9989; Active / Ready to Work (No Blockers)</h2>
             <div class="ready-grid">
 
-                <div class="ready-card ">
-                    <h4>task-064</h4>
-                    <p>Customer & Sponsor News Monitoring System</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
-                </div>
-
-                <div class="ready-card ">
+                <div class="ready-card">
                     <h4>task-067</h4>
-                    <p>Karen AR Collection Agent</p>
+                    <p>Karen AR Collection Agent (Mon/Wed/Fri cron live)</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
                 </div>
 
-                <div class="ready-card ">
+                <div class="ready-card">
+                    <h4>task-069</h4>
+                    <p>LinkedIn Content Calendar & Weekly Report</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
+                </div>
+
+                <div class="ready-card">
+                    <h4>task-071</h4>
+                    <p>LinkedIn Comment Responder (Phase 3 building)</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
+                </div>
+
+                <div class="ready-card">
+                    <h4>task-064</h4>
+                    <p>Customer & Sponsor News Monitoring</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress — tracking 2-week delivery window</p>
+                </div>
+
+                <div class="ready-card">
                     <h4>task-068</h4>
                     <p>Memory Reliability Hardening</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress — awaiting compaction proof</p>
                 </div>
 
-                <div class="ready-card ">
-                    <h4>task-069</h4>
-                    <p>LinkedIn Content Calendar & Weekly Report System</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
+                <div class="ready-card">
+                    <h4>task-066</h4>
+                    <p>Steve Timekeeper (live, all blockers cleared)</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: done</p>
                 </div>
 
-                <div class="ready-card ">
-                    <h4>task-071</h4>
-                    <p>LinkedIn Comment Responder</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress</p>
-                </div>
-
-                <div class="ready-card ">
-                    <h4>task-009</h4>
-                    <p>Improve decisions posting: configurable Slack channel + richer payload</p>
+                <div class="ready-card">
+                    <h4>task-070</h4>
+                    <p>Mission Control — Weekly Schedule View</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
-                <div class="ready-card ">
+                <div class="ready-card">
+                    <h4>task-009</h4>
+                    <p>Improve decisions posting: configurable Slack channel</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
+                </div>
+
+                <div class="ready-card">
                     <h4>task-010</h4>
                     <p>Auto-create next meeting + link previous notes</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
-                <div class="ready-card ">
+                <div class="ready-card">
                     <h4>task-013</h4>
                     <p>Wellness coach: unified meal/sleep/exercise dashboard</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
-                <div class="ready-card ">
+                <div class="ready-card">
                     <h4>task-014</h4>
                     <p>AI news scan + plain-English team summary</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
-                <div class="ready-card ">
+                <div class="ready-card">
                     <h4>task-018</h4>
-                    <p>Move recess-engage repo to RECESSDigital org + enable branch protection</p>
+                    <p>Move recess-engage repo to RECESSDigital org</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
-                <div class="ready-card ">
-                    <h4>task-017-1772542204</h4>
-                    <p>Review local Qwen3.5 Small Series setup</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
-                </div>
-
-                <div class="ready-card ">
-                    <h4>task-025</h4>
-                    <p>Address npm audit vulnerabilities (post Phase 0)</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
-                </div>
-
-                <div class="ready-card ">
+                <div class="ready-card">
                     <h4>task-031</h4>
                     <p>Heartbeat logging</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
-                <div class="ready-card ">
+                <div class="ready-card">
                     <h4>task-033</h4>
                     <p>Proactive sensing loop</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
-                </div>
-
-                <div class="ready-card ">
-                    <h4>test-lifecycle-93063</h4>
-                    <p>Test task for sync</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
-                </div>
-
-                <div class="ready-card ">
-                    <h4>test-lifecycle-96146</h4>
-                    <p>Test task for sync</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
-                </div>
-
-                <div class="ready-card ">
-                    <h4>task-070</h4>
-                    <p>Mission Control — Weekly Schedule View</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
 
@@ -553,9 +451,9 @@
         </div>
 
         <footer>
-            <p>🤖 Managed by Steve • Auto-generated from tasks.json + project blockers</p>
+            <p>&#129302; Managed by Steve · Auto-generated from tasks.json + project blockers</p>
             <p style="margin-top: 8px;">Reply in Slack to unblock items or change priorities.</p>
-            <p style="margin-top: 8px; color: #444;">Last scan: March 26, 2026 · 07:37 AM MT</p>
+            <p style="margin-top: 8px; color: #444;">Last scan: March 26, 2026 · 08:00 AM MT</p>
         </footer>
     </div>
 </body>
