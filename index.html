@@ -77,7 +77,6 @@
         .blocker-card.critical { border-left: 4px solid #ff6b6b; }
         .blocker-card.warning { border-left: 4px solid #ffd93d; }
         .blocker-card.info { border-left: 4px solid #4ecdc4; }
-        .blocker-card.not-focus { opacity: 0.5; border-left: 4px solid #555; }
         .blocker-header {
             display: flex;
             justify-content: space-between;
@@ -143,32 +142,8 @@
             border-radius: 12px;
             padding: 16px 20px;
         }
-        .ready-card.not-focus {
-            opacity: 0.5;
-            background: rgba(100, 100, 100, 0.05);
-            border: 1px solid rgba(100, 100, 100, 0.2);
-        }
         .ready-card h4 { color: #4ecdc4; font-size: 0.95rem; margin-bottom: 6px; }
-        .ready-card.not-focus h4 { color: #888; }
         .ready-card p { color: #888; font-size: 0.85rem; }
-        .not-focus-label {
-            font-size: 0.7rem;
-            background: #555;
-            color: #aaa;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 8px;
-        }
-        .resolved-banner {
-            background: rgba(107, 203, 119, 0.1);
-            border: 1px solid rgba(107, 203, 119, 0.3);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 32px;
-        }
-        .resolved-banner h3 { color: #6bcb77; font-size: 1rem; margin-bottom: 8px; }
-        .resolved-banner ul { padding-left: 20px; }
-        .resolved-banner li { color: #aaa; font-size: 0.85rem; margin: 4px 0; }
         footer {
             margin-top: 60px;
             padding-top: 24px;
@@ -189,7 +164,7 @@
     <div class="container">
         <header>
             <h1>🚧 Deuce's Blockers</h1>
-            <span class="last-updated">Updated: March 28, 2026 · 08:00 AM MT</span>
+            <span class="last-updated">Updated: March 28, 2026 · 05:00 PM MT</span>
         </header>
 
         <div class="stats-row">
@@ -206,79 +181,78 @@
                 </a>
             </div>
             <div class="stat-card">
-                <a href="#ready">
-                    <div class="stat-value info">18</div>
-                    <div class="stat-label">Ready to Work</div>
+                <a href="#active">
+                    <div class="stat-value" style="color: #6bcb77;">3</div>
+                    <div class="stat-label">Active / Building</div>
                 </a>
             </div>
             <div class="stat-card">
-                <a href="#blocked">
-                    <div class="stat-value" style="color: #888;">~10</div>
-                    <div class="stat-label">Min to Clear All</div>
+                <a href="#ready">
+                    <div class="stat-value info">12</div>
+                    <div class="stat-label">Ready to Work</div>
                 </a>
             </div>
         </div>
 
-        <div class="resolved-banner">
-            <h3>✅ Recently Resolved</h3>
-            <ul>
-                <li>Karen AR — Deuce reviewed drafts, fixed far-future invoices + PO platform context wired (Mar 25)</li>
-                <li>LinkedIn — Content calendar system approved, approved posts now schedule across Tue/Thu/Fri (Mar 27)</li>
-                <li>LinkedIn — Shield subscription reactivated, 100 posts synced (Mar 25)</li>
-                <li>LinkedIn — Comment Responder Phase 1+2 live, 104 tests passing (Mar 25)</li>
-                <li>Steve Timekeeper — All blockers cleared, Steve is live (Mar 15)</li>
-            </ul>
-        </div>
-
+        <!-- BLOCKED TASKS -->
         <div class="section" id="blocked">
             <h2 class="section-title">🔴 Blocked Tasks</h2>
 
-            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 Karen AR Collection Agent</h3>
+            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 Steve Timekeeper (task-066)</h3>
 
             <div class="blocker-card critical">
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p1">#1</span>
-                        Link 14 Missing HubSpot Customers (~$486K AR)
+                        End-to-end test with real Google Meet
                     </div>
-                    <span class="project-tag">task-067</span>
                 </div>
-                <div class="blocker-description">Karen's entity resolution is at 90% (19/21 customers). 14 customers are missing HubSpot company links, representing ~$486K in outstanding AR. Without these links, Karen can't pull deal context or email history for those accounts.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Karen can draft contextual follow-up emails for all outstanding accounts, not just the 90% with HubSpot links</div>
-                <div class="blocker-meta">
-                    <span>⏱️ 5 min per customer</span>
-                </div>
-                <div class="steps-list">
-                    <h4>Steps</h4>
-                    <ol><li>Open HubSpot Companies</li><li>For each unlinked customer: Edit company → add QBO Customer ID in the custom field</li><li>This lets Karen join invoice data to HubSpot deal/contact/email history</li></ol>
-                </div>
-            </div>
-
-            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 LinkedIn Content Calendar</h3>
-
-            <div class="blocker-card critical">
-                <div class="blocker-header">
-                    <div class="blocker-title">
-                        <span class="priority-badge p1">#2</span>
-                        Review Top 10 Transcript-Sourced LinkedIn Post Ideas
-                    </div>
-                    <span class="project-tag">task-069</span>
-                </div>
-                <div class="blocker-description">Steve mined 62 meeting transcripts from 2026 and presented the top 10 LinkedIn post ideas in your Slack DM thread (Mar 25). Need your selection to know which to draft first.</div>
-                <div class="unlocks"><strong>Unlocks:</strong> Transcript insight pipeline generates targeted drafts based on your real conversations</div>
+                <div class="blocker-description">Recall.ai key set, calendar access works, launchd running. Last step: verify Steve actually joins a real meeting and posts agenda updates.</div>
+                <div class="unlocks">Unlocks: Steve Timekeeper goes live — auto-joins Google Meet and keeps time on agenda items</div>
                 <div class="blocker-meta">
                     <span>⏱️ 5 min</span>
                 </div>
                 <div class="steps-list">
                     <h4>Steps</h4>
-                    <ol><li>Check Slack DM with Steve from Mar 25 — find the 10 post ideas thread</li><li>Reply with which ones to draft or prioritize (e.g. "draft #2, #5, #8")</li></ol>
+                    <ol>
+                        <li>Create a Google Calendar event on <code>steve@recess.is</code> starting ~2 min from now</li>
+                        <li>Add a Google Meet link to the event</li>
+                        <li>Include an agenda in the description (e.g. ## Agenda\n- Item 1 (2m)\n- Item 2 (3m))</li>
+                        <li>Join the Google Meet yourself</li>
+                        <li>Verify Steve bot joins and posts time updates in chat</li>
+                    </ol>
                 </div>
             </div>
 
+            <h3 style="color: #4ecdc4; margin: 32px 0 16px; font-size: 1.15rem; border-bottom: 1px solid rgba(78,205,196,0.2); padding-bottom: 8px;">📁 GTM Agent (task-059)</h3>
+
+            <div class="blocker-card critical">
+                <div class="blocker-header">
+                    <div class="blocker-title">
+                        <span class="priority-badge p1">#2</span>
+                        GTM Agent — Stale Deal Follow-up System
+                    </div>
+                </div>
+                <div class="blocker-description">Task packet marked blocked. Needs scope confirmation before implementation can proceed.</div>
+                <div class="unlocks">Unlocks: Automated stale deal follow-ups across Buyer and Supplier pipelines</div>
+                <div class="blocker-meta">
+                    <span>⏱️ 5 min</span>
+                </div>
+                <div class="steps-list">
+                    <h4>Steps</h4>
+                    <ol>
+                        <li>Confirm which HubSpot pipelines to scan (Buyer and/or Supplier)</li>
+                        <li>Confirm "stale" threshold (7+ days no activity?)</li>
+                        <li>Confirm Slack channel for approval flow</li>
+                        <li>Reply in Slack with go-ahead or scope adjustments</li>
+                    </ol>
+                </div>
+            </div>
         </div>
 
+        <!-- ITEMS NEEDING INPUT -->
         <div class="section" id="input">
-            <h2 class="section-title">🟡 Items Needing Input (Lower Priority)</h2>
+            <h2 class="section-title">🟡 Items Needing Input</h2>
 
             <div class="blocker-card warning">
                 <div class="blocker-header">
@@ -288,12 +262,14 @@
                     </div>
                     <span class="project-tag">task-002</span>
                 </div>
-                <div class="blocker-meta">
-                    <span>Status: queue</span>
-                </div>
+                <div class="blocker-meta"><span>Status: queue</span></div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Confirm Top 3 priorities + estimates each Friday after 9am reminder</li><li>Which calendar(s) to use as source of truth</li><li>Preferred block lengths and time-of-day preferences</li></ol>
+                    <ol>
+                        <li>Confirm Top 3 priorities + estimates each Friday after 9am reminder</li>
+                        <li>Which calendar(s) are source of truth?</li>
+                        <li>Preferred block lengths and time-of-day preferences</li>
+                    </ol>
                 </div>
             </div>
 
@@ -301,16 +277,17 @@
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p2">#4</span>
-                        Dockerize Clawdbot system
+                        Automate 1:1 meeting follow-ups
                     </div>
-                    <span class="project-tag">task-003</span>
+                    <span class="project-tag">task-004</span>
                 </div>
-                <div class="blocker-meta">
-                    <span>Status: queue</span>
-                </div>
+                <div class="blocker-meta"><span>Status: queue</span></div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Confirm which tokens/keys must be provided at runtime</li><li>Target deployment environment (local only vs. server)</li><li>Preferred base image and security hardening requirements</li></ol>
+                    <ol>
+                        <li>Confirm target Slack decisions channel ID</li>
+                        <li>Confirm Asana project/list + task template per person</li>
+                    </ol>
                 </div>
             </div>
 
@@ -318,16 +295,17 @@
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p2">#5</span>
-                        Automate 1:1 meeting follow-ups
+                        Build prompt database (Reddit-style voting + tags)
                     </div>
-                    <span class="project-tag">task-004</span>
+                    <span class="project-tag">task-008</span>
                 </div>
-                <div class="blocker-meta">
-                    <span>Status: queue</span>
-                </div>
+                <div class="blocker-meta"><span>Status: approved</span></div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Confirm target Slack decisions channel</li><li>Confirm Asana project/list + task template per person</li><li>How to identify the correct 1:1 task when multiple meetings exist</li></ol>
+                    <ol>
+                        <li>Authentication method (Google SSO? Slack? open?)</li>
+                        <li>Hosting location</li>
+                    </ol>
                 </div>
             </div>
 
@@ -335,16 +313,16 @@
                 <div class="blocker-header">
                     <div class="blocker-title">
                         <span class="priority-badge p2">#6</span>
-                        Build prompt database (Reddit-style voting + tags)
+                        Export LinkedIn Follower Demographics
                     </div>
-                    <span class="project-tag">task-008</span>
+                    <span class="project-tag">task-060</span>
                 </div>
-                <div class="blocker-meta">
-                    <span>Status: approved</span>
-                </div>
+                <div class="blocker-meta"><span>Status: planned</span></div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Authentication method</li><li>Hosting location</li></ol>
+                    <ol>
+                        <li>LinkedIn API does not expose demographics — confirm manual export or third-party tool</li>
+                    </ol>
                 </div>
             </div>
 
@@ -356,136 +334,111 @@
                     </div>
                     <span class="project-tag">ENG-PR-GATE-01</span>
                 </div>
-                <div class="blocker-meta">
-                    <span>Status: proposed</span>
-                </div>
+                <div class="blocker-meta"><span>Status: proposed</span></div>
                 <div class="steps-list">
                     <h4>Needs Input</h4>
-                    <ol><li>Which repos should be enabled first</li><li>Definition of high-risk change category</li><li>Preferred reviewer assignment rules</li></ol>
+                    <ol>
+                        <li>Which repos to enable first?</li>
+                        <li>Definition of high-risk change category</li>
+                        <li>Reviewer assignment rules</li>
+                    </ol>
                 </div>
             </div>
-
         </div>
 
+        <!-- ACTIVE / BUILDING -->
+        <div class="section" id="active">
+            <h2 class="section-title" style="color: #6bcb77;">🟢 Active / Building (No Blockers)</h2>
+            <div class="ready-grid">
+                <div class="ready-card" style="border-color: rgba(107,203,119,0.3); background: rgba(107,203,119,0.05);">
+                    <h4 style="color: #6bcb77;">task-067</h4>
+                    <p>Karen AR Collection Agent — 3/10 AC verified, building phases 2-5</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: building</p>
+                </div>
+                <div class="ready-card" style="border-color: rgba(107,203,119,0.3); background: rgba(107,203,119,0.05);">
+                    <h4 style="color: #6bcb77;">task-069</h4>
+                    <p>LinkedIn Content Calendar + Weekly Reports — drafts, reminders, reports running</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: building</p>
+                </div>
+                <div class="ready-card" style="border-color: rgba(107,203,119,0.3); background: rgba(107,203,119,0.05);">
+                    <h4 style="color: #6bcb77;">task-014</h4>
+                    <p>AI News Daily Digest + Weekly Team Roundup</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: building</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- READY TO WORK -->
         <div class="section" id="ready">
             <h2 class="section-title" style="color: #4ecdc4;">✅ Ready to Work (No Blockers)</h2>
             <div class="ready-grid">
-
                 <div class="ready-card">
-                    <h4>task-064</h4>
-                    <p>Customer & Sponsor News Monitoring System</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress · Tracking 2-week delivery window through ~Apr 8</p>
+                    <h4>task-041</h4>
+                    <p>Newsletter Architecture: Daily Scraper + Generator Split</p>
+                    <p style="font-size: 0.75rem; color: #666;">Approved — start after autoresearch baseline</p>
                 </div>
-
                 <div class="ready-card">
-                    <h4>task-067</h4>
-                    <p>Karen AR Collection Agent</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress · Mon/Wed/Fri cron live, 148 tests, payment detection added</p>
+                    <h4>task-autoresearch</h4>
+                    <p>Autoresearch Skill — prompt optimization loop</p>
+                    <p style="font-size: 0.75rem; color: #666;">Phase 0 build started today</p>
                 </div>
-
-                <div class="ready-card">
-                    <h4>task-068</h4>
-                    <p>Memory Reliability Hardening</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress · 4/5 verified, awaiting natural compaction event</p>
-                </div>
-
-                <div class="ready-card">
-                    <h4>task-069</h4>
-                    <p>LinkedIn Content Calendar & Weekly Report System</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress · Content calendar system built, Tue/Thu drafts + posting flow</p>
-                </div>
-
-                <div class="ready-card">
-                    <h4>task-071</h4>
-                    <p>LinkedIn Comment Responder</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: in_progress · Phase 3 (quiet hours + business context)</p>
-                </div>
-
-                <div class="ready-card">
-                    <h4>task-070</h4>
-                    <p>Mission Control — Weekly Schedule View</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue · Task packet created, awaiting phase proposal</p>
-                </div>
-
                 <div class="ready-card">
                     <h4>task-009</h4>
-                    <p>Improve decisions posting: configurable Slack channel + richer payload</p>
+                    <p>Improve decisions posting: configurable Slack + richer payload</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
                     <h4>task-010</h4>
                     <p>Auto-create next meeting + link previous notes</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
                     <h4>task-013</h4>
                     <p>Wellness coach: unified meal/sleep/exercise dashboard</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
-                <div class="ready-card">
-                    <h4>task-014</h4>
-                    <p>AI news scan + plain-English team summary</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
-                </div>
-
                 <div class="ready-card">
                     <h4>task-018</h4>
-                    <p>Move recess-engage repo to RECESSDigital org + enable branch protection</p>
+                    <p>Move recess-engage to RECESSDigital org + branch protection</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
-                    <h4>task-017-1772542204</h4>
-                    <p>Review local Qwen3.5 Small Series setup</p>
+                    <h4>task-058</h4>
+                    <p>Add integration tests to recess-engage</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: planned</p>
+                </div>
+                <div class="ready-card">
+                    <h4>task-003</h4>
+                    <p>Dockerize Clawdbot system</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
                     <h4>task-025</h4>
-                    <p>Address npm audit vulnerabilities (post Phase 0)</p>
+                    <p>Address npm audit vulnerabilities</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
                     <h4>task-031</h4>
                     <p>Heartbeat logging</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
                     <h4>task-033</h4>
                     <p>Proactive sensing loop</p>
                     <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
                 <div class="ready-card">
-                    <h4>task-066</h4>
-                    <p>Steve Timekeeper - Google Meet Agenda Bot</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: done · All blockers cleared, Steve is live</p>
+                    <h4>task-017-1772542204</h4>
+                    <p>Review local Qwen3.5 Small Series setup</p>
+                    <p style="font-size: 0.75rem; color: #666;">Status: queue</p>
                 </div>
-
-                <div class="ready-card">
-                    <h4>RE-DISC-08</h4>
-                    <p>Select LinkedIn advocacy data source approach</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: proposed · Airtable tokens verified</p>
-                </div>
-
-                <div class="ready-card">
-                    <h4>ENG-03</h4>
-                    <p>Secure /logsleep endpoint</p>
-                    <p style="font-size: 0.75rem; color: #666;">Status: proposed · recess-engage</p>
-                </div>
-
             </div>
         </div>
 
         <footer>
-            <p>🤖 Managed by Steve · Auto-generated from tasks.json + project blockers</p>
+            <p>🤖 Managed by Steve · Auto-generated from tasks.json + task packets + project blockers</p>
             <p style="margin-top: 8px;">Reply in Slack to unblock items or change priorities.</p>
-            <p style="margin-top: 8px; color: #444;">Last scan: March 28, 2026 · 08:00 AM MT</p>
+            <p style="margin-top: 8px; color: #444;">Last scan: March 28, 2026 · 05:00 PM MT</p>
         </footer>
     </div>
 </body>
