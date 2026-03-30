@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockers Dashboard | Recess</title>
+<style>
+  :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --red: #f85149; --yellow: #d29922; --green: #3fb950; --blue: #58a6ff; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 24px; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
+  .summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 120px; }
+  .stat-value { font-size: 2rem; font-weight: 700; }
+  .stat-label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; }
+  .blocker { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .blocker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .blocker-title { font-weight: 600; font-size: 1rem; }
+  .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
+  .badge-needs-deuce { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-waiting { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-in-progress { background: rgba(63,185,80,0.15); color: var(--green); }
+  .blocker-task { color: var(--blue); font-size: 0.8rem; margin-bottom: 4px; }
+  .blocker-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+  .blocker-action { margin-top: 8px; font-size: 0.85rem; color: var(--yellow); }
+  .section-title { font-size: 1.1rem; font-weight: 600; margin: 24px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .queued-list { color: var(--muted); font-size: 0.85rem; line-height: 1.8; }
+  .queued-list li { list-style: none; padding: 4px 0; }
+  .queued-list li::before { content: "○ "; color: var(--border); }
+  footer { margin-top: 32px; color: var(--muted); font-size: 0.75rem; text-align: center; border-top: 1px solid var(--border); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<h1>📋 Blockers Dashboard</h1>
+<p class="subtitle">Updated Mon Mar 30, 2026 at 5:00 PM MT</p>
+
+<div class="summary">
+  <div class="stat">
+    <div class="stat-value" style="color:var(--red)">3</div>
+    <div class="stat-label">Needs Deuce</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" style="color:var(--green)">2</div>
+    <div class="stat-label">In Progress</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" style="color:var(--muted)">9</div>
+    <div class="stat-label">Queued (no blocker)</div>
+  </div>
+</div>
+
+<div class="section-title" style="color:var(--red)">🔴 Needs Deuce Action</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Asana Time Estimation + Calendar Blocking</span>
+    <span class="badge badge-needs-deuce">Needs Deuce</span>
+  </div>
+  <div class="blocker-task">task-002 · high priority</div>
+  <div class="blocker-desc">Waiting on Deuce to confirm Top 3 priorities + estimates each Friday and calendar preferences (which calendars, block lengths, time-of-day prefs).</div>
+  <div class="blocker-action">⚡ Action: Provide Top 3 priorities, preferred calendar(s), and block-length preferences</div>
+</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Dockerize Clawdbot System</span>
+    <span class="badge badge-needs-deuce">Needs Deuce</span>
+  </div>
+  <div class="blocker-task">task-003 · medium priority</div>
+  <div class="blocker-desc">Blocked on Deuce confirming which tokens/keys must be provided at runtime for the Docker environment.</div>
+  <div class="blocker-action">⚡ Action: Provide list of required env vars for Clawdbot runtime</div>
+</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Move recess-engage to RECESSDigital Org</span>
+    <span class="badge badge-needs-deuce">Needs Deuce</span>
+  </div>
+  <div class="blocker-task">task-018 · medium priority</div>
+  <div class="blocker-desc">Repo transfer requires owner action in GitHub Settings. Needed to enable branch protection (org plan).</div>
+  <div class="blocker-action">⚡ Action: Transfer repo via GitHub Settings → Danger Zone → Transfer ownership to RECESSDigital</div>
+</div>
+
+<div class="section-title" style="color:var(--green)">🟢 In Progress</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Newsletter Architecture: Scraper + Generator Split</span>
+    <span class="badge badge-in-progress">In Progress</span>
+  </div>
+  <div class="blocker-task">task-041 · high priority</div>
+  <div class="blocker-desc">Wired newsletter crons to Airtable News Feed. Daily scraper cron at 5am MT. Bumped timeouts. Sponsor Scoop re-triggered after morning failure.</div>
+</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Autoresearch Slack Command</span>
+    <span class="badge badge-in-progress">In Progress</span>
+  </div>
+  <div class="blocker-task">task-073 · medium priority</div>
+  <div class="blocker-desc">DM trigger + background execution + progress reporting for autoresearch optimization runs.</div>
+</div>
+
+<div class="section-title">Queued (No Blockers)</div>
+<ul class="queued-list">
+  <li>task-004 · 1:1 Meeting Follow-ups (Asana + Slack pipeline) — high</li>
+  <li>task-074 · Karen AR Intelligence Accuracy Fixes (TDD) — high</li>
+  <li>task-008 · Prompt Database (Reddit-style voting) — medium, approved</li>
+  <li>task-009 · Decisions Posting Improvements — medium</li>
+  <li>task-010 · Auto-create Next Meeting + Link Notes — medium</li>
+  <li>task-013 · Wellness Coach Dashboard — medium</li>
+  <li>task-014 · AI News Scan + Team Summary — medium</li>
+  <li>task-031 · Heartbeat Logging — medium</li>
+  <li>task-033 · Proactive Sensing Loop — medium</li>
+</ul>
+
+<footer>
+  Auto-generated from tasks.json · Steve (OpenClaw) · Next update 5 PM MT tomorrow
+</footer>
+
+</body>
+</html>
