@@ -21,6 +21,7 @@
   .badge-needs-deuce { background: rgba(248,81,73,0.15); color: var(--red); }
   .badge-waiting { background: rgba(210,153,34,0.15); color: var(--yellow); }
   .badge-in-progress { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-partial { background: rgba(88,166,255,0.15); color: var(--blue); }
   .blocker-task { color: var(--blue); font-size: 0.8rem; margin-bottom: 4px; }
   .blocker-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
   .blocker-action { margin-top: 8px; font-size: 0.85rem; color: var(--yellow); }
@@ -34,7 +35,7 @@
 <body>
 
 <h1>📋 Blockers Dashboard</h1>
-<p class="subtitle">Updated Tue Mar 31, 2026 at 5:00 PM MT</p>
+<p class="subtitle">Updated Wed Apr 1, 2026 at 8:00 AM MT</p>
 
 <div class="summary">
   <div class="stat">
@@ -88,10 +89,10 @@
 <div class="blocker">
   <div class="blocker-header">
     <span class="blocker-title">Newsletter Architecture: Scraper + Generator Split</span>
-    <span class="badge badge-in-progress">In Progress</span>
+    <span class="badge badge-partial">5/9 DoD</span>
   </div>
   <div class="blocker-task">task-041 · high priority</div>
-  <div class="blocker-desc">Wired newsletter crons to Airtable News Feed. Daily scraper cron at 5am MT. Bumped timeouts. Sponsor Scoop re-triggered after morning failure.</div>
+  <div class="blocker-desc">Airtable News Feed + scraper cron + newsletter rewiring done. Remaining: mark-used Airtable PATCH after gen, BRAVE_API_KEY not in scraper env (only 3/9 RSS sources working), Partner Pulse last errored, autoresearch targets not in backlog.</div>
 </div>
 
 <div class="blocker">
@@ -100,13 +101,13 @@
     <span class="badge badge-in-progress">In Progress</span>
   </div>
   <div class="blocker-task">task-073 · medium priority</div>
-  <div class="blocker-desc">DM trigger + background execution + progress reporting for autoresearch optimization runs.</div>
+  <div class="blocker-desc">Phase 1 (command parser) complete. Phase 2 (background execution) and Phase 3 (progress reporting) remain.</div>
 </div>
 
 <div class="section-title">Queued (No Blockers)</div>
 <ul class="queued-list">
   <li>task-004 · 1:1 Meeting Follow-ups (Asana + Slack pipeline) — high</li>
-  <li>task-074 · Karen AR Intelligence Accuracy Fixes (TDD) — high</li>
+  <li>task-075 · LinkedIn New Idea Button (in-app generate/revise/approve) — queued</li>
   <li>task-008 · Prompt Database (Reddit-style voting) — medium, approved</li>
   <li>task-009 · Decisions Posting Improvements — medium</li>
   <li>task-010 · Auto-create Next Meeting + Link Notes — medium</li>
@@ -117,7 +118,7 @@
 </ul>
 
 <footer>
-  Auto-generated from tasks.json · Steve (OpenClaw) · Next update 8 AM MT Wed Apr 1
+  Auto-generated from tasks.json · Steve (OpenClaw) · Next update 8 AM MT Thu Apr 2
 </footer>
 
 </body>
