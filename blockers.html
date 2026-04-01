@@ -21,7 +21,6 @@
   .badge-needs-deuce { background: rgba(248,81,73,0.15); color: var(--red); }
   .badge-waiting { background: rgba(210,153,34,0.15); color: var(--yellow); }
   .badge-in-progress { background: rgba(63,185,80,0.15); color: var(--green); }
-  .badge-partial { background: rgba(88,166,255,0.15); color: var(--blue); }
   .blocker-task { color: var(--blue); font-size: 0.8rem; margin-bottom: 4px; }
   .blocker-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
   .blocker-action { margin-top: 8px; font-size: 0.85rem; color: var(--yellow); }
@@ -35,7 +34,7 @@
 <body>
 
 <h1>📋 Blockers Dashboard</h1>
-<p class="subtitle">Updated Wed Apr 1, 2026 at 8:00 AM MT</p>
+<p class="subtitle">Updated Wed Apr 1, 2026 at 5:00 PM MT</p>
 
 <div class="summary">
   <div class="stat">
@@ -43,11 +42,11 @@
     <div class="stat-label">Needs Deuce</div>
   </div>
   <div class="stat">
-    <div class="stat-value" style="color:var(--green)">2</div>
+    <div class="stat-value" style="color:var(--green)">3</div>
     <div class="stat-label">In Progress</div>
   </div>
   <div class="stat">
-    <div class="stat-value" style="color:var(--muted)">9</div>
+    <div class="stat-value" style="color:var(--muted)">8</div>
     <div class="stat-label">Queued (no blocker)</div>
   </div>
 </div>
@@ -80,8 +79,8 @@
     <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
   <div class="blocker-task">task-018 · medium priority</div>
-  <div class="blocker-desc">Repo transfer requires owner action in GitHub Settings. Needed to enable branch protection (org plan).</div>
-  <div class="blocker-action">⚡ Action: Transfer repo via GitHub Settings → Danger Zone → Transfer ownership to RECESSDigital</div>
+  <div class="blocker-desc">Repo transfer requires owner-level action on GitHub. Branch protection can be enabled after transfer to org team plan.</div>
+  <div class="blocker-action">⚡ Action: Transfer repo at GitHub Settings, Danger Zone, Transfer ownership to RECESSDigital</div>
 </div>
 
 <div class="section-title" style="color:var(--green)">🟢 In Progress</div>
@@ -89,10 +88,10 @@
 <div class="blocker">
   <div class="blocker-header">
     <span class="blocker-title">Newsletter Architecture: Scraper + Generator Split</span>
-    <span class="badge badge-partial">5/9 DoD</span>
+    <span class="badge badge-in-progress">In Progress</span>
   </div>
   <div class="blocker-task">task-041 · high priority</div>
-  <div class="blocker-desc">Airtable News Feed + scraper cron + newsletter rewiring done. Remaining: mark-used Airtable PATCH after gen, BRAVE_API_KEY not in scraper env (only 3/9 RSS sources working), Partner Pulse last errored, autoresearch targets not in backlog.</div>
+  <div class="blocker-desc">5/9 DoD items done. Remaining: mark Used articles in Airtable, inject BRAVE_API_KEY into scraper cron (only 3/9 sources working), fix Partner Pulse error, add autoresearch targets to backlog.</div>
 </div>
 
 <div class="blocker">
@@ -101,25 +100,31 @@
     <span class="badge badge-in-progress">In Progress</span>
   </div>
   <div class="blocker-task">task-073 · medium priority</div>
-  <div class="blocker-desc">Phase 1 (command parser) complete. Phase 2 (background execution) and Phase 3 (progress reporting) remain.</div>
+  <div class="blocker-desc">Phase 1 (Command Parser) complete. Phase 2 (Background Execution) and Phase 3 (Progress Reporting) remain.</div>
 </div>
 
-<div class="section-title">Queued (No Blockers)</div>
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">LinkedIn New Idea Button</span>
+    <span class="badge badge-in-progress">In Progress</span>
+  </div>
+  <div class="blocker-task">task-075</div>
+  <div class="blocker-desc">Implementation complete. PR #77 created, Opus review done. Awaiting Deuce approval to merge.</div>
+</div>
+
+<div class="section-title">📥 Queued (no blocker)</div>
 <ul class="queued-list">
-  <li>task-004 · 1:1 Meeting Follow-ups (Asana + Slack pipeline) — high</li>
-  <li>task-075 · LinkedIn New Idea Button (in-app generate/revise/approve) — queued</li>
-  <li>task-008 · Prompt Database (Reddit-style voting) — medium, approved</li>
-  <li>task-009 · Decisions Posting Improvements — medium</li>
-  <li>task-010 · Auto-create Next Meeting + Link Notes — medium</li>
-  <li>task-013 · Wellness Coach Dashboard — medium</li>
-  <li>task-014 · AI News Scan + Team Summary — medium</li>
-  <li>task-031 · Heartbeat Logging — medium</li>
-  <li>task-033 · Proactive Sensing Loop — medium</li>
+  <li>task-004 · Automate 1:1 meeting follow-ups (high) — pipeline built, needs Asana token + transcript access</li>
+  <li>task-008 · Prompt database with voting + tags (medium) — approved, not started</li>
+  <li>task-009 · Decisions posting: configurable Slack channel (medium)</li>
+  <li>task-010 · Auto-create next meeting + link previous notes (medium)</li>
+  <li>task-013 · Wellness coach dashboard (medium)</li>
+  <li>task-014 · AI news scan + team summary (medium) — script ready, cron needs approval</li>
+  <li>task-031 · Heartbeat logging for agents (medium)</li>
+  <li>task-033 · Proactive sensing loop (medium)</li>
 </ul>
 
-<footer>
-  Auto-generated from tasks.json · Steve (OpenClaw) · Next update 8 AM MT Thu Apr 2
-</footer>
+<footer>Auto-generated by Steve · Next update: Thu Apr 2 at 5:00 PM MT · blocker-focus: nothing deprioritized</footer>
 
 </body>
 </html>
