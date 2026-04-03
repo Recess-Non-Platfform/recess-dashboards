@@ -21,6 +21,7 @@
   .badge-needs-deuce { background: rgba(248,81,73,0.15); color: var(--red); }
   .badge-waiting { background: rgba(210,153,34,0.15); color: var(--yellow); }
   .badge-in-progress { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-steve { background: rgba(88,166,255,0.15); color: var(--blue); }
   .blocker-task { color: var(--blue); font-size: 0.8rem; margin-bottom: 4px; }
   .blocker-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
   .blocker-action { margin-top: 8px; font-size: 0.85rem; color: var(--yellow); }
@@ -28,105 +29,99 @@
   .queued-list { color: var(--muted); font-size: 0.85rem; line-height: 1.8; }
   .queued-list li { list-style: none; padding: 4px 0; }
   .queued-list li::before { content: "○ "; color: var(--border); }
-  .recently-done { color: var(--muted); font-size: 0.85rem; line-height: 1.8; }
-  .recently-done li { list-style: none; padding: 4px 0; }
-  .recently-done li::before { content: "✅ "; }
-  footer { margin-top: 32px; color: var(--muted); font-size: 0.75rem; text-align: center; border-top: 1px solid var(--border); padding-top: 16px; }
+  .resolved { opacity: 0.5; }
+  .resolved .blocker-title::after { content: " ✓ resolved"; color: var(--green); font-size: 0.75rem; font-weight: 400; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<h1>📋 Blockers Dashboard</h1>
-<p class="subtitle">Updated Fri Apr 3, 2026 at 8:00 AM MT</p>
+<h1>🚧 Blockers Dashboard</h1>
+<p class="subtitle">Updated: Friday Apr 3, 2026 5:00 PM MT</p>
 
 <div class="summary">
   <div class="stat">
-    <div class="stat-value" style="color:var(--red)">3</div>
-    <div class="stat-label">Needs Deuce</div>
+    <div class="stat-value" style="color: var(--red)">3</div>
+    <div class="stat-label">Active Blockers</div>
   </div>
   <div class="stat">
-    <div class="stat-value" style="color:var(--green)">2</div>
-    <div class="stat-label">In Progress</div>
+    <div class="stat-value" style="color: var(--yellow)">2</div>
+    <div class="stat-label">In Progress (Partial Blocks)</div>
   </div>
   <div class="stat">
-    <div class="stat-value" style="color:var(--muted)">9</div>
-    <div class="stat-label">Queued (no blocker)</div>
+    <div class="stat-value" style="color: var(--green)">5</div>
+    <div class="stat-label">Queued (No Blockers)</div>
   </div>
 </div>
 
-<div class="section-title" style="color:var(--red)">🔴 Needs Deuce Action</div>
+<!-- ACTIVE BLOCKERS -->
+<div class="section-title">🔴 Active Blockers</div>
 
 <div class="blocker">
   <div class="blocker-header">
-    <span class="blocker-title">Asana Time Estimation + Calendar Blocking</span>
+    <span class="blocker-title">Newsletter Scraper: BRAVE_API_KEY not in cron env</span>
+    <span class="badge badge-steve">Steve Fix</span>
+  </div>
+  <div class="blocker-task">task-041 &mdash; Newsletter Architecture: Daily News Scraper + Generator Split</div>
+  <div class="blocker-desc">Daily news scraper cron runs but only 3/9 RSS sources work. 6 web_search sources skipped because BRAVE_API_KEY is not injected into the spawned cron environment. Also: Used articles not marked Status=Used after newsletter gen, and Partner Pulse last run errored.</div>
+  <div class="blocker-action">⚡ Action (Steve): Inject BRAVE_API_KEY into scraper cron message/env, add mark-used Airtable PATCH step, investigate Partner Pulse error.</div>
+</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">1:1 Follow-Up Pipeline: Missing creds + Deuce inputs</span>
     <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
-  <div class="blocker-task">task-002 · high priority</div>
-  <div class="blocker-desc">Waiting on Deuce to confirm Top 3 priorities + estimates each Friday and calendar preferences (which calendars, block lengths, time-of-day prefs).</div>
-  <div class="blocker-action">⚡ Action: Provide Top 3 priorities, preferred calendar(s), and block-length preferences</div>
+  <div class="blocker-task">task-004 &mdash; Automate 1:1 meeting follow-ups</div>
+  <div class="blocker-desc">Pipeline script built and tested on Jan 29 dataset. Blocked on: (1) Slack bot token for decisions posting, (2) Deuce confirmation on Asana project and template mapping per direct report, (3) Fireflies/Airtable transcript access verification.</div>
+  <div class="blocker-action">⚡ Action (Deuce): Confirm Slack token + Asana project/template mapping + transcript access.</div>
 </div>
 
 <div class="blocker">
   <div class="blocker-header">
-    <span class="blocker-title">Dockerize Clawdbot System</span>
+    <span class="blocker-title">AutoAgent Design Doc: Awaiting approval</span>
     <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
-  <div class="blocker-task">task-003 · medium priority</div>
-  <div class="blocker-desc">Blocked on Deuce confirming which tokens/keys must be provided at runtime for the Docker environment.</div>
-  <div class="blocker-action">⚡ Action: Provide list of required env vars for Clawdbot runtime</div>
+  <div class="blocker-task">task-077 &mdash; AutoAgent: Evolve Autoresearch into Full Agent Self-Optimization</div>
+  <div class="blocker-desc">Phase 0 design doc completed and sent to Deuce. Implementation blocked until design is approved. Covers harness format, mutation types, Docker isolation, validation pipeline, meta-agent architecture.</div>
+  <div class="blocker-action">⚡ Action (Deuce): Review and approve design doc at second-brain/artifacts/task-077/design-doc.md</div>
 </div>
+
+<!-- IN PROGRESS WITH PARTIAL BLOCKS -->
+<div class="section-title">🟡 In Progress (Partial Blocks)</div>
 
 <div class="blocker">
   <div class="blocker-header">
-    <span class="blocker-title">Move recess-engage to RECESSDigital Org</span>
-    <span class="badge badge-needs-deuce">Needs Deuce</span>
-  </div>
-  <div class="blocker-task">task-018 · medium priority</div>
-  <div class="blocker-desc">Repo transfer requires owner-level action on GitHub. Branch protection can be enabled after transfer to org team plan.</div>
-  <div class="blocker-action">⚡ Action: Transfer repo at GitHub Settings, Danger Zone, Transfer ownership to RECESSDigital</div>
-</div>
-
-<div class="section-title" style="color:var(--green)">🟢 In Progress</div>
-
-<div class="blocker">
-  <div class="blocker-header">
-    <span class="blocker-title">Newsletter Architecture: Scraper + Generator Split</span>
+    <span class="blocker-title">Autoresearch Slack Command: Phase 2-3 remaining</span>
     <span class="badge badge-in-progress">In Progress</span>
   </div>
-  <div class="blocker-task">task-041 · high priority</div>
-  <div class="blocker-desc">5/9 DoD items done. Remaining: mark Used articles in Airtable, inject BRAVE_API_KEY into scraper cron (only 3/9 sources working), fix Partner Pulse error, add autoresearch targets to backlog.</div>
+  <div class="blocker-task">task-073 &mdash; Autoresearch Slack Command</div>
+  <div class="blocker-desc">Phase 1 (Command Parser) complete. SKILL.md updated. Remaining: Phase 2 (Background Execution via sub-agent spawn) and Phase 3 (Progress Reporting to Slack thread). No external blockers.</div>
 </div>
 
 <div class="blocker">
   <div class="blocker-header">
-    <span class="blocker-title">Autoresearch Slack Command</span>
-    <span class="badge badge-in-progress">In Progress</span>
+    <span class="blocker-title">Asana Time Estimation: Waiting on Deuce inputs</span>
+    <span class="badge badge-waiting">Queued</span>
   </div>
-  <div class="blocker-task">task-073 · medium priority</div>
-  <div class="blocker-desc">Phase 1 (Command Parser) complete. Phase 2 (Background Execution) and Phase 3 (Progress Reporting) remain.</div>
+  <div class="blocker-task">task-002 &mdash; Improve Asana time estimation + calendar blocking</div>
+  <div class="blocker-desc">Workflow designed. Waiting on: Deuce to confirm Top 3 priorities + estimates each Friday, calendar source(s), and preferred block lengths/time-of-day preferences.</div>
 </div>
 
-<div class="section-title">✅ Recently Completed</div>
-<ul class="recently-done">
-  <li>task-075 · LinkedIn New Idea Button — PR #77 merged Apr 2, dual-model review passed</li>
-  <li>task-076 · Karen AR Gmail Discovery Enrichment — 22 new tests, Bayer payment gap fixed</li>
-  <li>task-074 · Karen AR Intelligence Accuracy Fixes — 27 new tests, 5 bug classes fixed</li>
-</ul>
-
-<div class="section-title">📥 Queued (no blocker)</div>
+<!-- QUEUED / NO BLOCKERS -->
+<div class="section-title">🟢 Queued (Ready When Prioritized)</div>
 <ul class="queued-list">
-  <li>task-004 · Automate 1:1 meeting follow-ups (high) — pipeline built, needs Asana token + transcript access</li>
-  <li>task-008 · Prompt database with voting + tags (medium) — approved, not started</li>
-  <li>task-009 · Decisions posting: configurable Slack channel (medium)</li>
-  <li>task-010 · Auto-create next meeting + link previous notes (medium)</li>
-  <li>task-013 · Wellness coach dashboard (medium)</li>
-  <li>task-014 · AI news scan + team summary (medium) — script ready, cron needs approval</li>
-  <li>task-025 · Address npm audit vulnerabilities (low)</li>
-  <li>task-031 · Heartbeat logging for agents (medium)</li>
-  <li>task-033 · Proactive sensing loop (medium)</li>
+  <li>task-003 &mdash; Dockerize Clawdbot (needs env var list from Deuce)</li>
+  <li>task-008 &mdash; Build prompt database (approved, not started)</li>
+  <li>task-014 &mdash; AI news scan + weekly Tuesday digest (script ready, cron needs enabling)</li>
+  <li>task-018 &mdash; Move recess-engage repo to RECESSDigital org</li>
+  <li>task-025 &mdash; Address npm audit vulnerabilities</li>
 </ul>
 
-<footer>Auto-generated by Steve · Next update: Fri Apr 3 at 5:00 PM MT · blocker-focus: nothing deprioritized</footer>
+<div class="section-title" style="margin-top: 32px; color: var(--muted); font-size: 0.8rem; border: none;">
+  Auto-generated by Steve | Next update: Monday Apr 6, 2026 5:00 PM MT
+</div>
 
 </body>
 </html>
