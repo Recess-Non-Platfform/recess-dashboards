@@ -534,6 +534,7 @@
       <li><a href="#risks">Risks</a></li>
       <li><a href="#gate-checks">Gates</a></li>
       <li><a href="#prior-lessons">Lessons</a></li>
+      <li><a href="#dev-questions">Dev Questions</a></li>
     </ul>
   </div>
 </nav>
@@ -542,14 +543,16 @@
 <header class="hero">
   <div class="hero-eyebrow">🎬 Codename: Jerry Maguire — "Show Me the Money"</div>
   <h1>AI Outbound <span>Sales System</span></h1>
-  <p class="subtitle">A complete AI-powered outbound engine — from trigger detection to email in inbox, with human review at every step. Full technical implementation plan.</p>
+  <p class="subtitle">A complete AI-powered outbound engine — from trigger detection to email in inbox, with human review at every step. Full technical implementation plan. Handoff-ready for 3rd party development.</p>
   <div class="hero-meta">
-    <span class="tag">📅 <strong>March 2026</strong></span>
-    <span class="tag">⏱️ <strong>184–251h</strong> total effort</span>
+    <span class="tag">📅 <strong>April 2026</strong> (Revised)</span>
+    <span class="tag">⏱️ <strong>180–255h</strong> total effort</span>
     <span class="tag">📆 <strong>~16 weeks</strong></span>
-    <span class="tag">🔄 <strong>5 Phases</strong></span>
+    <span class="tag">🔄 <strong>5 Phases</strong> (Notion-aligned)</span>
     <span class="tag">🤖 <strong>GPT-4o</strong> + Claude fallback</span>
     <span class="tag">☁️ <strong>Cloud Run</strong> + Firestore</span>
+    <span class="tag">🏢 <strong>HubSpot Professional</strong></span>
+    <span class="tag">👤 <strong>Sales Champion:</strong> Jack Shannon</span>
   </div>
 </header>
 
@@ -562,13 +565,25 @@
 
   <div class="card card-highlight" style="border-color: var(--aqua);">
     <p style="font-size: 1.05rem; line-height: 1.8;">
-      <strong>Jerry Maguire</strong> transforms Recess Digital's outbound sales from manual hustle to an AI-orchestrated engine. The system monitors campaign completions, job changes, news signals, and supply opportunities — then auto-generates personalized, voice-matched email drafts for sales reps to review and approve. Approved sends route through <strong>SmartLead</strong> (cold email via warmed burner domains), <strong>HubSpot Sequences</strong> (warm/existing contacts), or <strong>Heyreach</strong> (LinkedIn) — with a multi-channel state machine coordinating cross-platform cadences. Every email is backed by real campaign data from BigQuery, enriched with contact intelligence from Clay, and validated against guardrails that prevent brand-name leaks, dollar amounts, and sending to unverified addresses. Reps keep full control: the AI drafts, humans decide.
+      <strong>Jerry Maguire</strong> transforms Recess Digital's outbound sales from manual hustle to an AI-orchestrated engine. Starting with <strong>deal re-engagement in Week 1</strong> (stale deal detection + AI-drafted Gmail replies), the system expands to monitor campaign completions, job changes, news signals, and supply opportunities — then auto-generates personalized, voice-matched email drafts for sales reps to review and approve. Approved sends route through <strong>SmartLead</strong> (cold email via 3 warmed burner domains), <strong>HubSpot Sequences</strong> (warm/existing contacts), or <strong>Heyreach</strong> (LinkedIn for 3-4 reps) — with a multi-channel state machine coordinating cross-platform cadences. Every email is enriched with contact intelligence from <strong>Clay</strong>, validated against guardrails, and managed through a <strong>HubSpot Tasks-based review queue</strong> (Professional tier — no custom objects). Campaign data migrates from <strong>Airtable to BigQuery</strong> to power blinded case study auto-generation. Reps keep full control: the AI drafts, humans decide.
     </p>
+  </div>
+
+  <div class="callout callout-warn">
+    <strong>🔄 April 2026 Revision — Key Changes from Original Plan:</strong>
+    <ul style="margin-top: 0.5rem;">
+      <li><strong>HubSpot Professional confirmed</strong> — Tasks + property groups replace custom objects throughout</li>
+      <li><strong>Phasing aligned to Notion PRD</strong> — Re-engagement first (fastest revenue), triggers deferred to Phase 4</li>
+      <li><strong>Campaign data is in Airtable</strong> — BigQuery migration added as Phase 2 prerequisite</li>
+      <li><strong>Scope right-sized</strong> — 3-4 Heyreach reps (not 8), 3 burner domains, Make.com for sync (not OutboundSync)</li>
+      <li><strong>Brief Me spike</strong> — evaluate replacing Lindy with direct Cloud Run (Lindy has data limitations)</li>
+      <li><strong>Outsourced to 3rd party dev shop</strong> — plan is handoff-ready with remaining questions section</li>
+    </ul>
   </div>
 
   <div class="stat-grid">
     <div class="stat-card">
-      <div class="number">184–251h</div>
+      <div class="number">180–255h</div>
       <div class="label">Total Engineering Effort</div>
     </div>
     <div class="stat-card">
@@ -577,11 +592,11 @@
     </div>
     <div class="stat-card">
       <div class="number">Week 1</div>
-      <div class="label">First Value to Reps</div>
+      <div class="label">First Value (Re-engagement)</div>
     </div>
     <div class="stat-card">
-      <div class="number">$0.02–0.08</div>
-      <div class="label">Cost per AI Draft</div>
+      <div class="number">$645–1,505</div>
+      <div class="label">Monthly Recurring Cost</div>
     </div>
     <div class="stat-card">
       <div class="number">6</div>
@@ -597,10 +612,11 @@
   <div class="table-wrap">
     <table>
       <tr><th>Phase</th><th>Deliverable</th><th>When</th></tr>
-      <tr><td>Phase 1</td><td>"Brief Me" command, weekly digests, data foundation, email verification</td><td>Weeks 1–4</td></tr>
-      <tr><td>Phase 2</td><td>Trigger system (6 types), blinded case study generator, domain warming</td><td>Weeks 4–6</td></tr>
-      <tr><td>Phase 3</td><td>NL list builder, HubSpot review queue, voice matching, priority scoring</td><td>Weeks 6–9</td></tr>
-      <tr><td>Phase 4</td><td>SmartLead cold email sequences → multi-channel orchestrator with Heyreach</td><td>Weeks 9–14</td></tr>
+      <tr><td>Phase 1a</td><td>Deal re-engagement, "Brief Me" spike (Lindy vs Cloud Run), daily briefing, post-meeting recap</td><td>Weeks 1–2</td></tr>
+      <tr><td>Phase 1b</td><td>AI list builder, SE copy personalization, HubSpot Tasks queue, data foundation</td><td>Weeks 2–4</td></tr>
+      <tr><td>Phase 2</td><td>Contact intelligence (Clay sync, NeverBounce, brand inference, voice matching), Airtable→BigQuery migration</td><td>Weeks 4–6</td></tr>
+      <tr><td>Phase 3</td><td>SmartLead cold email + Heyreach LinkedIn (3-4 reps), multi-channel orchestrator, domain warming</td><td>Weeks 6–9</td></tr>
+      <tr><td>Phase 4</td><td>Trigger system (6 types), blinded case study generator, quarterly recaps, feedback loop</td><td>Weeks 9–14</td></tr>
       <tr><td>Phase 5</td><td>Champion program, metrics dashboard, leaderboard, full attribution</td><td>Weeks 14–16</td></tr>
     </table>
   </div>
@@ -620,19 +636,22 @@
     <div class="card" style="border-color: var(--success);">
       <h4 style="color: var(--success); margin-top:0;">✅ In Scope</h4>
       <ul>
-        <li>AI email copy generation (GPT-4o) for 5 email types: case study, sales enablement, evergreen, signal-based, conference</li>
+        <li><strong>Deal re-engagement system</strong> — 8-day staleness rule, Gmail draft replies on existing threads, 5-tactic playbook</li>
+        <li>AI email copy generation (GPT-4o) for 6 email types: case study, sales enablement, evergreen, signal-based, re-engagement, conference</li>
         <li>6 trigger types: campaign complete, job change, RSS news, LinkedIn post, supply opportunity, quarterly recap</li>
-        <li>Multi-channel send orchestration: SmartLead (cold), HubSpot Sequences (warm), Heyreach (LinkedIn)</li>
+        <li>Multi-channel send orchestration: SmartLead (cold, 3 burner domains), HubSpot Sequences (warm), Heyreach (LinkedIn, 3-4 reps)</li>
         <li>Cross-channel state machine with pause-on-reply coordination</li>
-        <li>"Brief Me [company]" instant intelligence command</li>
+        <li>"Brief Me [company]" — <strong>spike to evaluate Lindy vs Cloud Run replacement</strong> (Lindy has data limitations)</li>
         <li>Natural language → target list builder</li>
-        <li>Rep voice matching from prior sent emails</li>
-        <li>HubSpot "Potential Send" review queue (custom objects)</li>
-        <li>Blinded case study auto-generation from BigQuery campaign data</li>
+        <li>Rep voice matching from prior sent emails (<strong>email history already in BigQuery</strong> via HubSpot sync)</li>
+        <li>HubSpot <strong>Tasks + contact property groups</strong> as review queue (Professional tier — no custom objects)</li>
+        <li>Blinded case study auto-generation — <strong>requires Airtable → BigQuery campaign data migration</strong></li>
         <li>Champion designation (3–5 per target account) + mutual connection mapping</li>
         <li>Full metrics pipeline: draft → send → reply → meeting → deal</li>
         <li>Contact enrichment via Clay + NeverBounce email verification</li>
         <li>Quality guardrails: brand name blocking, dollar amount scanning, length limits</li>
+        <li>Daily briefing Slack message (overdue/no-task + has-task queue sections)</li>
+        <li>Post-meeting recap enhancement (keep Lindy for call transcript → follow-up draft)</li>
       </ul>
     </div>
     <div class="card" style="border-color: var(--danger);">
@@ -691,7 +710,7 @@ graph TB
 
     subgraph "Human Review"
         SLACK["Slack Notifications<br/>+ Quick Actions"]
-        HSQUEUE["HubSpot Queue<br/>Custom Objects"]
+        HSQUEUE["HubSpot Queue<br/>Tasks + Properties"]
     end
 
     subgraph "Send Infrastructure"
@@ -759,8 +778,10 @@ graph TB
       <tr><td>Multi-Channel Orchestrator</td><td>Cloud Run (webhook-triggered)</td><td>Stateful orchestration with Firestore persistence</td></tr>
       <tr><td>Slack Bolt App</td><td>Cloud Run</td><td>Handles slash commands, interactive messages</td></tr>
       <tr><td>State Storage</td><td>Google Firestore</td><td>Real-time, schemaless, free tier covers our volume</td></tr>
-      <tr><td>Analytics &amp; Campaign Data</td><td>BigQuery</td><td>Already houses Recess campaign results</td></tr>
-      <tr><td>CRM &amp; Rep Interface</td><td>HubSpot</td><td>Where reps already work — zero adoption friction</td></tr>
+      <tr><td>Analytics &amp; Campaign Data</td><td>BigQuery (post-migration)</td><td>Campaign data currently in Airtable — <strong>migration required</strong> before case study auto-generation</td></tr>
+      <tr><td>CRM &amp; Rep Interface</td><td>HubSpot Professional</td><td>Where reps already work — Tasks + property groups for queue (no custom objects)</td></tr>
+      <tr><td>Activity Sync</td><td>Make.com (existing)</td><td>Already syncing SmartLead activity back to HubSpot</td></tr>
+      <tr><td>Gmail Drafts</td><td>Gmail API</td><td>Re-engagement drafts placed as replies on existing threads</td></tr>
     </table>
   </div>
 
@@ -790,11 +811,12 @@ graph TB
   <h3>What Lives Where</h3>
   <div class="mermaid">
 graph TB
-    subgraph "BigQuery — Analytics &amp; Source Data"
-        BQ1["campaign_results<br/>Performance metrics"]
+    subgraph "BigQuery — Analytics &amp; Source Data (post Airtable migration)"
+        BQ1["campaign_results<br/>⚠️ Currently in Airtable — migration req'd"]
         BQ2["account_intelligence_summary<br/>Daily materialized view"]
         BQ3["brand_names<br/>Blocklist for case studies"]
         BQ4["outbound_analytics<br/>Draft→Send→Reply metrics"]
+        BQ5["email_history<br/>HubSpot sync (voice matching)"]
     end
 
     subgraph "Google Firestore — Orchestration State"
@@ -804,11 +826,11 @@ graph TB
         FS4["trigger_events<br/>Raw signal log"]
     end
 
-    subgraph "HubSpot — CRM &amp; Rep Interface"
+    subgraph "HubSpot Professional — CRM &amp; Rep Interface"
         HS1["Contacts<br/>Master contact records"]
         HS2["Companies<br/>Target accounts"]
         HS3["Deals<br/>Pipeline"]
-        HS4["Custom: Potential Send<br/>Rep review queue"]
+        HS4["Tasks + Properties<br/>Potential Send queue"]
         HS5["Sequences<br/>Warm email cadences"]
         HS6["Engagements<br/>Activity timeline"]
     end
@@ -842,6 +864,11 @@ graph LR
   </div>
 
   <h3>The "Potential Send" Object — Core Schema</h3>
+
+  <div class="callout callout-warn">
+    <strong>⚠️ HubSpot Professional Constraint:</strong> Custom objects require Enterprise ($750+/mo upgrade, locked in until Nov 2027). This plan uses <strong>HubSpot Tasks + contact property groups</strong> as the review queue instead. Tasks are fully functional for queue management — less elegant but equally effective. Firestore remains the primary data store; HubSpot Tasks surface drafts to reps.
+  </div>
+
   <p>This is the central data object connecting "AI generated a draft" to "rep reviews and sends."</p>
 
   <details>
@@ -906,23 +933,34 @@ graph LR
   </details>
 
   <details>
-    <summary>HubSpot Custom Object Properties — "Potential Send"</summary>
+    <summary>HubSpot Tasks-Based Queue — "Potential Send" (Professional Tier Fallback)</summary>
     <div class="detail-body">
+      <div class="callout callout-info">
+        <strong>How Tasks replace Custom Objects:</strong> Each potential send creates a HubSpot Task assigned to the rep. Task subject = draft subject line. Task body = draft preview + link to full draft in Slack/Firestore. Tasks are associated to the relevant contact(s). Reps use HubSpot task views filtered by type to see their queue.
+      </div>
       <div class="table-wrap">
         <table>
-          <tr><th>Property</th><th>Type</th><th>Description</th></tr>
-          <tr><td><code>potential_send_id</code></td><td>Text</td><td>Links to Firestore doc</td></tr>
-          <tr><td><code>trigger_type</code></td><td>Dropdown</td><td>campaign_complete, new_supply, rss, linkedin_post, job_change, quarterly_recap, evergreen, conference</td></tr>
-          <tr><td><code>sequence_type</code></td><td>Dropdown</td><td>case_study, sales_enablement, evergreen, conference</td></tr>
-          <tr><td><code>priority</code></td><td>Number</td><td>1 (highest) to 4</td></tr>
-          <tr><td><code>status</code></td><td>Dropdown</td><td>queued, reviewed, approved, sent, dismissed</td></tr>
-          <tr><td><code>email_subject</code></td><td>Text</td><td>Draft subject line</td></tr>
-          <tr><td><code>email_body</code></td><td>Rich text</td><td>Draft body (editable by rep)</td></tr>
-          <tr><td><code>contact_count</code></td><td>Number</td><td>How many contacts in this send</td></tr>
-          <tr><td><code>channel_routing</code></td><td>Text</td><td>"10 email, 3 LinkedIn, 1 multi-channel"</td></tr>
-          <tr><td><code>assigned_rep</code></td><td>Owner</td><td>Which rep reviews this</td></tr>
-          <tr><td><code>auto_dismiss_date</code></td><td>DateTime</td><td>14 days after creation</td></tr>
-          <tr><td colspan="3" style="color: var(--text-muted); font-style: italic;">Associations: linked to Contact records (many-to-one)</td></tr>
+          <tr><th>Task Field</th><th>Maps To</th><th>Description</th></tr>
+          <tr><td><code>hs_task_subject</code></td><td>Email subject</td><td>"[Case Study] How a laundry brand drove 34% lift"</td></tr>
+          <tr><td><code>hs_task_body</code></td><td>Draft preview</td><td>First 200 chars of email body + Firestore link</td></tr>
+          <tr><td><code>hs_task_type</code></td><td>Sequence type</td><td>TODO (for sends), EMAIL (for re-engagement)</td></tr>
+          <tr><td><code>hs_task_priority</code></td><td>Priority</td><td>HIGH, MEDIUM, LOW</td></tr>
+          <tr><td><code>hs_task_status</code></td><td>Queue status</td><td>NOT_STARTED (queued), IN_PROGRESS (reviewed), COMPLETED (sent/dismissed)</td></tr>
+          <tr><td><code>hubspot_owner_id</code></td><td>Assigned rep</td><td>Which rep reviews this send</td></tr>
+          <tr><td><code>hs_timestamp</code></td><td>Due date</td><td>Auto-dismiss date (14 days after creation)</td></tr>
+          <tr><td colspan="3" style="color: var(--text-muted); font-style: italic;">Associations: linked to Contact records via Task associations. Metadata (trigger_type, contact_count, channel_routing) stored in Firestore, linked by potential_send_id in task body.</td></tr>
+        </table>
+      </div>
+      <p style="margin-top: 0.75rem;"><strong>Contact Property Group — "Outbound Status":</strong> Added to all contacts in target accounts to track outbound state without custom objects:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Property</th><th>Type</th><th>Values</th></tr>
+          <tr><td><code>outbound_status</code></td><td>Dropdown</td><td>Not Contacted, In Sequence, Replied, Sequence Complete, Do Not Contact</td></tr>
+          <tr><td><code>outbound_channel</code></td><td>Dropdown</td><td>Email, LinkedIn, Multi-channel</td></tr>
+          <tr><td><code>outbound_last_sequence_date</code></td><td>Date</td><td>When last enrolled in a sequence</td></tr>
+          <tr><td><code>outbound_reply_channel</code></td><td>Text</td><td>Which channel they replied on</td></tr>
+          <tr><td><code>ai_brand_inference</code></td><td>Text</td><td>AI-inferred brand (60-70% accuracy)</td></tr>
+          <tr><td><code>brand_confidence</code></td><td>Number</td><td>0-100 confidence score</td></tr>
         </table>
       </div>
     </div>
@@ -979,7 +1017,7 @@ Draft v4 → Rep makes final tweaks
   <div class="table-wrap">
     <table>
       <tr><th>Tool</th><th>Status</th><th>Key Capabilities</th></tr>
-      <tr><td>HubSpot</td><td><span class="badge badge-ok">✅ STRONG</span></td><td>150 req/sec, batch ops, custom objects, engagement tracking, workflow automation</td></tr>
+      <tr><td>HubSpot (Professional)</td><td><span class="badge badge-ok">✅ STRONG</span></td><td>150 req/sec, batch ops, Tasks API, engagement tracking, Sequences API (Sales Pro), workflow automation. <strong>No custom objects</strong> (Enterprise only).</td></tr>
       <tr><td>SmartLead</td><td><span class="badge badge-ok">✅ STRONG</span></td><td>Full campaign API: create, enroll, sequence, webhooks for replies/opens/bounces. 60 req/min</td></tr>
       <tr><td>Heyreach</td><td><span class="badge badge-ok">✅ GOOD</span></td><td>Add leads, toggle campaigns, get conversations. 20+ webhook events. MCP server available</td></tr>
       <tr><td>Clay</td><td><span class="badge badge-warn">⚠️ MODERATE</span></td><td>Workflow tool (not REST API). Webhook triggers IN, HTTP actions OUT. 75+ data providers</td></tr>
@@ -1004,11 +1042,11 @@ sequenceDiagram
 
     T->>AI: Trigger fires (campaign complete, etc.)
     AI->>FS: Store draft + metadata
-    FS->>HS: Sync: Create "Potential Send" custom object
+    FS->>HS: Sync: Create HubSpot Task for rep review
     FS->>SL: Notify rep via Slack
 
-    REP->>HS: Reviews draft in HubSpot
-    REP->>HS: Clicks "Approve & Send"
+    REP->>HS: Reviews draft via HubSpot Task
+    REP->>HS: Marks Task complete (approved)
     HS->>FS: Status update: approved (webhook)
 
     Note over FS,SM: Orchestrator takes over
@@ -1297,7 +1335,8 @@ stateDiagram-v2
     <table>
       <tr><th>System</th><th>Endpoint</th><th>Used For</th><th>Rate Limit</th></tr>
       <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/contacts</code></td><td>Create/update contacts</td><td>150/sec</td></tr>
-      <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/{custom_object}</code></td><td>Create Potential Send records</td><td>150/sec</td></tr>
+      <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/tasks</code></td><td>Create Potential Send tasks for rep review</td><td>150/sec</td></tr>
+      <tr><td>Gmail</td><td><code>POST /gmail/v1/users/me/drafts</code></td><td>Create re-engagement draft replies on existing threads</td><td>250/sec</td></tr>
       <tr><td>HubSpot</td><td><code>POST /automation/v4/sequences/{id}/enrollments</code></td><td>Enroll in warm sequences</td><td>100/day/seq</td></tr>
       <tr><td>HubSpot</td><td><code>POST /crm/v3/objects/emails</code></td><td>Log email activities</td><td>150/sec</td></tr>
       <tr><td>SmartLead</td><td><code>POST /api/v1/campaigns/create</code></td><td>Create cold campaigns</td><td>60/min</td></tr>
@@ -1500,8 +1539,8 @@ Return JSON: {"subject": "...", "body": "...", "preview_text": "..."}</code></pr
   <h3>Voice Matching — How It Works</h3>
   <div class="card">
     <ol>
-      <li><strong>Data collection:</strong> Pull rep's last 20–30 sent emails from HubSpot Engagements API<br>
-        <code>GET /crm/v3/objects/emails?filter=hs_email_direction=SENT&hubspot_owner_id={rep_id}&limit=30</code></li>
+      <li><strong>Data collection:</strong> Pull rep's last 20–30 sent emails from <strong>BigQuery</strong> (email history already synced from HubSpot) or fallback to HubSpot Engagements API<br>
+        <code>SELECT * FROM email_history WHERE direction='SENT' AND owner_id={rep_id} ORDER BY timestamp DESC LIMIT 30</code></li>
       <li><strong>Style extraction:</strong> GPT-4o one-time "voice analysis" prompt:<br>
         <em>"Analyze these 20 emails. Extract: greeting style, sentence length tendency, sign-off preference, humor level, common phrases. Return a 100-word style guide."</em></li>
       <li><strong>Caching:</strong> Style guide stored in Firestore (keyed by <code>rep_id</code>), refreshed monthly or after 10+ new emails</li>
@@ -1563,10 +1602,10 @@ Return JSON: {"subject": "...", "body": "...", "preview_text": "..."}</code></pr
   <div class="mermaid">
 graph LR
     AI["GPT-4o generates draft"] --> FS["Google Firestore<br/>Draft DB"]
-    FS -->|"Sync"| HSO["HubSpot Custom Object<br/>'Potential Send'"]
+    FS -->|"Sync"| HSO["HubSpot Task<br/>Assigned to rep"]
     FS -->|"Notify"| SLACK["Slack Message<br/>with preview + actions"]
   </div>
-  <p><strong>Primary store: Firestore</strong> (sub-ms reads, real-time listeners, free tier). <strong>Sync to HubSpot</strong> for rep-facing review. <strong>Slack:</strong> notification only — source of truth is Firestore → HubSpot.</p>
+  <p><strong>Primary store: Firestore</strong> (sub-ms reads, real-time listeners, free tier). <strong>Sync to HubSpot</strong> as Tasks for rep-facing review. <strong>Slack:</strong> notification + daily briefing. Source of truth is Firestore → HubSpot Tasks.</p>
 </section>
 
 <!-- ═══════════════════════ 7. PHASED EXECUTION ═══════════════════════ -->
@@ -1574,154 +1613,181 @@ graph LR
   <div class="section-label">Section 07</div>
   <h2>Phased Execution Plan</h2>
 
-  <div class="callout callout-danger">
-    <strong>🚨 GATE CHECK — Before Any Work Begins:</strong><br>
-    1. <strong>Confirm HubSpot tier</strong> — Enterprise required for custom objects + Sequence API<br>
-    2. <strong>Audit BigQuery campaign data</strong> — Can we auto-generate blinded case studies?<br>
-    3. <strong>Audit Clay account</strong> — Current plan, credit balance, existing workflows<br>
-    <strong>Estimated effort: ~4–6h. Do this first.</strong>
+  <div class="callout callout-success">
+    <strong>✅ GATE CHECKS — Resolved (April 2026):</strong><br>
+    1. <strong>HubSpot tier:</strong> Professional confirmed (locked through Nov 2027). Tasks + property groups for queue. <span class="badge badge-ok">RESOLVED</span><br>
+    2. <strong>Campaign data:</strong> Currently in <strong>Airtable</strong>, not BigQuery. Migration required in Phase 2. <span class="badge badge-warn">MIGRATION REQ'D</span><br>
+    3. <strong>Clay account:</strong> Active. Keep Clay for LinkedIn enrichment + signal monitoring. <span class="badge badge-ok">RESOLVED</span><br>
+    4. <strong>Named accounts:</strong> 119 target accounts (market_type=buyer, hs_is_target_account). <span class="badge badge-ok">RESOLVED</span><br>
+    5. <strong>Execution:</strong> Outsourced to 3rd party dev shop. Jack Shannon = sales champion. <span class="badge badge-ok">RESOLVED</span>
   </div>
 
-  <!-- Phase 1 -->
+  <!-- Phase 1a -->
   <div class="phase">
     <div class="phase-header">
       <div>
-        <div class="phase-title">Phase 1: Quick Wins + Data Foundation</div>
+        <div class="phase-title">Phase 1a: Immediate Impact — Re-engagement + Intelligence</div>
         <div class="tag-list">
-          <span class="badge badge-ok">VISIBLE VALUE IN WEEK 1</span>
+          <span class="badge badge-ok">FASTEST REVENUE IMPACT</span>
+          <span class="badge badge-orange">WEEK 1 VALUE</span>
         </div>
       </div>
-      <div class="phase-meta">35–45h · Weeks 1–4</div>
+      <div class="phase-meta">20–30h · Weeks 1–2</div>
     </div>
     <div class="phase-body">
-      <p><em>Two tracks in parallel: reps see value immediately while data infrastructure builds underneath.</em></p>
+      <p><em>Stale deals are revenue at risk right now. Re-engagement drafts in Gmail require no new sending infrastructure. Brief Me delivers immediate rep gratification.</em></p>
 
-      <h4>Track A: Rep-Facing Quick Wins (Weeks 1–2)</h4>
+      <h4>Deal Re-engagement System (Highest Priority)</h4>
       <ul>
-        <li><strong>"Brief Me [company]" command</strong> — Type in Slack, get a one-pager in 10 seconds. <span class="badge badge-ok">SHIP WEEK 1</span></li>
-        <li><strong>Sponsor Scoop + Partner Pulse</strong> weekly digests — Push-based intelligence in Slack</li>
-        <li><strong>Staleness alerts</strong> — DMs to deal owners when deals go 7+ days without contact</li>
-        <li><strong>"Draft email to [name]"</strong> — Interactive Slack flow, saves 5 min/email × 20 emails/week</li>
+        <li><strong>Staleness detection</strong> — Scan HubSpot for contacts/deals violating the 8-day rule (no contact in 8+ days)</li>
+        <li><strong>Gmail draft replies</strong> — AI creates actual Gmail draft replies on the most recent email thread with each stale contact. Rep clicks through, reviews, and sends directly from Gmail.</li>
+        <li><strong>5-tactic re-engagement playbook</strong> — AI selects the right tactic based on deal context:
+          <ol>
+            <li><strong>Ghost Breaker</strong> — Reference call enthusiasm. Best for: ghosted after good intro meeting (SQL).</li>
+            <li><strong>Value Bomb</strong> — Hyper-relevant insight/stat from last 7 days. Skipped if nothing relevant found.</li>
+            <li><strong>Assumption Close</strong> — Assumes moving forward, simple yes/no decision. Best for: proposal with no response.</li>
+            <li><strong>Pattern Interrupt</strong> — Break the pattern after 2+ follow-ups. One shot, make it count.</li>
+            <li><strong>Re-Opener</strong> — For 2-3+ week cold deals. Skipped if nothing has materially changed.</li>
+          </ol>
+        </li>
+        <li><strong>Queue split</strong> — Two sections in daily briefing:
+          <ul>
+            <li><strong>Overdue (no task)</strong> — 8+ days, no active HubSpot task. Highest urgency. Shows contact, deal stage, days since last touch, deal notes.</li>
+            <li><strong>Has Task</strong> — Active task but visible for pipeline awareness. Shows task name, due date (flagged if overdue), deal notes.</li>
+          </ul>
+        </li>
+        <li><strong>Cadence progression:</strong> Ghost Breaker → Value Bomb → Assumption Close → Pattern Interrupt → Re-Opener. Resets if prospect replies.</li>
       </ul>
 
-      <h4>Track B: Data Infrastructure (Weeks 1–4)</h4>
+      <h4>"Brief Me [company]" — Spike</h4>
       <ul>
-        <li>BigQuery CRM queries — company, contact, deal, engagement enrichment</li>
-        <li>Company name resolution + alias table (fuzzy matching for "PepsiCo" vs "Frito-Lay")</li>
-        <li>Pre-materialized daily <code>account_intelligence_summary</code> view</li>
-        <li><strong>NeverBounce email verification</strong> — gating deliverable. ~$16/batch</li>
-        <li>AI brand inference prototype — test accuracy on 50 contacts with confidence scoring</li>
-        <li>LinkedIn → HubSpot sync via Clay (semi-automated batch, weekly)</li>
-        <li><strong>BigQuery campaign data audit</strong> — validate for auto case study generation</li>
+        <li><strong>Evaluate Lindy vs Cloud Run replacement</strong> — Currently Google Cloud Run does the HubSpot query, slims data down, and sends to Lindy. Lindy has data limitations and can't handle the full dataset.</li>
+        <li>If Lindy works: enhance existing capability (Week 1 ship)</li>
+        <li>If Lindy is limiting: build directly on Cloud Run (Week 2 ship)</li>
+        <li>Output: type a company name in Slack, get a one-pager with campaigns, contacts, deals, talking points, competitive context</li>
+      </ul>
+
+      <h4>Daily Briefing + Post-Meeting Recap</h4>
+      <ul>
+        <li><strong>Daily Briefing</strong> — One morning Slack message per rep showing: re-engagement queue (overdue + has-task), potential sends queued overnight, upcoming meetings</li>
+        <li><strong>Post-meeting recap</strong> — Keep Lindy. Enhance to auto-draft follow-up from call transcript, placed as Gmail draft reply. Slack DM to AE with link within 5-10 min of meeting end.</li>
       </ul>
 
       <div class="callout callout-success">
-        <strong>Why this order:</strong> Both reviewers agreed — if reps don't see value in Week 1, they lose faith by Week 6. "Brief Me" and digests require minimal data infrastructure and deliver immediate gratification.
+        <strong>Why re-engagement first:</strong> Zero new infrastructure needed. Gmail Draft API + HubSpot deal scanning + GPT-4o = immediate value. Stale deals are revenue sitting on the table right now. No domain warming, no SmartLead setup, no Clay integration — just find stale deals and draft emails.
       </div>
 
       <div class="callout callout-info">
-        <strong>Exit criteria:</strong> "Brief Me" working in Slack. First weekly digest delivered. 90%+ contacts have verified email status. Brand inference accuracy measured. Campaign data feasibility confirmed.
+        <strong>Exit criteria:</strong> Re-engagement drafts appearing for stale deals. Brief Me working (Lindy or Cloud Run). Daily briefing delivered. First Gmail drafts reviewed and sent by reps.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 1b -->
+  <div class="phase" style="border-left-color: var(--sea-green);">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 1b: Quick Win — AI List Building + Existing Contacts</div>
+        <div class="tag-list">
+          <span class="badge badge-aqua">NOTION PHASE 1b</span>
+          <span class="badge badge-ok">EXISTING CONTACTS ONLY</span>
+        </div>
+      </div>
+      <div class="phase-meta">25–35h · Weeks 2–4</div>
+    </div>
+    <div class="phase-body">
+      <p><em>Existing contacts respond best. Sales enablement and case study sequences with FOMO are highest-converting. No new sending infrastructure needed — HubSpot handles it.</em></p>
+
+      <ul>
+        <li><strong>AI-powered list building from natural language</strong> — "non-chocolate candy brands for Six Flags Halloween" → HubSpot list created</li>
+        <li>Lists split: <strong>existing contacts</strong> (Connected through Closed Won) vs. <strong>new contacts</strong> (queued for Phase 3)</li>
+        <li><strong>AI-generated personalized copy</strong> — at minimum by category, by brand if known</li>
+        <li>Sales reviews and edits copy in HubSpot (1:1 per contact via Sequences) or AI interface</li>
+        <li>Existing contacts sent via <strong>HubSpot Sequences</strong> using real email addresses</li>
+        <li>New contacts queued for Phase 3 (SmartLead) or manual handling</li>
+      </ul>
+
+      <h4>Data Foundation (parallel)</h4>
+      <ul>
+        <li>BigQuery CRM queries — company, contact, deal, engagement enrichment</li>
+        <li>Company name resolution + alias table (fuzzy matching: "PepsiCo" vs "Frito-Lay")</li>
+        <li>Pre-materialized daily <code>account_intelligence_summary</code> view</li>
+        <li><strong>NeverBounce email verification</strong> — gating deliverable, ~$16/batch</li>
+        <li>AI brand inference prototype — test accuracy on 50 contacts with confidence scoring</li>
+        <li><strong>HubSpot Tasks queue setup</strong> — property groups, task templates, workflow triggers</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> NL list builder working. First SE sequence sent to existing contacts via HubSpot. NeverBounce integrated. Brand inference accuracy measured (target: 60-70%). Tasks-based queue operational.
       </div>
     </div>
   </div>
 
   <!-- Phase 2 -->
-  <div class="phase" style="border-left-color: var(--sea-green);">
+  <div class="phase" style="border-left-color: var(--orange);">
     <div class="phase-header">
       <div>
-        <div class="phase-title">Phase 2: Trigger System + Content Engine</div>
+        <div class="phase-title">Phase 2: Contact Intelligence + Data Accuracy</div>
         <div class="tag-list">
-          <span class="badge badge-aqua">FROM PRD</span>
-          <span class="badge badge-green">+ TASK-065</span>
+          <span class="badge badge-aqua">NOTION PHASE 2</span>
+          <span class="badge badge-warn">AIRTABLE MIGRATION</span>
         </div>
       </div>
-      <div class="phase-meta">25–30h · Weeks 4–6</div>
+      <div class="phase-meta">25–35h · Weeks 4–6</div>
     </div>
     <div class="phase-body">
-      <p><em>Expand from passive intelligence to proactive opportunity surfacing.</em></p>
+      <p><em>Clean data makes everything else work better. Phase 1 ran on existing HubSpot data; now we build the intelligence layer.</em></p>
+
       <ul>
-        <li>Trigger: <strong>Campaign complete</strong> → Slack notification with blinded case study draft + suggested target list</li>
-        <li>Trigger: <strong>Job change detected</strong> → welcome/intro email draft queued</li>
-        <li>Trigger: <strong>RSS news about target account</strong> → contextual Slack alert to deal owner</li>
-        <li>Trigger: <strong>New supply opportunity</strong> → target list + category-personalized drafts</li>
-        <li><strong>Blinded case study generator</strong> — auto-generate from BigQuery campaign data</li>
-        <li>Email draft guardrails — no dollar amounts, disclaimer on all AI content</li>
-        <li>👍/👎 reaction tracking for relevance feedback</li>
-        <li><strong>Start warming burner domains</strong> — 2–4 week lead time required before Phase 4</li>
+        <li><strong>LinkedIn Sales Nav → HubSpot sync via Clay</strong> batch runs (weekly/biweekly) for 119 named accounts</li>
+        <li><strong>AI enrichment</strong> for Brand and Brand Category fields, anchored to Target Account Reference Sheet</li>
+        <li><strong>NeverBounce email verification</strong> on all contacts (if not completed in Phase 1b)</li>
+        <li><strong>Job change detection</strong> and notifications via Clay</li>
+        <li><strong>Voice matching</strong> — extract each rep's writing style from BigQuery email history (already synced from HubSpot). Cache style guides in Firestore, inject into all draft prompts.</li>
+        <li><strong>🔴 Airtable → BigQuery campaign data migration</strong> — BLOCKER for Phase 4 case study auto-generation. Audit Airtable schema, design BigQuery tables, build ETL pipeline, validate data completeness.</li>
+        <li><strong>Start warming 3 burner domains</strong> — 2-4 week lead time required before Phase 3 cold outbound</li>
       </ul>
 
+      <div class="callout callout-danger">
+        <strong>🔴 Critical Dependency — Airtable Migration:</strong> Campaign data currently lives in Airtable, not BigQuery. Blinded case study auto-generation (Phase 4) requires structured campaign results in BigQuery with fields like <code>incremental_sales_lift</code>, <code>roas</code>, and <code>category</code>. This migration is a blocker — if it slips, case study triggers in Phase 4 are delayed.
+      </div>
+
       <div class="callout callout-info">
-        <strong>Exit criteria:</strong> 4+ trigger types actively surfacing. First blinded case study from real data. Reps receiving 3–5 actionable alerts/week. Burner domains warming.
+        <strong>Exit criteria:</strong> 90%+ contacts at target accounts have verified email. Clay sync running weekly. Brand inference at 60-70% accuracy. Voice matching cached for all active reps. Campaign data migrated to BigQuery (or migration in progress with clear timeline). 3 burner domains warming.
       </div>
     </div>
   </div>
 
   <!-- Phase 3 -->
-  <div class="phase" style="border-left-color: var(--orange);">
-    <div class="phase-header">
-      <div>
-        <div class="phase-title">Phase 3: Smart Outreach Prep + Review Queue</div>
-        <div class="tag-list">
-          <span class="badge badge-aqua">FROM PRD</span>
-          <span class="badge badge-orange">HUBSPOT-FIRST</span>
-        </div>
-      </div>
-      <div class="phase-meta">30–40h · Weeks 6–9</div>
-    </div>
-    <div class="phase-body">
-      <p><em>System transitions from intelligence to execution prep. Queue management in HubSpot, not Slack.</em></p>
-      <ul>
-        <li><strong>Natural language → HubSpot target list builder</strong> ("non-chocolate candy brands for Six Flags Halloween")</li>
-        <li><strong>"Potential Send" queue in HubSpot</strong> — custom objects with priority scoring</li>
-        <li>Trigger: <strong>Quarterly category recap</strong> generation</li>
-        <li>Trigger: <strong>LinkedIn post</strong> detection (via Clay/Heyreach)</li>
-        <li><strong>Priority scoring</strong> — Case Study &gt; Sales Enablement &gt; Evergreen &gt; Conference</li>
-        <li><strong>Daily digest batching</strong> — "You have 8 potential sends: 2 high, 4 medium, 2 low"</li>
-        <li>Active customer protection + sequence conflict detection</li>
-        <li><strong>Voice matching</strong> from prior sent emails (moved here per reviewer feedback)</li>
-        <li>Auto-dismiss unreviewed sends after 14 days + rep capacity limits</li>
-        <li>Cleanup/archive workflow — prevent HubSpot views from becoming unusable</li>
-      </ul>
-
-      <div class="callout callout-warn">
-        <strong>Reviewer consensus:</strong> Slack is great for receiving intelligence (~90% adoption). Slack is terrible for managing a queue (~40% adoption). Build the review queue where reps already manage their pipeline — HubSpot.
-      </div>
-
-      <div class="callout callout-info">
-        <strong>Exit criteria:</strong> Full trigger system live. Reps reviewing in HubSpot. NL list builder working. 5+ sends processed end-to-end.
-      </div>
-    </div>
-  </div>
-
-  <!-- Phase 4 -->
   <div class="phase" style="border-left-color: var(--danger);">
     <div class="phase-header">
       <div>
-        <div class="phase-title">Phase 4: Sequence Engine</div>
+        <div class="phase-title">Phase 3: Cold Outbound + Multi-Channel Infrastructure</div>
         <div class="tag-list">
+          <span class="badge badge-aqua">NOTION PHASE 3</span>
           <span class="badge badge-red">HARDEST PHASE</span>
           <span class="badge badge-orange">EMAIL-FIRST MVP</span>
         </div>
       </div>
-      <div class="phase-meta">70–100h · Weeks 9–14</div>
+      <div class="phase-meta">40–55h · Weeks 6–9</div>
     </div>
     <div class="phase-body">
-      <p><em>Both reviewers agreed: original 40–60h was too low. Revised with staged rollout.</em></p>
+      <p><em>Requires SmartLead infrastructure (burner domains warmed from Phase 2), Heyreach setup for 3-4 reps, and the routing decision engine.</em></p>
 
-      <h4>Stage A: Email Sequences via SmartLead (Weeks 9–11)</h4>
+      <h4>Stage A: Email Sequences via SmartLead (Weeks 6–8)</h4>
       <ul>
         <li>SmartLead integration — campaign creation, lead enrollment, sequence management via API</li>
-        <li>Burner domain rotation logic + reputation monitoring</li>
+        <li>3 burner domain rotation logic + reputation monitoring</li>
         <li>Cold/warm routing — scoring model with rep override</li>
         <li>Webhook listeners for replies, opens, bounces</li>
-        <li>HubSpot activity sync — all outreach logged back to contact records</li>
+        <li>HubSpot activity sync via <strong>Make.com</strong> (existing integration — no new tool cost)</li>
         <li>Cadence templates for 4 sequence types (email-only versions)</li>
         <li><strong>Run email-only for 2–3 weeks before adding LinkedIn</strong></li>
       </ul>
 
-      <h4>Stage B: LinkedIn Sequences via Heyreach (Weeks 12–14)</h4>
+      <h4>Stage B: LinkedIn Sequences via Heyreach (Weeks 8–9)</h4>
       <ul>
-        <li>Heyreach integration — campaign creation, enrollment, connection tracking</li>
+        <li>Heyreach integration for <strong>3-4 reps</strong> — campaign creation, enrollment, connection tracking</li>
         <li><strong>Multi-channel orchestrator</strong>:
           <ul>
             <li>State machine for cross-channel contact status</li>
@@ -1735,15 +1801,49 @@ graph LR
       </ul>
 
       <div class="callout callout-danger">
-        <strong>Reviewer 1:</strong> "Trying to ship both channels simultaneously is how you end up at Week 14 with nothing working." Get email solid first. Layer LinkedIn on top.
+        <strong>Email-first principle:</strong> "Trying to ship both channels simultaneously is how you end up at Week 9 with nothing working." Get email solid first. Layer LinkedIn on top.
       </div>
 
       <div class="callout callout-warn">
-        <strong>Blockers (start early):</strong> SmartLead API key + account, Heyreach API key, burner domains registered/DNS'd/warmed (start Phase 2), Google Workspace seats (~$6/mo each × 3–5 per rep)
+        <strong>Blockers (must start in Phase 2):</strong> SmartLead API key + account, Heyreach API key + 3-4 rep LinkedIn accounts configured, 3 burner domains warmed (started Phase 2), Google Workspace seats (~$6/mo × 3 domains)
       </div>
 
       <div class="callout callout-info">
-        <strong>Exit criteria:</strong> Full email sequence via SmartLead with domain rotation. Then: multi-channel cadence (LinkedIn connect → email → LinkedIn message) with cross-channel coordination.
+        <strong>Exit criteria:</strong> Full email sequence via SmartLead with 3-domain rotation. Multi-channel cadence (LinkedIn connect → email → LinkedIn message) with cross-channel pause-on-reply. Activity syncing to HubSpot via Make.com.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase" style="border-left-color: var(--forest);">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 4: Trigger System + Automation</div>
+        <div class="tag-list">
+          <span class="badge badge-aqua">NOTION PHASE 4</span>
+          <span class="badge badge-green">REQUIRES BQ MIGRATION</span>
+        </div>
+      </div>
+      <div class="phase-meta">50–70h · Weeks 9–14</div>
+    </div>
+    <div class="phase-body">
+      <p><em>Triggers are most valuable when data is clean (Phase 2) and sending infrastructure works (Phase 3). Now we automate opportunity surfacing.</em></p>
+
+      <ul>
+        <li>Trigger: <strong>Campaign complete</strong> → blinded case study auto-gen from BigQuery + target list + draft emails <span class="badge badge-warn">Requires Airtable migration complete</span></li>
+        <li>Trigger: <strong>Job change detected</strong> → welcome/intro email draft queued (multi-touch: Day 1 LinkedIn, Day 3 email, Day 7 case study)</li>
+        <li>Trigger: <strong>RSS news about target account</strong> → AI drafts contextual email connecting news to Recess value prop</li>
+        <li>Trigger: <strong>LinkedIn post by target contact</strong> → personalized "I saw you posted about X" draft</li>
+        <li>Trigger: <strong>New supply opportunity</strong> → Slack slash command → target list + category-personalized drafts</li>
+        <li>Trigger: <strong>Quarterly category recap</strong> → category performance summaries from recent campaign data</li>
+        <li><strong>Blinded case study generator</strong> — auto-generate email copy + slide from BigQuery campaign data. Brand never revealed. Stored for reuse.</li>
+        <li><strong>Priority scoring</strong> — Case Study > SE > Evergreen > Conference. Auto-dismiss unreviewed sends after 14 days.</li>
+        <li>Email draft <strong>guardrails</strong> — no dollar amounts, no brand names, length limits, disclaimer</li>
+        <li><strong>Feedback loop:</strong> Response tracking, edit tracking (what do reps change?), send/dismiss tracking. System learns over time.</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>Exit criteria:</strong> 4+ trigger types actively surfacing sends. First blinded case study from real campaign data. Reps receiving 3-5 actionable potential sends/week. Feedback loop collecting data.
       </div>
     </div>
   </div>
@@ -1754,7 +1854,7 @@ graph LR
       <div>
         <div class="phase-title">Phase 5: Champion Program + Metrics + Polish</div>
         <div class="tag-list">
-          <span class="badge badge-aqua">FROM PRD</span>
+          <span class="badge badge-aqua">NOTION PHASE 5</span>
         </div>
       </div>
       <div class="phase-meta">20–30h · Weeks 14–16</div>
@@ -1764,15 +1864,15 @@ graph LR
         <li><strong>Champion designation</strong> — 3–5 contacts per target account in HubSpot</li>
         <li><strong>Mutual connection mapping</strong> via Heyreach's <code>get-my-network-for-sender</code></li>
         <li>Champion priority in all trigger/send flows</li>
-        <li><strong>Metrics dashboard</strong> — digest → draft → send → reply → meeting → deal. Full attribution.</li>
-        <li>Relevance tuning from 👍/👎 reaction data</li>
+        <li><strong>Metrics dashboard</strong> — trigger → draft → send → reply → meeting → deal. Full attribution.</li>
+        <li>Relevance tuning from 👍/👎 reaction data + feedback loop results</li>
         <li>Conference sequence template</li>
-        <li><strong>Leaderboard / gamification</strong> (per contrarian reviewer)</li>
-        <li><strong>"What goes away"</strong> documentation — explicit list of manual processes replaced</li>
+        <li><strong>Leaderboard / gamification</strong></li>
+        <li><strong>"What goes away"</strong> documentation — explicit map of every manual process replaced by its automated equivalent. Critical for adoption.</li>
       </ul>
 
       <div class="callout callout-info">
-        <strong>Exit criteria:</strong> Champion program active for 5+ accounts. Full metrics pipeline working. 80%+ outbound through the system.
+        <strong>Exit criteria:</strong> Champion program active for 5+ accounts. Full metrics pipeline working. 80%+ outbound through the system. Sales team adoption confirmed by Jack Shannon.
       </div>
     </div>
   </div>
@@ -1782,13 +1882,13 @@ graph LR
   <div class="table-wrap">
     <table>
       <tr><th>Phase</th><th>Hours</th><th>Weeks</th><th>Key Change from Original</th></tr>
-      <tr><td>Gate Checks</td><td>4–6h</td><td>Week 0</td><td><span class="badge badge-aqua">ADDED</span></td></tr>
-      <tr><td>Phase 1: Quick Wins + Data</td><td>35–45h</td><td>1–4</td><td><span class="badge badge-orange">REORDERED</span> Ship Brief Me Week 1</td></tr>
-      <tr><td>Phase 2: Triggers + Content</td><td>25–30h</td><td>4–6</td><td><span class="badge badge-orange">REVISED</span> Voice matching → Phase 3</td></tr>
-      <tr><td>Phase 3: Outreach Prep + Queue</td><td>30–40h</td><td>6–9</td><td><span class="badge badge-orange">REVISED</span> HubSpot-first queue</td></tr>
-      <tr><td>Phase 4: Sequence Engine</td><td>70–100h</td><td>9–14</td><td><span class="badge badge-red">INCREASED</span> from 40–60h</td></tr>
-      <tr><td>Phase 5: Champions + Metrics</td><td>20–30h</td><td>14–16</td><td><span class="badge badge-aqua">ADDED</span> Leaderboard</td></tr>
-      <tr class="table-footer"><td><strong>TOTAL</strong></td><td><strong>184–251h</strong></td><td><strong>~16 weeks</strong></td><td></td></tr>
+      <tr><td>Phase 1a: Re-engagement + Intelligence</td><td>20–30h</td><td>1–2</td><td><span class="badge badge-ok">NEW</span> Deal re-engagement = Week 1 (from Notion)</td></tr>
+      <tr><td>Phase 1b: List Building + Existing Contacts</td><td>25–35h</td><td>2–4</td><td><span class="badge badge-orange">REORDERED</span> AI list builder moved to Phase 1</td></tr>
+      <tr><td>Phase 2: Contact Intelligence + Data</td><td>25–35h</td><td>4–6</td><td><span class="badge badge-warn">ADDED</span> Airtable→BigQuery migration + voice matching</td></tr>
+      <tr><td>Phase 3: Cold Outbound + Multi-Channel</td><td>40–55h</td><td>6–9</td><td><span class="badge badge-orange">REVISED</span> 3-4 Heyreach reps, 3 burner domains, Make.com sync</td></tr>
+      <tr><td>Phase 4: Trigger System + Automation</td><td>50–70h</td><td>9–14</td><td><span class="badge badge-orange">MOVED</span> Triggers deferred until infrastructure ready</td></tr>
+      <tr><td>Phase 5: Champions + Metrics</td><td>20–30h</td><td>14–16</td><td><span class="badge badge-aqua">SAME</span></td></tr>
+      <tr class="table-footer"><td><strong>TOTAL</strong></td><td><strong>180–255h</strong></td><td><strong>~16 weeks</strong></td><td></td></tr>
     </table>
   </div>
 </section>
@@ -1798,10 +1898,59 @@ graph LR
   <div class="section-label">Section 08</div>
   <h2>End-to-End Walkthroughs</h2>
 
-  <p>Two concrete scenarios showing <strong>every step</strong> from trigger to completion — systems, API calls, data movements, what the user sees.</p>
+  <p>Three concrete scenarios showing <strong>every step</strong> from trigger to completion — systems, API calls, data movements, what the user sees.</p>
 
-  <!-- Scenario A -->
-  <h3>Scenario A: Blinded Laundry Case Study → Cold Outbound via SmartLead</h3>
+  <!-- Scenario A: Re-engagement (NEW) -->
+  <h3>Scenario A: Stale Deal Re-engagement → Gmail Draft Reply</h3>
+  <p class="text-muted">A SQL deal has gone 11 days without contact. The AE (Jack) had a good intro meeting but the prospect ghosted.</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="step-time">7:00am MT (Daily Cron)</div>
+      <div class="step-title">Staleness scan fires</div>
+      <div class="step-detail">Cloud Run cron scans HubSpot: <code>deals WHERE last_activity > 8 days AND status IN ('SQL', 'Connected', 'Proposal Sent')</code>. Finds 3 stale deals for Jack.</div>
+      <div class="step-system">Cloud Scheduler → Cloud Run → HubSpot API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">7:02am</div>
+      <div class="step-title">AI selects re-engagement tactic</div>
+      <div class="step-detail">Deal context: SQL, ghosted after intro meeting, 11 days. AI selects <strong>Ghost Breaker</strong> (tactic #1): "Reference the enthusiasm from the call, make them feel they're missing something." Pulls deal notes: "Seemed interested in Six Flags."</div>
+      <div class="step-system">GPT-4o API + HubSpot deal notes</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">7:05am</div>
+      <div class="step-title">Gmail draft created on existing thread</div>
+      <div class="step-detail">Gmail API finds the most recent email thread with the prospect. Creates a <strong>draft reply</strong> (not a new email) on that thread. Draft appears in Jack's Gmail drafts folder.</div>
+      <div class="step-system">Gmail API: POST /gmail/v1/users/me/drafts (threadId attached)</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">7:30am</div>
+      <div class="step-title">Daily briefing Slack message</div>
+      <div class="step-detail">Jack receives morning Slack DM: <br>"<strong>Re-engagement — overdue (no task)</strong> — 3 new<br>• Sarah Chen — SQL, ghosted after intro, 11 days | Deal Notes: 'Seemed interested in Six Flags' → <a href='#'>Gmail draft</a>"</div>
+      <div class="step-system">Slack API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">8:15am</div>
+      <div class="step-title">Jack reviews and sends</div>
+      <div class="step-detail">Jack clicks the Gmail draft link. Sees a reply on the existing thread: "Hi Sarah, I keep thinking about what you mentioned about wanting to make Six Flags a signature activation...". Tweaks one sentence. Hits send.</div>
+      <div class="step-system">Gmail (manual send by rep)</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 3, 10:00am</div>
+      <div class="step-title">No reply → AI queues next tactic</div>
+      <div class="step-detail">3 days, no reply. AI selects <strong>Value Bomb</strong> (tactic #2). Searches for relevant news/stats from last 7 days about the prospect's brand. Finds an article. Creates another Gmail draft reply on the same thread.</div>
+      <div class="step-system">Cloud Run → web search → GPT-4o → Gmail API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Day 4, 2:00pm</div>
+      <div class="step-title">🎉 Sarah replies!</div>
+      <div class="step-detail">Sarah responds to the Value Bomb email. Cadence resets. HubSpot updated. Jack takes over manually.</div>
+      <div class="step-system">Gmail → HubSpot (auto-logged)</div>
+    </div>
+  </div>
+
+  <!-- Scenario B -->
+  <h3>Scenario B: Blinded Laundry Case Study → Cold Outbound via SmartLead</h3>
   <p class="text-muted">A campaign for Church &amp; Dwight (OxiClean) just completed with strong results. System generates a blinded case study targeting competitor laundry brands.</p>
 
   <div class="timeline">
@@ -1838,14 +1987,14 @@ graph LR
     <div class="timeline-step">
       <div class="step-time">T+12s</div>
       <div class="step-title">Draft stored + HubSpot synced + Slack notified</div>
-      <div class="step-detail">Firestore doc created. Custom object in HubSpot linked to 14 contacts. Slack DM to Jack: "📬 New: Blinded laundry case study — 14 contacts (10 SmartLead, 3 HubSpot, 1 LinkedIn)"</div>
+      <div class="step-detail">Firestore doc created. HubSpot Task created for Jack with draft preview. Slack DM to Jack: "📬 New: Blinded laundry case study — 14 contacts (10 SmartLead, 3 HubSpot, 1 LinkedIn)"</div>
       <div class="step-system">Firestore → HubSpot API → Slack API</div>
     </div>
     <div class="timeline-step">
       <div class="step-time">T+2h</div>
       <div class="step-title">Jack reviews in HubSpot</div>
-      <div class="step-detail">Opens Potential Send record. Sees all contacts with channel routing. Edits one line. Removes 2 contacts in active deals. Clicks "Approve &amp; Send."</div>
-      <div class="step-system">HubSpot UI → Webhook → Cloud Run</div>
+      <div class="step-detail">Opens HubSpot Task. Reviews draft + contact list (linked via Firestore). Edits one line in Slack thread. Removes 2 contacts in active deals. Marks Task complete to approve.</div>
+      <div class="step-system">HubSpot Tasks → Webhook → Cloud Run</div>
     </div>
     <div class="timeline-step">
       <div class="step-time">T+2h 5s</div>
@@ -1873,8 +2022,8 @@ graph LR
     </div>
   </div>
 
-  <!-- Scenario B -->
-  <h3>Scenario B: Six Flags Halloween Candy → Multi-Channel</h3>
+  <!-- Scenario C -->
+  <h3>Scenario C: Six Flags Halloween Candy → Multi-Channel</h3>
   <p class="text-muted">New supply opportunity: candy &amp; snack sampling across 15 Six Flags parks. Targeting non-chocolate candy brands.</p>
 
   <div class="timeline">
@@ -1934,20 +2083,21 @@ graph LR
   <div class="section-label">Section 09</div>
   <h2>Cost Model</h2>
 
-  <h3>Monthly Recurring Costs</h3>
+  <h3>Monthly Recurring Costs (Confirmed)</h3>
   <div class="table-wrap">
     <table>
       <tr><th>Item</th><th>Monthly Cost</th><th>Notes</th></tr>
-      <tr><td>Clay (LinkedIn enrichment)</td><td>$349–800</td><td>Credit-based. Watch for overages. Test one saved search first.</td></tr>
+      <tr><td>Clay (LinkedIn enrichment)</td><td>$349–800</td><td>Credit-based. Keeping — handles LinkedIn sync + signal monitoring.</td></tr>
       <tr><td>SmartLead (cold email)</td><td>$39–79</td><td>Per account, not per sender. Cheap.</td></tr>
-      <tr><td>Heyreach (LinkedIn automation)</td><td>$352–632</td><td><strong>⚠️ Per sender.</strong> 8 reps × $44–79 = significant. Scales with team.</td></tr>
+      <tr><td>Heyreach (LinkedIn automation)</td><td><strong>$132–316</strong></td><td><strong>3-4 reps</strong> × $44–79. Down from 8 reps. Scales if needed.</td></tr>
       <tr><td>NeverBounce (email verification)</td><td>~$50–100</td><td>$0.008/email. At volume, still cheap.</td></tr>
-      <tr><td>Burner domains + Google Workspace</td><td>$50–100</td><td>3–5 domains per sender, $6/mo/seat</td></tr>
-      <tr><td>OpenAI API (GPT-4o)</td><td>$50–150</td><td>~$0.02–0.08 per draft × volume. Includes research agent calls.</td></tr>
+      <tr><td>Burner domains (3) + Google Workspace</td><td><strong>$20–40</strong></td><td>3 domains × ~$6/mo + registration amortized</td></tr>
+      <tr><td>OpenAI API (GPT-4o)</td><td>$50–150</td><td>~$0.02–0.08 per draft × volume. Includes research agent + voice matching.</td></tr>
       <tr><td>Google Cloud Run + Firestore</td><td>$5–20</td><td>Scales to zero. Free tier covers most of our volume.</td></tr>
-      <tr><td>HubSpot tier (if upgrade needed)</td><td>$750–1,200+</td><td><span class="badge badge-red">⚠️ GATE CHECK</span> Enterprise for custom objects. Largest potential line item.</td></tr>
-      <tr class="table-footer"><td><strong>TOTAL (excl. HubSpot upgrade)</strong></td><td><strong>$895–1,881/mo</strong></td><td></td></tr>
-      <tr class="table-footer"><td><strong>TOTAL (incl. HubSpot upgrade)</strong></td><td><strong>$1,645–3,081/mo</strong></td><td></td></tr>
+      <tr><td>Make.com (activity sync)</td><td>$0</td><td>Already paying — existing integration syncs SmartLead ↔ HubSpot</td></tr>
+      <tr><td style="color: var(--text-muted); text-decoration: line-through;">HubSpot upgrade</td><td style="color: var(--text-muted);">$0</td><td><span class="badge badge-ok">NOT NEEDED</span> Staying on Professional. Tasks replace custom objects.</td></tr>
+      <tr><td style="color: var(--text-muted); text-decoration: line-through;">OutboundSync</td><td style="color: var(--text-muted);">$0</td><td><span class="badge badge-ok">NOT NEEDED</span> Make.com handles activity sync</td></tr>
+      <tr class="table-footer"><td><strong>TOTAL</strong></td><td><strong>$645–1,505/mo</strong></td><td>~40% lower than original estimate</td></tr>
     </table>
   </div>
 
@@ -1968,7 +2118,7 @@ graph LR
     <ul>
       <li><strong>OpenAI API:</strong> ~$0.02–0.08 per draft. Evergreen emails cost more (research agent step). 1,000 drafts/month ≈ $50–80.</li>
       <li><strong>Clay credits:</strong> 5–10 credits per contact enrichment. 1,000 contacts/month may exhaust the $349 tier.</li>
-      <li><strong>Heyreach per-sender:</strong> Every new rep = $44–79/mo more. Negotiate annual pricing.</li>
+      <li><strong>Heyreach per-sender:</strong> Currently 3-4 reps. Every new rep = $44–79/mo more. Negotiate annual pricing.</li>
       <li><strong>NeverBounce:</strong> Scales linearly at $0.008/email. Predictable.</li>
     </ul>
   </div>
@@ -1976,9 +2126,9 @@ graph LR
   <div class="callout callout-warn">
     <strong>Hidden costs flagged by reviewers:</strong>
     <ul>
-      <li><strong>Engineering maintenance:</strong> Budget 10–20h/mo ongoing for API changes, bug fixes, edge cases, "can you make it do X?" requests</li>
-      <li><strong>Clay credit burn:</strong> LinkedIn enrichment can consume credits fast at scale</li>
-      <li><strong>Heyreach per-sender pricing:</strong> $44–79/sender × 8 reps = biggest variable cost</li>
+      <li><strong>Engineering maintenance (3rd party dev shop):</strong> Budget 10–20h/mo ongoing for API changes, bug fixes, edge cases, "can you make it do X?" requests</li>
+      <li><strong>Clay credit burn:</strong> LinkedIn enrichment for 119 accounts can consume credits fast at scale</li>
+      <li><strong>Airtable → BigQuery migration:</strong> One-time engineering cost, but ongoing ETL maintenance if Airtable stays as a data entry point</li>
     </ul>
   </div>
 </section>
@@ -2016,14 +2166,15 @@ graph LR
       </ul>
     </div>
     <div class="card" style="border-color: var(--warning);">
-      <h4 style="color: var(--warning); margin-top:0;">#3 — HubSpot Tier / Cost Surprise</h4>
-      <p>Custom objects require Enterprise. If on Professional, that's $750+/mo unbudgeted.</p>
-      <p><strong>Likelihood:</strong> Medium &nbsp;|&nbsp; <strong>Impact:</strong> Medium</p>
+      <h4 style="color: var(--warning); margin-top:0;">#3 — Airtable → BigQuery Migration Complexity</h4>
+      <p>Campaign data is in Airtable, not BigQuery. Case study auto-generation (Phase 4) is blocked until migration completes. Schema differences, data quality issues, and ongoing sync requirements could delay Phase 4.</p>
+      <p><strong>Likelihood:</strong> Medium &nbsp;|&nbsp; <strong>Impact:</strong> High</p>
       <p style="margin-top: 0.5rem;"><strong>Mitigations:</strong></p>
       <ul>
-        <li>Gate check before any build (Week 0)</li>
-        <li>Fallback: HubSpot Tasks instead of custom objects (less elegant, equally functional)</li>
-        <li>Alternative: Contact property group for lightweight MVP</li>
+        <li>Start Airtable audit in Phase 2 (Week 4) — don't wait until Phase 4</li>
+        <li>Define minimum viable BigQuery schema (which fields are required for case study generation?)</li>
+        <li>If migration is complex: manual case study creation as Phase 4 fallback while ETL builds</li>
+        <li>Consider ongoing Airtable → BigQuery sync if Airtable stays as data entry point</li>
       </ul>
     </div>
   </div>
@@ -2068,11 +2219,11 @@ graph LR
         <td>Our moat: deep integration with Recess campaign data, CRM context, blinded case studies. Off-the-shelf can't replicate.</td>
       </tr>
       <tr>
-        <td>HubSpot custom object perf limits (&gt;10K records)</td>
-        <td>Technical</td>
+        <td>Tasks-based queue UX limitations vs custom objects</td>
+        <td>Adoption</td>
         <td>Medium</td>
         <td>Medium</td>
-        <td>Cleanup/archive workflow. Auto-dismiss after 14 days. Won't hit 10K for 3–4 months.</td>
+        <td>Tasks lack rich filtering that custom objects provide. Mitigate with well-structured task naming conventions, HubSpot views, and Slack daily briefing as the primary queue surface. Cleanup/archive old tasks after 14 days.</td>
       </tr>
     </table>
   </div>
@@ -2109,40 +2260,43 @@ graph LR
   <div class="section-label">Section 11</div>
   <h2>Pre-Launch Gate Checks</h2>
 
-  <div class="callout callout-danger">
-    <strong>These must be validated BEFORE committing to the build. ~4–6h of investigation before committing 200+ hours.</strong>
+  <div class="callout callout-success">
+    <strong>Most gate checks have been resolved as of April 2026. Remaining items for the dev shop are in the "Remaining Questions" section below.</strong>
   </div>
 
   <div class="card card-highlight">
     <ol style="font-size: 1rem; line-height: 2;">
-      <li><strong>HubSpot tier</strong> — Enterprise required for custom objects + Sequence API. If Professional, queue architecture changes entirely (Tasks + standard objects).</li>
-      <li><strong>BigQuery campaign data</strong> — Structured enough for auto case study generation? Audit fields + completeness. Are <code>incremental_sales_lift</code>, <code>roas</code>, <code>category</code> reliably populated?</li>
-      <li><strong>Clay account</strong> — Current plan, credit balance, existing workflows for LinkedIn enrichment. Can we run weekly batch enrichment within the plan's credit limit?</li>
-      <li><strong>SmartLead webhook reliability</strong> — Test webhook delivery, latency, and retry behavior. Set up test endpoint + send test campaign.</li>
-      <li><strong>Heyreach connection accept rates</strong> — Baseline LinkedIn connect request performance for Recess reps. What's the current accept rate?</li>
-      <li><strong>Named account list</strong> — Confirmed 75–85 target accounts with ownership assignments.</li>
+      <li><strong>HubSpot tier</strong> — <span class="badge badge-ok">RESOLVED</span> Professional tier confirmed (locked through Nov 2027). Tasks + property groups for queue. Sequences API available (Sales Pro).</li>
+      <li><strong>Campaign data</strong> — <span class="badge badge-warn">ACTION NEEDED</span> Data is in <strong>Airtable</strong>, not BigQuery. Dev shop needs to audit Airtable schema + design migration before Phase 4.</li>
+      <li><strong>Clay account</strong> — <span class="badge badge-ok">RESOLVED</span> Active account. Keeping Clay for LinkedIn enrichment + signal monitoring.</li>
+      <li><strong>SmartLead webhook reliability</strong> — Test during Phase 3 setup. Set up test endpoint + send test campaign.</li>
+      <li><strong>Heyreach</strong> — 3-4 reps confirmed. Baseline LinkedIn connect acceptance rate needed.</li>
+      <li><strong>Named account list</strong> — <span class="badge badge-ok">RESOLVED</span> 119 target accounts, filtered by <code>market_type=buyer</code> AND <code>hs_is_target_account</code>.</li>
+      <li><strong>Budget</strong> — <span class="badge badge-ok">RESOLVED</span> No ceiling on tool costs. Estimated $645–1,505/mo.</li>
+      <li><strong>Execution</strong> — <span class="badge badge-ok">RESOLVED</span> Outsourced to 3rd party dev shop. Sales champion: Jack Shannon.</li>
     </ol>
   </div>
 
   <h3>Go / No-Go Criteria</h3>
   <div class="split-view">
     <div class="card" style="border-color: var(--success);">
-      <h4 style="color: var(--success); margin-top: 0;">✅ Go If</h4>
+      <h4 style="color: var(--success); margin-top: 0;">✅ Go — Confirmed</h4>
       <ul>
-        <li>HubSpot tier supports custom objects OR Tasks fallback is acceptable</li>
-        <li>BigQuery has campaign metrics for at least 10 completed campaigns</li>
-        <li>Clay credits sufficient for weekly batch of 500+ contacts</li>
-        <li>SmartLead webhooks deliver reliably within 30 seconds</li>
-        <li>Named account list confirmed by sales leadership</li>
+        <li>✅ HubSpot Professional with Tasks fallback confirmed</li>
+        <li>✅ Clay active for LinkedIn enrichment</li>
+        <li>✅ 119 named accounts confirmed</li>
+        <li>✅ Budget approved (no ceiling)</li>
+        <li>✅ Dev shop execution model agreed</li>
+        <li>✅ Jack Shannon = sales champion</li>
       </ul>
     </div>
-    <div class="card" style="border-color: var(--danger);">
-      <h4 style="color: var(--danger); margin-top: 0;">❌ No-Go If</h4>
+    <div class="card" style="border-color: var(--warning);">
+      <h4 style="color: var(--warning); margin-top: 0;">⚠️ Remaining Risks to Validate</h4>
       <ul>
-        <li>HubSpot upgrade budget is rejected and Tasks fallback deemed insufficient</li>
-        <li>BigQuery campaign data is too sparse for any automated case studies</li>
-        <li>No Clay account or budget for enrichment tools</li>
-        <li>Sales team rejects "AI drafts emails" concept entirely</li>
+        <li>Airtable campaign data completeness — is it sufficient for blinded case study generation?</li>
+        <li>Gmail API access — does Google Workspace allow admin consent for Draft API (re-engagement)?</li>
+        <li>SmartLead webhook reliability — needs testing before Phase 3</li>
+        <li>Clay credit budget — can we sustain weekly batch enrichment of 119 accounts?</li>
       </ul>
     </div>
   </div>
@@ -2200,7 +2354,7 @@ graph LR
       <tr><td>Orchestrator hosting</td><td>Cloud Run</td><td>Scales to zero, serverless, Python, cheap</td><td>Make.com (can't handle state), VM (wasteful)</td></tr>
       <tr><td>Cold email</td><td>SmartLead</td><td>Full API, campaign automation, domain rotation, webhooks</td><td>Instantly (less mature API)</td></tr>
       <tr><td>LinkedIn</td><td>Heyreach</td><td>API + MCP server, webhooks, sender network mapping</td><td>Phantombuster (no API)</td></tr>
-      <tr><td>Rep review surface</td><td>HubSpot custom objects</td><td>Where reps already live. Zero adoption friction.</td><td>Custom web app (adoption risk), Slack (no state)</td></tr>
+      <tr><td>Rep review surface</td><td>HubSpot Tasks + property groups</td><td>Professional tier constraint — Tasks are functional for queue management. Where reps already live.</td><td>Custom objects (requires Enterprise), Custom web app (adoption risk), Slack (no state)</td></tr>
       <tr><td>State machine</td><td>Firestore documents</td><td>Real-time, schemaless, scales, free tier sufficient</td><td>Redis (need to manage), Postgres (schema overhead)</td></tr>
     </table>
   </div>
@@ -2249,12 +2403,62 @@ graph LR
   </div>
 </section>
 
+<!-- ═══════════════════════ 13. DEV SHOP QUESTIONS ═══════════════════════ -->
+<section class="section" id="dev-questions">
+  <div class="section-label">Section 13</div>
+  <h2>Remaining Questions for Dev Shop</h2>
+
+  <div class="callout callout-danger">
+    <strong>These questions must be answered before the dev shop can begin implementation. Target: resolve in Week 0 (before Phase 1a starts).</strong>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="border-color: var(--orange);">
+      <h4 style="color: var(--orange); margin-top:0;">🗄️ Data &amp; Infrastructure</h4>
+      <ol>
+        <li><strong>Airtable schema audit</strong> — What fields exist in the campaign data? What needs transformation for BigQuery? How many completed campaigns have structured metrics (lift %, ROAS, category)?</li>
+        <li><strong>Gmail API access</strong> — Does Recess have Google Workspace with admin consent for the Gmail Draft API? Required for re-engagement Gmail drafts in Phase 1a.</li>
+        <li><strong>Google Cloud project</strong> — Existing project or new? Service account permissions? Current Cloud Run services already deployed?</li>
+        <li><strong>Brand/category reference sheet</strong> — Where does it live (Airtable? Google Sheet? HubSpot?)? What format? This anchors all AI brand inference.</li>
+      </ol>
+    </div>
+    <div class="card" style="border-color: var(--aqua);">
+      <h4 style="color: var(--aqua); margin-top:0;">🔧 Existing Tools &amp; Accounts</h4>
+      <ol start="5">
+        <li><strong>Make.com current scenarios</strong> — What exactly does the existing Make.com integration handle for SmartLead ↔ HubSpot sync? Can we extend it or need separate scenarios?</li>
+        <li><strong>Clay account details</strong> — Current plan tier, credit balance, existing workflow IDs. Which enrichment providers are enabled?</li>
+        <li><strong>SmartLead account</strong> — Existing or new? Any currently warmed domains? Current campaign structure?</li>
+        <li><strong>Heyreach account</strong> — Existing or new? Which 3-4 rep LinkedIn accounts will be configured?</li>
+        <li><strong>Lindy access</strong> — API or SDK for enhancing "Brief Me" / post-meeting recap? Or is the spike likely to replace Lindy with direct Cloud Run?</li>
+      </ol>
+    </div>
+    <div class="card" style="border-color: var(--sea-green);">
+      <h4 style="color: var(--sea-green); margin-top:0;">🔑 Access &amp; Permissions</h4>
+      <ol start="10">
+        <li><strong>HubSpot API key scope</strong> — Private app token with access to: Contacts, Companies, Deals, Tasks, Sequences, Engagements, Workflows. Sales Pro Sequences API confirmed?</li>
+        <li><strong>OpenAI API key</strong> — Existing org account or new? Rate limit tier? Budget allocated for GPT-4o calls?</li>
+        <li><strong>SmartLead + Heyreach API keys</strong> — Who provisions these? Dev shop needs sandbox accounts for testing.</li>
+        <li><strong>NeverBounce account</strong> — Existing or new? Estimated volume for initial batch verification of 119 accounts' contacts?</li>
+      </ol>
+    </div>
+    <div class="card" style="border-color: var(--forest);">
+      <h4 style="color: var(--forest); margin-top:0;">👥 Process &amp; Handoff</h4>
+      <ol start="14">
+        <li><strong>Dev shop communication cadence</strong> — Weekly standup? Slack channel? Who's the Recess technical POC alongside Jack Shannon (sales champion)?</li>
+        <li><strong>Staging environment</strong> — Does the dev shop get a HubSpot sandbox? Test SmartLead account? Or build against production with safeguards?</li>
+        <li><strong>Deployment &amp; handoff</strong> — Who owns the Cloud Run services long-term? Dev shop maintains, or Recess takes over after Phase 5? Budget 10-20h/mo maintenance.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 <div class="footer">
   <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">🎬 <strong style="color: var(--aqua);">Jerry Maguire</strong> — "Show Me the Money"</p>
-  <p>AI Outbound Sales System · Recess Digital · March 2026</p>
-  <p style="margin-top: 0.5rem;">4-Agent Review: Planner + Researcher + Opus Reviewer + Contrarian Reviewer</p>
-  <p style="margin-top: 0.25rem; font-size: 0.75rem;">Artifacts: <code>second-brain/artifacts/ai-outbound-sales/</code></p>
+  <p>AI Outbound Sales System · Recess Digital · April 2026 (Revised)</p>
+  <p style="margin-top: 0.5rem;">Aligned to Notion PRD · HubSpot Professional · Handoff-ready for 3rd Party Dev Shop</p>
+  <p style="margin-top: 0.25rem;">Sales Champion: Jack Shannon · 180–255h · $645–1,505/mo</p>
+  <p style="margin-top: 0.25rem; font-size: 0.75rem;">Sources: <a href="https://www.notion.so/teamrecess/AI-Outbound-Sales-32878d863acd81ac9cb9e69df88959ea">Notion PRD</a> · Engineering Spec v2</p>
 </div>
 
 </main>
