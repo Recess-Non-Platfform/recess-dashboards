@@ -637,7 +637,7 @@
       <h4 style="color: var(--success); margin-top:0;">✅ In Scope</h4>
       <ul>
         <li><strong>Deal re-engagement system</strong> — 8-day staleness rule, Gmail draft replies on existing threads, 5-tactic playbook</li>
-        <li>AI email copy generation (GPT-4o) for 6 email types: case study, sales enablement, evergreen, signal-based, re-engagement, conference</li>
+        <li>AI email copy generation (GPT-4o) for <strong>7 email types</strong>: case study, sales enablement, evergreen, signal-based, re-engagement, <strong>quarterly category recap</strong>, conference</li>
         <li>6 trigger types: campaign complete, job change, RSS news, LinkedIn post, supply opportunity, quarterly recap</li>
         <li>Multi-channel send orchestration: SmartLead (cold, 3 burner domains), HubSpot Sequences (warm), Heyreach (LinkedIn, 3-4 reps)</li>
         <li>Cross-channel state machine with pause-on-reply coordination</li>
@@ -1535,6 +1535,71 @@ Return JSON: {"subject": "...", "body": "...", "preview_text": "..."}</code></pr
     </div>
   </details>
 
+  <!-- Quarterly Category Recap -->
+  <details>
+    <summary>📊 Quarterly Category Recap Emails — Template-Based</summary>
+    <div class="detail-body">
+      <p><strong>Trigger:</strong> First Monday of each quarter (Cloud Scheduler cron). Aggregates recent campaign data grouped by category.</p>
+      <p><strong>Angle:</strong> "Here's what's happening in your space on Recess"</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Data</th><th>Source</th></tr>
+          <tr><td>Campaign performance by category</td><td>BigQuery <code>campaign_results</code> (post Airtable migration)</td></tr>
+          <tr><td>Contacts in category</td><td>HubSpot CRM — <code>brand_category</code> filter</td></tr>
+          <tr><td>Blinded metrics</td><td>Avg incremental lift, ROAS, engagement across campaigns in category</td></tr>
+        </table>
+      </div>
+      <h4>Example Output</h4>
+      <pre><code>{
+  <span class="key">"subject"</span>: <span class="str">"Q1 Snacks Recap: what's working on Recess"</span>,
+  <span class="key">"body"</span>: <span class="str">"Hi {{first_name}},\n\nQuick snapshot of what we saw across snacks on Recess in Q1:\n\n• 3 campaigns launched across the category\n• Average 18% incremental sales lift\n• 3.2x average ROAS across retail + experiential\n\nWe're seeing strong momentum with in-store sampling paired with digital — especially at mass retail.\n\nWould it make sense to share what's working in your specific segment? Happy to walk through it in 15 minutes.\n\nBest,\nJack"</span>,
+  <span class="key">"preview_text"</span>: <span class="str">"Q1 Snacks: 3 campaigns, 18% avg lift — here's what's working"</span>
+}</code></pre>
+      <p style="margin-top: 0.75rem;"><strong>Note:</strong> Template-based (not full AI-drafted). Category performance summary with blinded metrics from recent campaigns. Sent to all contacts in that category. Requires Airtable → BigQuery migration complete.</p>
+    </div>
+  </details>
+
+  <!-- Re-engagement Emails -->
+  <details>
+    <summary>🔄 Re-engagement Emails — 3-Nudge System + 5-Tactic Escalation</summary>
+    <div class="detail-body">
+      <p><strong>Trigger:</strong> Automated staleness detection (8+ days without touch on active deals).</p>
+      <p><strong>This is a two-phase system, not just 5 tactics:</strong></p>
+
+      <h4>Phase 1: Gentle Nudges (3 steps)</h4>
+      <div class="callout callout-info">
+        <strong>Before escalation tactics fire, every stale deal gets 3 progressively warmer nudges:</strong>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Step</th><th>Trigger</th><th>Tone</th><th>Purpose</th></tr>
+          <tr><td><strong>Nudge 1</strong></td><td>8+ days stale</td><td>Light, casual check-in</td><td>Gentle reminder. "Just floating this back up."</td></tr>
+          <tr><td><strong>Nudge 2</strong></td><td>+4 business days after Nudge 1</td><td>Slightly more direct</td><td>Add a small value-add or reference something specific from last conversation.</td></tr>
+          <tr><td><strong>Nudge 3</strong></td><td>+4 business days after Nudge 2</td><td>Direct but not pushy</td><td>Last gentle touch before escalation. "I want to make sure this doesn't fall through the cracks."</td></tr>
+        </table>
+      </div>
+      <p>All nudges are <strong>Gmail draft replies on the existing thread</strong> — same UX as the escalation tactics. Rep reviews and sends.</p>
+
+      <h4>Phase 2: Escalation Tactics (5 steps)</h4>
+      <div class="callout callout-warn">
+        <strong>Escalation only fires when:</strong> <code>reengagement_step = nudge_3</code> AND +4 business days have passed with no reply. The prospect has been nudged 3 times over ~3 weeks with no response.
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Tactic</th><th>When</th><th>Best For</th></tr>
+          <tr><td>1</td><td><strong>Ghost Breaker</strong> — Reference call enthusiasm, make them feel they're missing something</td><td>+4 biz days after Nudge 3</td><td>Ghosted after good intro (SQL)</td></tr>
+          <tr><td>2</td><td><strong>Value Bomb</strong> — Hyper-relevant insight/stat from last 7 days. <em>Skipped if nothing relevant found.</em></td><td>+4 biz days</td><td>Any stall — needs a reason to reach out</td></tr>
+          <tr><td>3</td><td><strong>Assumption Close</strong> — Assumes moving forward, simple yes/no</td><td>+4 biz days</td><td>Proposal sent, no response</td></tr>
+          <tr><td>4</td><td><strong>Pattern Interrupt</strong> — Break the pattern completely. Short, unexpected.</td><td>+4 biz days</td><td>Late-stage ghosting, standard follow-ups not working</td></tr>
+          <tr><td>5</td><td><strong>Re-Opener</strong> — Something has changed. <em>Skipped if nothing has materially changed.</em></td><td>+4 biz days</td><td>2-3+ week cold deals worth reviving</td></tr>
+        </table>
+      </div>
+      <p><strong>Full cadence (worst case, no skips):</strong> Nudge 1 → (4d) → Nudge 2 → (4d) → Nudge 3 → (4d) → Ghost Breaker → (4d) → Value Bomb → (4d) → Assumption Close → (4d) → Pattern Interrupt → (4d) → Re-Opener. <strong>~7 weeks total.</strong></p>
+      <p><strong>Cadence resets</strong> if prospect replies at any point.</p>
+      <p><strong>Conditional skips:</strong> Value Bomb skipped if no relevant news/stat found in last 7 days. Re-Opener skipped if nothing has materially changed since deal went cold.</p>
+    </div>
+  </details>
+
   <!-- Voice Matching -->
   <h3>Voice Matching — How It Works</h3>
   <div class="card">
@@ -1641,14 +1706,12 @@ graph LR
       <ul>
         <li><strong>Staleness detection</strong> — Scan HubSpot for contacts/deals violating the 8-day rule (no contact in 8+ days)</li>
         <li><strong>Gmail draft replies</strong> — AI creates actual Gmail draft replies on the most recent email thread with each stale contact. Rep clicks through, reviews, and sends directly from Gmail.</li>
-        <li><strong>5-tactic re-engagement playbook</strong> — AI selects the right tactic based on deal context:
-          <ol>
-            <li><strong>Ghost Breaker</strong> — Reference call enthusiasm. Best for: ghosted after good intro meeting (SQL).</li>
-            <li><strong>Value Bomb</strong> — Hyper-relevant insight/stat from last 7 days. Skipped if nothing relevant found.</li>
-            <li><strong>Assumption Close</strong> — Assumes moving forward, simple yes/no decision. Best for: proposal with no response.</li>
-            <li><strong>Pattern Interrupt</strong> — Break the pattern after 2+ follow-ups. One shot, make it count.</li>
-            <li><strong>Re-Opener</strong> — For 2-3+ week cold deals. Skipped if nothing has materially changed.</li>
-          </ol>
+        <li><strong>Two-phase re-engagement system:</strong>
+          <ul>
+            <li><strong>Phase 1 — 3 Gentle Nudges</strong> (every 4 business days): Light check-in → value-add reference → direct "don't let this fall through the cracks"</li>
+            <li><strong>Phase 2 — 5 Escalation Tactics</strong> (only after all 3 nudges + 4 more biz days with no reply): Ghost Breaker → Value Bomb → Assumption Close → Pattern Interrupt → Re-Opener</li>
+          </ul>
+          <p style="margin-top: 0.5rem;">Escalation triggers when <code>reengagement_step = nudge_3</code> + 4 business days. Value Bomb skipped if no relevant news. Re-Opener skipped if nothing changed. Full cadence = ~7 weeks worst case. Resets on any reply. See <a href="#content-engine">Content Engine</a> for full spec.</p>
         </li>
         <li><strong>Queue split</strong> — Two sections in daily briefing:
           <ul>
@@ -1698,10 +1761,22 @@ graph LR
     <div class="phase-body">
       <p><em>Existing contacts respond best. Sales enablement and case study sequences with FOMO are highest-converting. No new sending infrastructure needed — HubSpot handles it.</em></p>
 
+      <h4>Smart List Building — "Describe What You Want, AI Builds It" (Core Feature)</h4>
+      <div class="callout callout-info">
+        <strong>This is a central UX capability, not just a feature bullet.</strong> Replaces the current manual workflow of using Claude to keyword-search HubSpot, exporting to Google Docs, cross-referencing LinkedIn, and manually enrolling in sequences.
+      </div>
       <ul>
-        <li><strong>AI-powered list building from natural language</strong> — "non-chocolate candy brands for Six Flags Halloween" → HubSpot list created</li>
-        <li>Lists split: <strong>existing contacts</strong> (Connected through Closed Won) vs. <strong>new contacts</strong> (queued for Phase 3)</li>
-        <li><strong>AI-generated personalized copy</strong> — at minimum by category, by brand if known</li>
+        <li><strong>Natural language → HubSpot list</strong> — Rep or system describes targets in plain English:
+          <ul>
+            <li>"non-chocolate candy brands for Six Flags Halloween"</li>
+            <li>"premium beauty contacts for Tao Beach sunscreen"</li>
+            <li>"all snacks contacts at Mars, excluding chocolate"</li>
+          </ul>
+        </li>
+        <li>AI searches HubSpot by <strong>Brand, Brand Category, Title, and account ownership</strong> to generate a target list</li>
+        <li>Lists created directly in HubSpot where reps can <strong>review, add, remove, and refine</strong> before sequencing</li>
+        <li>Lists automatically split: <strong>existing contacts</strong> (Lead Status from Connected through Closed Won/Nurture) vs. <strong>new/cold contacts</strong> (New or Attempted to Contact)</li>
+        <li><strong>AI-generated personalized copy</strong> — at minimum by category, by brand if known. Unknown brands fall back to category-level personalization.</li>
         <li>Sales reviews and edits copy in HubSpot (1:1 per contact via Sequences) or AI interface</li>
         <li>Existing contacts sent via <strong>HubSpot Sequences</strong> using real email addresses</li>
         <li>New contacts queued for Phase 3 (SmartLead) or manual handling</li>
@@ -1715,6 +1790,7 @@ graph LR
         <li><strong>NeverBounce email verification</strong> — gating deliverable, ~$16/batch</li>
         <li>AI brand inference prototype — test accuracy on 50 contacts with confidence scoring</li>
         <li><strong>HubSpot Tasks queue setup</strong> — property groups, task templates, workflow triggers</li>
+        <li><strong>Start warming 3 burner domains</strong> — register domains, configure DNS (SPF, DKIM, DMARC), begin warmup. 2-4 week lead time required before Phase 3 cold outbound. <span class="badge badge-warn">START NOW</span></li>
       </ul>
 
       <div class="callout callout-info">
@@ -1739,14 +1815,18 @@ graph LR
       <p><em>Clean data makes everything else work better. Phase 1 ran on existing HubSpot data; now we build the intelligence layer.</em></p>
 
       <ul>
-        <li><strong>LinkedIn Sales Nav → HubSpot sync via Clay</strong> batch runs (weekly/biweekly) for 119 named accounts</li>
-        <li><strong>AI enrichment</strong> for Brand and Brand Category fields, anchored to Target Account Reference Sheet</li>
+        <li><strong>LinkedIn Sales Nav → HubSpot sync via Clay</strong> — <span class="badge badge-ok">IN-FLIGHT</span> Leo is actively building this. Phase 2 work = validate, test, and harden what Leo has built. Not greenfield.</li>
+        <li><strong>AI enrichment</strong> for Brand and Brand Category fields, anchored to Target Account Reference Sheet — integrate with Leo's Clay workflows</li>
         <li><strong>NeverBounce email verification</strong> on all contacts (if not completed in Phase 1b)</li>
-        <li><strong>Job change detection</strong> and notifications via Clay</li>
+        <li><strong>Job change detection</strong> and notifications via Clay — leverage Leo's existing Clay setup</li>
         <li><strong>Voice matching</strong> — extract each rep's writing style from BigQuery email history (already synced from HubSpot). Cache style guides in Firestore, inject into all draft prompts.</li>
         <li><strong>🔴 Airtable → BigQuery campaign data migration</strong> — BLOCKER for Phase 4 case study auto-generation. Audit Airtable schema, design BigQuery tables, build ETL pipeline, validate data completeness.</li>
-        <li><strong>Start warming 3 burner domains</strong> — 2-4 week lead time required before Phase 3 cold outbound</li>
+        <li><strong>Start warming 3 burner domains</strong> — 2-4 week lead time. <strong>Move to Phase 1b</strong> (see domain warming note below).</li>
       </ul>
+
+      <div class="callout callout-success">
+        <strong>Leo's Clay build (in-flight):</strong> Contact intelligence is NOT greenfield — Leo is actively building the Clay batch sync, enrichment workflows, and LinkedIn → HubSpot pipeline. Phase 2 work for the dev shop = integrate with Leo's work, add AI brand inference layer, wire up NeverBounce, and validate data quality. Coordinate with Leo to avoid duplicating effort.
+      </div>
 
       <div class="callout callout-danger">
         <strong>🔴 Critical Dependency — Airtable Migration:</strong> Campaign data currently lives in Airtable, not BigQuery. Blinded case study auto-generation (Phase 4) requires structured campaign results in BigQuery with fields like <code>incremental_sales_lift</code>, <code>roas</code>, and <code>category</code>. This migration is a blocker — if it slips, case study triggers in Phase 4 are delayed.
@@ -1913,38 +1993,50 @@ graph LR
     </div>
     <div class="timeline-step">
       <div class="step-time">7:02am</div>
-      <div class="step-title">AI selects re-engagement tactic</div>
-      <div class="step-detail">Deal context: SQL, ghosted after intro meeting, 11 days. AI selects <strong>Ghost Breaker</strong> (tactic #1): "Reference the enthusiasm from the call, make them feel they're missing something." Pulls deal notes: "Seemed interested in Six Flags."</div>
+      <div class="step-title">AI generates Nudge 1 (gentle check-in)</div>
+      <div class="step-detail">Deal context: SQL, 11 days since last touch, <code>reengagement_step = null</code>. System starts with <strong>Nudge 1</strong> (not escalation). Tone: light, casual check-in. Pulls deal notes: "Seemed interested in Six Flags." Sets <code>reengagement_step = nudge_1</code>.</div>
       <div class="step-system">GPT-4o API + HubSpot deal notes</div>
     </div>
     <div class="timeline-step">
       <div class="step-time">7:05am</div>
       <div class="step-title">Gmail draft created on existing thread</div>
-      <div class="step-detail">Gmail API finds the most recent email thread with the prospect. Creates a <strong>draft reply</strong> (not a new email) on that thread. Draft appears in Jack's Gmail drafts folder.</div>
+      <div class="step-detail">Gmail API finds the most recent email thread with the prospect. Creates a <strong>draft reply</strong> (not a new email) on that thread. Draft appears in Jack's Gmail drafts folder. Tone: light, casual — "Just floating this back up."</div>
       <div class="step-system">Gmail API: POST /gmail/v1/users/me/drafts (threadId attached)</div>
     </div>
     <div class="timeline-step">
       <div class="step-time">7:30am</div>
       <div class="step-title">Daily briefing Slack message</div>
-      <div class="step-detail">Jack receives morning Slack DM: <br>"<strong>Re-engagement — overdue (no task)</strong> — 3 new<br>• Sarah Chen — SQL, ghosted after intro, 11 days | Deal Notes: 'Seemed interested in Six Flags' → <a href='#'>Gmail draft</a>"</div>
+      <div class="step-detail">Jack receives morning Slack DM: <br>"<strong>Re-engagement — overdue (no task)</strong> — 3 new<br>• Sarah Chen — SQL, ghosted after intro, 11 days | Nudge 1 of 3 | Deal Notes: 'Seemed interested in Six Flags' → <a href='#'>Gmail draft</a>"</div>
       <div class="step-system">Slack API</div>
     </div>
     <div class="timeline-step">
       <div class="step-time">8:15am</div>
-      <div class="step-title">Jack reviews and sends</div>
-      <div class="step-detail">Jack clicks the Gmail draft link. Sees a reply on the existing thread: "Hi Sarah, I keep thinking about what you mentioned about wanting to make Six Flags a signature activation...". Tweaks one sentence. Hits send.</div>
+      <div class="step-title">Jack reviews and sends Nudge 1</div>
+      <div class="step-detail">Jack clicks the Gmail draft link. Sees a reply on the existing thread: "Hi Sarah, just floating this back up — I keep thinking about what you mentioned about Six Flags...". Tweaks one sentence. Hits send.</div>
       <div class="step-system">Gmail (manual send by rep)</div>
     </div>
     <div class="timeline-step">
-      <div class="step-time">Day 3, 10:00am</div>
-      <div class="step-title">No reply → AI queues next tactic</div>
-      <div class="step-detail">3 days, no reply. AI selects <strong>Value Bomb</strong> (tactic #2). Searches for relevant news/stats from last 7 days about the prospect's brand. Finds an article. Creates another Gmail draft reply on the same thread.</div>
-      <div class="step-system">Cloud Run → web search → GPT-4o → Gmail API</div>
+      <div class="step-time">+4 biz days</div>
+      <div class="step-title">No reply → Nudge 2 queued</div>
+      <div class="step-detail">4 business days, no reply. <code>reengagement_step → nudge_2</code>. AI drafts a slightly more direct message with a small value-add referencing the Six Flags opportunity. New Gmail draft reply on same thread.</div>
+      <div class="step-system">Cloud Run → GPT-4o → Gmail API</div>
     </div>
     <div class="timeline-step">
-      <div class="step-time">Day 4, 2:00pm</div>
+      <div class="step-time">+4 more biz days</div>
+      <div class="step-title">No reply → Nudge 3 queued</div>
+      <div class="step-detail"><code>reengagement_step → nudge_3</code>. Direct but not pushy: "I want to make sure this doesn't fall through the cracks." Last gentle touch before escalation.</div>
+      <div class="step-system">Cloud Run → GPT-4o → Gmail API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">+4 more biz days</div>
+      <div class="step-title">No reply → Escalation: Ghost Breaker</div>
+      <div class="step-detail"><code>reengagement_step = nudge_3</code> + 4 biz days = escalation. AI selects <strong>Ghost Breaker</strong> (tactic #1): "Reference the enthusiasm from the call, make them feel they're missing something." More assertive tone.</div>
+      <div class="step-system">Cloud Run → GPT-4o → Gmail API</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-time">Next day, 2:00pm</div>
       <div class="step-title">🎉 Sarah replies!</div>
-      <div class="step-detail">Sarah responds to the Value Bomb email. Cadence resets. HubSpot updated. Jack takes over manually.</div>
+      <div class="step-detail">Sarah responds to the Ghost Breaker email. Entire cadence resets. <code>reengagement_step → null</code>. HubSpot updated. Jack takes over manually.</div>
       <div class="step-system">Gmail → HubSpot (auto-logged)</div>
     </div>
   </div>
