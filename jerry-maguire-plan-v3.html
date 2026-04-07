@@ -474,7 +474,7 @@ hr {
       <a href="#timeline">Timeline</a>
       <a href="#raci">RACI</a>
       <a href="#questions">RFP Qs</a>
-      <a href="#budget">Budget</a>
+
       <a href="#metrics">Metrics</a>
     </div>
   </div>
@@ -492,7 +492,7 @@ hr {
     <span class="badge badge-aqua">Option C Hybrid</span>
     <span class="badge badge-green">Target: 8 weeks</span>
     <span class="badge badge-orange">2-month support</span>
-    <span class="badge badge-aqua">$470–1,154/mo recurring</span>
+
     <span class="badge badge-green">7 dev shop packages</span>
     <span class="badge badge-orange">Dual-mode from day 1</span>
   </div>
@@ -529,8 +529,8 @@ hr {
       <span class="stat-label">Target Timeline</span>
     </div>
     <div class="stat-card">
-      <span class="stat-number">$40–80K</span>
-      <span class="stat-label">One-Time Build Est.</span>
+      <span class="stat-number">119</span>
+      <span class="stat-label">Demand Target Accounts</span>
     </div>
   </div>
 
@@ -640,7 +640,7 @@ flowchart TD
         </ul>
       </div>
     </div>
-    <p><strong>Rationale:</strong> Clay's LinkedIn signal monitoring and 75+ provider waterfall cannot be cost-effectively rebuilt. Clay drops to enrichment-only tier (~$149–349/mo) instead of full orchestration tier (~$349–800/mo) — real savings, not fake savings from scope cuts.</p>
+    <p><strong>Rationale:</strong> Clay's LinkedIn signal monitoring and 75+ provider waterfall cannot be cost-effectively rebuilt. Clay drops to enrichment-only tier on a usage-appropriate tier instead of the higher full-orchestration tier — yielding real ongoing savings.</p>
   </div>
 
   <div class="package">
@@ -717,7 +717,7 @@ flowchart TD
     <p>Prompt engineering and content quality are the single biggest determinants of rep adoption. Making them a first-class dev shop deliverable (Package 7) with dedicated ownership is much safer than squeezing them between you + Claude's other work.</p>
     <div class="callout callout-warn">
       <span class="callout-title">RFP implication</span>
-      Dev shops must demonstrate prompt engineering capability in their proposal. Ask them: <em>"Show us a sales email draft your system generated, alongside the prompt that produced it. Walk us through how you'd iterate if reply rates dropped 20% week-over-week."</em> Dev shops that can't answer this well are wrong for this project — even if they're great at Cloud Run infrastructure.
+      Strong prompt engineering capability is essential for the success of this project. We'd love to see examples of sales emails your system has generated alongside the prompts that produced them, and how you approach iteration when reply rates need improvement. Infrastructure quality matters, but content quality is what determines whether reps actually trust and use the system.
     </div>
   </div>
 </section>
@@ -1126,8 +1126,8 @@ gantt
   </div>
 
   <div class="callout callout-danger">
-    <span class="callout-title">Not acceptable</span>
-    16+ weeks or sequential-only builds. If a dev shop proposes a fully sequential timeline, they don't have the capacity to parallelize — move to next candidate.
+    <span class="callout-title">What we're looking for</span>
+    A parallelized approach across the 7 packages. The package structure is intentionally designed to enable concurrent workstreams — we're hoping you can take advantage of that to compress the calendar without compromising quality.
   </div>
 
   <h3>Phase Gate Success Criteria</h3>
@@ -1279,41 +1279,29 @@ gantt
   </div>
 </section>
 
-<!-- ============ BUDGET ============ -->
-<section id="budget">
-  <h2>Budget Framework</h2>
-  <p class="section-intro">Recurring monthly costs plus one-time build estimate.</p>
+<!-- ============ COMMERCIAL ============ -->
+<section id="commercial">
+  <h2>Commercial Approach</h2>
+  <p class="section-intro">
+    Pricing is open. We're inviting dev shops to propose their own commercial structure based on the scope, acceptance criteria, and parallel workstreams defined above.
+  </p>
 
-  <h3>Recurring Monthly Costs</h3>
-  <table>
-    <thead>
-      <tr><th>Line Item</th><th>Demand</th><th>Supply</th><th>Total</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Clay (enrichment + signals, hybrid tier)</td><td>$149–349</td><td><em>(shared)</em></td><td>$149–349</td></tr>
-      <tr><td>SmartLead demand</td><td>$39–79</td><td>—</td><td>$39–79</td></tr>
-      <tr><td>SmartLead supply</td><td>—</td><td>$39–79</td><td><span class="text-muted">existing</span></td></tr>
-      <tr><td>Heyreach (3–4 demand senders)</td><td>$132–316</td><td>TBD</td><td>$132–316</td></tr>
-      <tr><td>NeverBounce</td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td></tr>
-      <tr><td>Burner domains demand (3)</td><td>$20–40</td><td>—</td><td>$20–40</td></tr>
-      <tr><td>Burner domains supply (10, existing)</td><td>—</td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td></tr>
-      <tr><td>OpenAI GPT-4o</td><td>$50–150</td><td>$50–150</td><td>$100–300</td></tr>
-      <tr><td>Google Cloud Run + Firestore</td><td>$15–40</td><td><em>(shared)</em></td><td>$15–40</td></tr>
-      <tr><td>Secret Manager + BQ attribution</td><td>$5–15</td><td><em>(shared)</em></td><td>$5–15</td></tr>
-      <tr><td>Slack Bolt <code>min-instances=1</code></td><td>$10–15</td><td><em>(shared)</em></td><td>$10–15</td></tr>
-    </tbody>
-    <tfoot>
-      <tr><td><strong>Running Total (Monthly)</strong></td><td></td><td></td><td><strong class="text-aqua">$470–1,154/mo</strong></td></tr>
-    </tfoot>
-  </table>
-
-  <div class="callout callout-success">
-    <span class="callout-title">40–50% below original Jerry Maguire plan ($645–1,505)</span>
-    Savings come from: Clay dropping to enrichment-only tier, HubSpot Sequences eliminated, supply-side reusing existing infrastructure (Jack's 10 burners + existing SmartLead account), and no per-rep Sales Pro seat cost.
+  <div class="callout callout-info">
+    <span class="callout-title">What we're looking for in your proposal</span>
+    A commercial structure that gives us cost predictability without forcing premature precision on areas where scope may evolve. Tell us how you typically structure engagements of this size, what's included, what triggers change orders, and how the support window is priced relative to the build.
   </div>
 
-  <h3>One-Time Build</h3>
-  <p>Estimate <strong class="text-aqua">$40K–$80K</strong>. Dev shop proposals will confirm. Wide range because it depends on dev shop day rates, team size, and whether they propose fixed-price or T&amp;M.</p>
+  <h3>Commercial Questions to Address</h3>
+  <ul>
+    <li><strong>Engagement model</strong> — Fixed-price per package, fixed-price for the entire build, time-and-materials with a cap, or hybrid (e.g., fixed for infrastructure, T&amp;M for content iteration)?</li>
+    <li><strong>Milestone-based payment</strong> — How would you structure payment milestones tied to the phase gates in the Timeline section?</li>
+    <li><strong>Support window scope</strong> — What's included in the 2-month support window? Bugs only, minor enhancements, prompt iteration, or all of the above? What's excluded?</li>
+    <li><strong>Change orders</strong> — How are scope additions handled mid-build? What's your typical turnaround?</li>
+    <li><strong>Post-handoff retainer</strong> — Options for ongoing maintenance after the 2-month window? Monthly retainer, on-demand T&amp;M, or both?</li>
+    <li><strong>What you'd recommend cutting if budget is constrained</strong> — Of the 7 packages, which would you defer to a second phase if we needed to compress scope?</li>
+  </ul>
+
+  <p class="text-muted">Recurring infrastructure costs (Cloud Run, Firestore, OpenAI, Clay, SmartLead, Heyreach, etc.) are separate from the build cost and will be paid directly by Recess. Your proposal should focus on engineering services for the 7 packages, the 2-month support window, and any post-handoff retainer options.</p>
 </section>
 
 <!-- ============ SUCCESS METRICS ============ -->
