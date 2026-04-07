@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jerry Maguire v3 — Unified Outbound Engine | Recess</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --aqua: #14B9D6;
+  --forest: #108DA3;
+  --sea-green: #1FBBA6;
+  --orange: #F27935;
+  --bg: #0a0d14;
+  --bg-elevated: #0f1117;
+  --card: #1a1d27;
+  --card-border: #2a2d3a;
+  --card-hover: #222636;
+  --text: #e4e4e7;
+  --text-muted: #9ca3af;
+  --text-bright: #ffffff;
+  --success: #22c55e;
+  --warning: #eab308;
+  --danger: #ef4444;
+  --code-bg: #151820;
+  --nav-bg: rgba(10, 13, 20, 0.92);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Navigation */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 0.9rem 2rem;
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.nav-brand {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-bright);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.nav-brand span { color: var(--aqua); }
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-links a:hover {
+  color: var(--aqua);
+  background: rgba(20, 185, 214, 0.08);
+}
+
+/* Hero */
+.hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 2rem 2.5rem;
+  border-bottom: 1px solid var(--card-border);
+}
+.eyebrow {
+  display: inline-block;
+  color: var(--orange);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--text-bright);
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  max-width: 900px;
+}
+.hero h1 .accent {
+  background: linear-gradient(135deg, #14B9D6, #1FBBA6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 800px;
+  margin-bottom: 1.75rem;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+/* Content wrapper */
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+section {
+  margin-top: 3.5rem;
+  scroll-margin-top: 5rem;
+}
+section > h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+section > .section-intro {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  max-width: 900px;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin: 1.75rem 0 0.75rem;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin: 1.25rem 0 0.5rem;
+}
+
+p { margin-bottom: 1rem; color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-aqua { color: var(--aqua); }
+.text-orange { color: var(--orange); }
+.text-success { color: var(--success); }
+
+ul, ol { padding-left: 1.25rem; margin-bottom: 1rem; }
+li { margin-bottom: 0.4rem; color: var(--text); }
+li::marker { color: var(--forest); }
+
+strong { color: var(--text-bright); font-weight: 600; }
+
+a {
+  color: var(--aqua);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--aqua); }
+.card-highlight { border-color: var(--aqua); }
+.card h3, .card h4 { margin-top: 0; }
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--aqua); }
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #14B9D6, #1FBBA6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.stat-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Grids */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Callouts */
+.callout {
+  border-radius: 10px;
+  padding: 1.15rem 1.35rem;
+  margin: 1.25rem 0;
+  font-size: 0.92rem;
+}
+.callout-info {
+  background: rgba(20, 185, 214, 0.08);
+  border-left: 4px solid var(--aqua);
+}
+.callout-warn {
+  background: rgba(234, 179, 8, 0.08);
+  border-left: 4px solid var(--warning);
+}
+.callout-danger {
+  background: rgba(239, 68, 68, 0.08);
+  border-left: 4px solid var(--danger);
+}
+.callout-success {
+  background: rgba(34, 197, 94, 0.08);
+  border-left: 4px solid var(--success);
+}
+.callout strong { color: var(--text-bright); }
+.callout-title {
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.badge-aqua { background: rgba(20, 185, 214, 0.15); color: var(--aqua); }
+.badge-green { background: rgba(31, 187, 166, 0.15); color: var(--sea-green); }
+.badge-orange { background: rgba(242, 121, 53, 0.15); color: var(--orange); }
+.badge-red { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.badge-ok { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+.badge-warn { background: rgba(234, 179, 8, 0.15); color: var(--warning); }
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.875rem;
+  margin: 1.25rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+th {
+  background: var(--card);
+  color: var(--aqua);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--card-border);
+}
+td {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--card-border);
+  color: var(--text);
+  vertical-align: top;
+}
+tr:hover td { background: rgba(20, 185, 214, 0.04); }
+tfoot td { border-top: 2px solid var(--aqua); font-weight: 700; }
+
+/* Code */
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 1rem 0;
+  color: var(--text);
+}
+code:not(pre code) {
+  background: rgba(20, 185, 214, 0.1);
+  color: var(--aqua);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+}
+
+/* Phase blocks */
+.phase {
+  border-left: 4px solid var(--aqua);
+  border-radius: 0 12px 12px 0;
+  background: var(--bg-elevated);
+  padding: 1.5rem 1.75rem;
+  margin: 1rem 0;
+}
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+.phase-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+.phase-meta {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* Package cards */
+.package {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: border-color 0.2s;
+}
+.package:hover { border-color: var(--aqua); }
+.package-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.package-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(135deg, #14B9D6, #1FBBA6);
+  color: var(--bg);
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  margin-right: 0.75rem;
+}
+.package-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  display: flex;
+  align-items: center;
+}
+
+/* Hr */
+hr {
+  border: none;
+  border-top: 1px solid var(--card-border);
+  margin: 2.5rem 0;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  color: var(--text-muted);
+  border-top: 1px solid var(--card-border);
+  padding: 2rem;
+  font-size: 0.85rem;
+  margin-top: 3rem;
+}
+
+/* Mermaid styling */
+.mermaid {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+.mermaid-container {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 1.85rem; }
+  .hero { padding: 2.5rem 1.25rem 2rem; }
+  .content { padding: 0 1.25rem 3rem; }
+  .nav { padding: 0.75rem 1rem; }
+  .split { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .nav-brand { display: none; }
+}
+@media (max-width: 480px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  pre { font-size: 0.72rem; }
+  table { font-size: 0.78rem; }
+  th, td { padding: 0.6rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">Jerry Maguire <span>v3</span></a>
+    <div class="nav-links">
+      <a href="#summary">Summary</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#decisions">Decisions</a>
+      <a href="#system-model">System</a>
+      <a href="#packages">Packages</a>
+      <a href="#workstreams">Workstreams</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#raci">RACI</a>
+      <a href="#questions">RFP Qs</a>
+      <a href="#budget">Budget</a>
+      <a href="#metrics">Metrics</a>
+    </div>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<header class="hero">
+  <div class="eyebrow">Implementation Plan v3 · 2026-04-06 · Handoff Ready</div>
+  <h1>Jerry Maguire — <span class="accent">Unified Outbound Engine</span></h1>
+  <p class="hero-sub">
+    One mode-aware execution engine for both demand (119 CPG accounts) and supply (5–7 tiered categories) outbound. Cold outbound, re-engagement, signal-driven drafts, multi-channel orchestration, and attribution — built once, shared across both sides of the marketplace.
+  </p>
+  <div class="hero-meta">
+    <span class="badge badge-aqua">Option C Hybrid</span>
+    <span class="badge badge-green">Target: 8 weeks</span>
+    <span class="badge badge-orange">2-month support</span>
+    <span class="badge badge-aqua">$470–1,154/mo recurring</span>
+    <span class="badge badge-green">7 dev shop packages</span>
+    <span class="badge badge-orange">Dual-mode from day 1</span>
+  </div>
+</header>
+
+<main class="content">
+
+<!-- ============ EXECUTIVE SUMMARY ============ -->
+<section id="summary">
+  <h2>Executive Summary</h2>
+  <p class="section-intro">
+    Jerry Maguire is Recess's unified outbound execution engine. The dev shop builds a mode-aware Cloud Run system with 7 deliverable packages. Leo wraps in-flight Clay data pipelines and owns the data foundation. You + Claude build Supply ABM strategy skills and validate content quality. Target 8 weeks to production.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <span class="stat-number">7</span>
+      <span class="stat-label">Upstream Sources</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">4</span>
+      <span class="stat-label">Output Channels</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">7</span>
+      <span class="stat-label">Dev Shop Packages</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">2</span>
+      <span class="stat-label">Modes (Demand + Supply)</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">8wk</span>
+      <span class="stat-label">Target Timeline</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">$40–80K</span>
+      <span class="stat-label">One-Time Build Est.</span>
+    </div>
+  </div>
+
+  <div class="callout callout-success">
+    <span class="callout-title">What's already shipped</span>
+    Demand re-engagement V1: daily Slack briefing (4-section format), Gmail reply-all drafts on existing threads, 3-nudge cadence at 4 business day intervals, HubSpot tracking (<code>reengagement_step</code>, <code>reengagement_last_sent</code>), Google Sheet logging, <code>recess-messaging.md</code> guardrails, duplicate draft detection. <strong>Do not rebuild.</strong>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-title">What's in flight (Leo, current week)</span>
+    Clay → HubSpot contact sync pipeline with <code>hs_is_target_account</code> filtering, job change signal filtering to target accounts only, title enrichment bug fix, duplicate company cleanup, Always On Sales Nav Pipeline. Leo continues as Clay SME throughout the build.
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-title">Critical shift from original plan</span>
+    This v3 plan supersedes v2.1. Three architectural changes: <strong>(1)</strong> Clay stays on a lower enrichment tier instead of being replaced (Option C over Option B); <strong>(2)</strong> HubSpot Sequences dropped entirely in favor of SmartLead with rep email senders for warm path; <strong>(3)</strong> System is mode-aware from day one, serving both demand and supply from the same engine.
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE DIAGRAM ============ -->
+<section id="architecture">
+  <h2>High-Level Architecture</h2>
+  <p class="section-intro">
+    One engine, seven upstream sources, four output channels. Mode-aware where it matters (messaging, case study source, target filters), unified everywhere else (draft generation, sending, state management, attribution).
+  </p>
+
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TD
+    subgraph Sources["📥 UPSTREAM SOURCES (7)"]
+        direction TB
+        S1["1️⃣ Demand Signal Triggers<br/>RSS · Job Change · LinkedIn · Campaign End"]
+        S2["2️⃣ Demand NL List Builder<br/>Rep prompts → HubSpot query"]
+        S3["3️⃣ Demand Re-engagement<br/>V1 shipped · V2 in progress"]
+        S4["4️⃣ Supply Signal Triggers<br/>Venue news · Job changes · Category events"]
+        S5["5️⃣ Supply NL List Builder<br/>Rep prompts → Supply query"]
+        S6["6️⃣ Supply ABM Skills<br/>Claude skills → structured brief API"]
+        S7["7️⃣ Supply Re-engagement<br/>New build · Dev shop owns V1+V2"]
+    end
+
+    subgraph Engine["⚙️ JERRY MAGUIRE EXECUTION ENGINE"]
+        direction TB
+        E1["Contact Enrichment<br/>(Clay webhooks)"]
+        E2["Draft Generation<br/>(GPT-4o + BQ RAG)"]
+        E3["Voice Matching<br/>(per-rep profiles)"]
+        E4["Guardrail Enforcement<br/>(fabrication prevention)"]
+        E5["Channel Routing<br/>(cold/warm/LinkedIn)"]
+        E6["Multi-Channel State Machine<br/>(pause on reply)"]
+        E7["Attribution Tracking<br/>(BQ App_Outbound)"]
+        E1 --> E2 --> E3 --> E4 --> E5 --> E6 --> E7
+    end
+
+    subgraph Outputs["📤 OUTPUT CHANNELS (4)"]
+        direction TB
+        O1["SmartLead<br/>• Demand cold (3 burners)<br/>• Supply cold (10 burners)<br/>• Warm (rep real emails)"]
+        O2["Heyreach<br/>• Demand LinkedIn 3–4 senders<br/>• Supply LinkedIn (TBD)"]
+        O3["Gmail API<br/>• Re-engagement drafts<br/>• Post-meeting recaps<br/>• Thread replies only"]
+        O4["Slack + HubSpot<br/>• Daily briefing per rep<br/>• HubSpot Tasks review queue<br/>• BQ attribution"]
+    end
+
+    Sources --> Engine
+    Engine --> Outputs
+
+    classDef sourcesBox fill:#1a1d27,stroke:#14B9D6,stroke-width:2px,color:#e4e4e7
+    classDef engineBox fill:#0f1117,stroke:#1FBBA6,stroke-width:3px,color:#e4e4e7
+    classDef outputsBox fill:#1a1d27,stroke:#F27935,stroke-width:2px,color:#e4e4e7
+    class Sources sourcesBox
+    class Engine engineBox
+    class Outputs outputsBox
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE DECISIONS ============ -->
+<section id="decisions">
+  <h2>Architecture Decision Log</h2>
+  <p class="section-intro">Five locked-in decisions that shape everything else.</p>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">1</span> Option C (Hybrid) Over Option B</div>
+      <span class="badge badge-aqua">Locked</span>
+    </div>
+    <p>The original PRD labels Option B (Replace Clay) as "recommended" but contradicts itself by using Clay in Phase 2. We're officially locking <strong>Option C (Hybrid)</strong>: Clay stays for what it's uniquely good at, custom AI layer handles everything else.</p>
+    <div class="split">
+      <div>
+        <h4 class="text-aqua">Clay owns</h4>
+        <ul>
+          <li>Contact sync (LinkedIn Sales Nav → HubSpot)</li>
+          <li>75+ provider enrichment waterfall</li>
+          <li>LinkedIn signals (job changes, posts)</li>
+          <li>RSS monitoring</li>
+          <li>NeverBounce verification</li>
+          <li>Periodic departure re-scrape</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-aqua">Jerry Maguire owns</h4>
+        <ul>
+          <li>List building (natural language → query)</li>
+          <li>Personalized draft generation (GPT-4o + BQ RAG)</li>
+          <li>BigQuery-powered case studies</li>
+          <li>Custom guardrails (fabrication prevention)</li>
+          <li>Voice matching per rep</li>
+          <li>Multi-channel orchestration + state management</li>
+          <li>Attribution tracking</li>
+        </ul>
+      </div>
+    </div>
+    <p><strong>Rationale:</strong> Clay's LinkedIn signal monitoring and 75+ provider waterfall cannot be cost-effectively rebuilt. Clay drops to enrichment-only tier (~$149–349/mo) instead of full orchestration tier (~$349–800/mo) — real savings, not fake savings from scope cuts.</p>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">2</span> HubSpot Sequences Dropped Entirely</div>
+      <span class="badge badge-aqua">Locked</span>
+    </div>
+    <p>Original PRD used HubSpot Sequences for the warm path. We're eliminating it because:</p>
+    <ul>
+      <li>Cannot modify sequence steps via API (only enroll/unenroll)</li>
+      <li>One sequence per contact limit</li>
+      <li>Requires per-rep Sales Pro seat</li>
+      <li>Enrollment resets on unenroll/re-enroll</li>
+      <li>Splits sending infrastructure across two tools unnecessarily</li>
+    </ul>
+    <p><strong>Replacement:</strong> SmartLead with multiple sender types on a single account — burner domains for cold, rep real emails connected as senders for warm. Single sending infrastructure, same orchestration, same pause-on-reply, same API. Rep never touches SmartLead UI.</p>
+    <p><strong>Gmail API scope narrowed</strong> to thread replies only (re-engagement + post-meeting recap). Net-new warm outreach goes through SmartLead with rep email senders.</p>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">3</span> Unified Dual-Mode Engine (Not Two Systems)</div>
+      <span class="badge badge-aqua">Locked</span>
+    </div>
+    <p>Jerry Maguire is mode-aware from day one. Every service accepts <code>{mode: "demand" | "supply"}</code> as a first-class parameter and loads per-mode configuration from Firestore <code>modes/{demand|supply}</code> documents.</p>
+    <p><strong>Why one engine with two modes beats two separate systems:</strong></p>
+    <ul>
+      <li>Every improvement benefits both sides simultaneously (voice matching, guardrails, orchestration, attribution)</li>
+      <li>Supply side never lags demand side because dev shop attention can't drift</li>
+      <li>Reps share the same mental model — reduces training, adoption friction</li>
+      <li>~15–25% extra effort up front vs. 100% extra effort building two systems</li>
+      <li>Unified Slack briefing per rep — reps see their own work regardless of mode</li>
+    </ul>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">4</span> Supply ABM Is a Feeder, Not a Frontend</div>
+      <span class="badge badge-aqua">Locked</span>
+    </div>
+    <p>The Supply ABM Category Playbook Framework (Leo's separate workstream) produces strategy artifacts — Notion playbooks, Asana projects, Streamlit dashboards, Claude skills. The Claude skills output structured briefs that POST to Jerry Maguire's <code>/potential-sends</code> API — just like the demand natural language list builder does.</p>
+    <p><strong>Separation of strategy from execution:</strong></p>
+    <div class="split">
+      <div class="card">
+        <h4 class="text-aqua">Strategy Layer</h4>
+        <p class="text-muted">Human-led, Claude thought-partner</p>
+        <ul>
+          <li>Who to target</li>
+          <li>What to say</li>
+          <li>What's the category play</li>
+          <li>Supply: Notion playbooks, Asana projects</li>
+          <li>Demand: PRD + recess-messaging.md + triggers</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 class="text-aqua">Execution Layer (Jerry Maguire)</h4>
+        <p class="text-muted">Automated, mode-aware</p>
+        <ul>
+          <li>Generate drafts (GPT-4o + BQ)</li>
+          <li>Route through channels</li>
+          <li>Manage state (pause on reply)</li>
+          <li>Track replies + attribution</li>
+          <li>Enforce guardrails</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">5</span> Dev Shop Owns Content + Logic (Not Just Infrastructure)</div>
+      <span class="badge badge-aqua">Locked</span>
+    </div>
+    <p>Prompt engineering and content quality are the single biggest determinants of rep adoption. Making them a first-class dev shop deliverable (Package 7) with dedicated ownership is much safer than squeezing them between you + Claude's other work.</p>
+    <div class="callout callout-warn">
+      <span class="callout-title">RFP implication</span>
+      Dev shops must demonstrate prompt engineering capability in their proposal. Ask them: <em>"Show us a sales email draft your system generated, alongside the prompt that produced it. Walk us through how you'd iterate if reply rates dropped 20% week-over-week."</em> Dev shops that can't answer this well are wrong for this project — even if they're great at Cloud Run infrastructure.
+    </div>
+  </div>
+</section>
+
+<!-- ============ SYSTEM MODEL ============ -->
+<section id="system-model">
+  <h2>Unified System Model — Data Flow</h2>
+  <p class="section-intro">How a potential send moves from upstream signal through to rep review and production send, across both modes.</p>
+
+  <div class="mermaid-container">
+    <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Clay as Clay<br/>(enrichment + signals)
+    participant Engine as Jerry Maguire<br/>Execution Engine
+    participant BQ as BigQuery<br/>(context + attribution)
+    participant Rep as Sales Rep
+    participant SL as SmartLead<br/>(cold + warm senders)
+    participant HR as Heyreach<br/>(LinkedIn)
+
+    Note over Clay: Trigger: job change at target account
+    Clay->>Engine: Webhook: contact enriched + signal payload
+    Engine->>BQ: Fetch RAG context (campaigns, success stories, case studies)
+    BQ-->>Engine: Returns mode-specific context
+    Engine->>Engine: Generate draft (GPT-4o + voice profile)
+    Engine->>Engine: Guardrail validation (up to 2 retries)
+    Engine->>Rep: Morning Slack briefing with draft link
+    Rep->>Engine: Approve / Edit / Dismiss
+    alt Approved
+        Engine->>SL: Enroll in campaign (cold or warm sender)
+        Engine->>HR: Enroll in LinkedIn sequence (if applicable)
+        SL-->>Engine: Webhook: sent / opened / bounced
+        HR-->>Engine: Webhook: connection / message / reply
+        Engine->>BQ: Log attribution event
+    else Reply received on any channel
+        SL-->>Engine: Webhook: replied
+        Engine->>SL: Pause all other sequences
+        Engine->>HR: Pause LinkedIn sequence
+        Engine->>Rep: DM: "Reply from {contact}"
+    end
+    </div>
+  </div>
+
+  <h3>Upstream Sources × Output Channels (Detail)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Mode</th>
+        <th>Typical Output Channel</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Demand signal triggers (RSS, job change, LinkedIn, campaign end)</td>
+        <td><span class="badge badge-aqua">Demand</span></td>
+        <td>SmartLead cold or Heyreach</td>
+        <td><span class="badge badge-orange">New build</span></td>
+      </tr>
+      <tr>
+        <td>Demand natural language list builder</td>
+        <td><span class="badge badge-aqua">Demand</span></td>
+        <td>SmartLead cold/warm or Heyreach</td>
+        <td><span class="badge badge-orange">New build</span></td>
+      </tr>
+      <tr>
+        <td>Demand re-engagement V1</td>
+        <td><span class="badge badge-aqua">Demand</span></td>
+        <td>Gmail API (thread reply)</td>
+        <td><span class="badge badge-ok">Shipped</span></td>
+      </tr>
+      <tr>
+        <td>Demand re-engagement V2 (stage-specific, 5 tactics, renewals, learning)</td>
+        <td><span class="badge badge-aqua">Demand</span></td>
+        <td>Gmail API (thread reply)</td>
+        <td><span class="badge badge-warn">Dev shop takes over</span></td>
+      </tr>
+      <tr>
+        <td>Supply signal triggers</td>
+        <td><span class="badge badge-green">Supply</span></td>
+        <td>SmartLead cold or Heyreach</td>
+        <td><span class="badge badge-orange">New build</span></td>
+      </tr>
+      <tr>
+        <td>Supply natural language list builder</td>
+        <td><span class="badge badge-green">Supply</span></td>
+        <td>SmartLead cold/warm or Heyreach</td>
+        <td><span class="badge badge-orange">New build</span></td>
+      </tr>
+      <tr>
+        <td>Supply ABM Claude skills (feeder)</td>
+        <td><span class="badge badge-green">Supply</span></td>
+        <td>SmartLead cold/warm</td>
+        <td><span class="badge badge-orange">You + Claude build skills</span></td>
+      </tr>
+      <tr>
+        <td>Supply re-engagement V1 + V2</td>
+        <td><span class="badge badge-green">Supply</span></td>
+        <td>Gmail API (thread reply)</td>
+        <td><span class="badge badge-orange">Dev shop builds from scratch</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ PACKAGES ============ -->
+<section id="packages">
+  <h2>Dev Shop Deliverables — 7 Packages</h2>
+  <p class="section-intro">
+    Each package is independently testable and deployable. Dev shops propose their own sequencing and parallelization in the RFP response.
+  </p>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">1</span> Shared Infrastructure Foundation</div>
+      <span class="badge badge-aqua">Track 1 — Sequential</span>
+    </div>
+    <p class="text-muted">The platform everything else sits on.</p>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>Cloud Run project setup (GCP)</td><td>Services deploy cleanly, ADC auth working, Cloud Logging wired</td></tr>
+        <tr><td>Firestore named database <code>jerry-maguire</code> (Native mode)</td><td>Collections: <code>potential_sends</code>, <code>contacts</code>, <code>modes</code>, <code>voice_profiles</code>, <code>drafts</code></td></tr>
+        <tr><td>Secret Manager for API keys</td><td>SmartLead×2, Heyreach, OpenAI, Clay, HubSpot loaded at runtime</td></tr>
+        <tr><td>Mode config loader</td><td><code>modes/demand</code> and <code>modes/supply</code> docs with messaging/guardrail/target refs</td></tr>
+        <tr><td>Attribution BQ dataset <code>App_Outbound</code></td><td>4 tables: <code>events</code>, <code>drafts</code>, <code>sends</code>, <code>outcomes</code>, partitioned by mode + date</td></tr>
+        <tr><td>CI/CD pipeline</td><td>Automated test + deploy on push, staged environments (dev → prod)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">2</span> AI Draft Generation Service</div>
+      <span class="badge badge-aqua">Track 1 — Sequential</span>
+    </div>
+    <p class="text-muted">The core GPT-4o service that generates personalized drafts with BigQuery context, voice matching, and guardrail enforcement.</p>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td><code>POST /drafts/generate</code></td><td>Accepts <code>{mode, contact_id, trigger_type, sequence_type, context}</code> → returns draft + metadata</td></tr>
+        <tr><td>BigQuery RAG retrieval</td><td>Demand pulls from <code>App_KPI_Dashboard</code>; Supply pulls from <code>App_Supply_ABM</code></td></tr>
+        <tr><td>Voice profile loader</td><td>Reads <code>voice_profiles/{rep_id}</code>, injects into prompt</td></tr>
+        <tr><td>Guardrail validator</td><td>Runs post-generation, up to 2 auto-retries, returns pass/fail + reasons</td></tr>
+        <tr><td>Draft versioning</td><td>Every generation saved to <code>drafts/{draft_id}</code> with version history</td></tr>
+        <tr><td>Tests</td><td>≥80% coverage, mocked BQ/OpenAI in CI</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">3</span> Multi-Channel Orchestrator + Re-engagement Infrastructure</div>
+      <span class="badge badge-aqua">Track 1 — Sequential</span>
+    </div>
+    <p class="text-muted">State machine, cross-channel coordination, reply detection, and re-engagement infrastructure for both modes.</p>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>State machine service</td><td>Manages <code>queued → drafted → reviewed → sent → replied → paused</code></td></tr>
+        <tr><td>SmartLead API integration (both accounts)</td><td>Create campaigns, enroll leads, pause leads, receive webhooks</td></tr>
+        <tr><td>Heyreach API integration</td><td>Create campaigns, enroll leads, pause leads, receive webhooks</td></tr>
+        <tr><td>Cross-channel pause logic</td><td>Reply on email → pause LinkedIn within 2 min, and vice versa</td></tr>
+        <tr><td>Reconciliation job (15 min)</td><td>Catches missed webhooks, corrects state drift</td></tr>
+        <tr><td>Dead letter queue</td><td>Failed webhooks retry 3× then alert <code>#eng-alerts</code></td></tr>
+        <tr><td>Re-engagement staleness detection (both modes)</td><td>Scans HubSpot deals per mode for 8-day rule violations</td></tr>
+        <tr><td>Re-engagement cadence scheduler</td><td>Fires Nudge 1 / 2 / 3 at 4-business-day intervals</td></tr>
+        <tr><td>5-tactic escalation trigger</td><td>Fires post-Nudge 3, enforces tier rules (Assumption Close NEVER for Tier 1)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">4</span> Signal Ingestion + List Builder</div>
+      <span class="badge badge-green">Track 2 — Parallel (starts Week 2)</span>
+    </div>
+    <p class="text-muted">Upstream input services that feed briefs into the draft generator.</p>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>RSS feed monitor (Cloud Scheduler 6h)</td><td>Polls feeds, matches articles to target accounts, queues signals</td></tr>
+        <tr><td>Clay webhook receiver</td><td>Handles job change + LinkedIn post events from Clay</td></tr>
+        <tr><td>HubSpot webhook receiver</td><td>Deal stage changes, new contacts, staleness events</td></tr>
+        <tr><td><code>POST /lists/build</code> (natural language)</td><td>Accepts <code>{prompt, mode_hint?}</code> → returns structured brief</td></tr>
+        <tr><td>Demand query adapter</td><td>HubSpot buyer companies + <code>App_KPI_Dashboard</code> + brand ref sheet</td></tr>
+        <tr><td>Supply query adapter</td><td>HubSpot supplier companies + <code>App_Supply_ABM</code> + MongoDB <code>organizers</code></td></tr>
+        <tr><td>Intent classifier</td><td>Auto-detects demand vs. supply from prompt language</td></tr>
+        <tr><td><code>POST /potential-sends</code> (brief ingestion)</td><td>External endpoint Supply ABM Claude skills call</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">5</span> Frontend Integration Layer</div>
+      <span class="badge badge-green">Track 3 — Parallel (starts Week 3)</span>
+    </div>
+    <p class="text-muted">The surfaces reps actually interact with: Slack, HubSpot Tasks, Gmail drafts.</p>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>Slack Bolt app (<code>min-instances=1</code>)</td><td>Daily briefing, "Brief Me" slash command, real-time DMs</td></tr>
+        <tr><td>Daily briefing generator</td><td>4-section format (🔴🟠🟡🟢), demand + supply per owner, adds "potential sends" section</td></tr>
+        <tr><td>HubSpot Tasks sync</td><td>Task per potential send, assigned to owner, links to Slack thread</td></tr>
+        <tr><td>Gmail draft API service</td><td>Thread lookup + reply-all drafts via domain-wide delegation</td></tr>
+        <tr><td>"Brief Me [company]" endpoint</td><td>Returns one-pager in <10 seconds from Firestore-cached BQ data</td></tr>
+        <tr><td>Post-meeting recap trigger</td><td>Calendar webhook → draft ready ≤10 min of meeting end</td></tr>
+        <tr><td>Review UI (Slack or lightweight web)</td><td>Rep approves/edits/dismisses drafts from Slack or single-click link</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="package">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">6</span> Admin, Observability, Handoff</div>
+      <span class="badge badge-orange">Track 5 — Spans entire build</span>
+    </div>
+    <p class="text-muted">Everything needed for Recess to own and maintain after the dev shop leaves.</p>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>Admin web UI (lightweight)</td><td>Edit mode configs, update guardrails, pause system, view queue health</td></tr>
+        <tr><td>Monitoring dashboards</td><td>Cloud Monitoring: error rates, webhook lag, draft latency, domain rep</td></tr>
+        <tr><td>Alerting</td><td>Slack <code>#eng-alerts</code> for 5xx, webhook failures, bounce spikes</td></tr>
+        <tr><td>Runbook + architecture docs</td><td>Add mode, update guardrails, rotate burners, onboard reps</td></tr>
+        <tr><td><strong>2-month support window</strong></td><td>48h bug turnaround, weekly check-in, dedicated Slack channel</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="package card-highlight">
+    <div class="package-header">
+      <div class="package-title"><span class="package-number">7</span> Content &amp; Prompt Engineering</div>
+      <span class="badge badge-orange">Track 4 — Spans entire build</span>
+    </div>
+    <div class="callout callout-danger">
+      <span class="callout-title">Most important package for adoption</span>
+      Dev shops must demonstrate prompt engineering capability in their proposal. If reps don't trust the drafts, the whole system fails regardless of how good the infrastructure is.
+    </div>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Acceptance Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>Demand V2 implementation (3 tiers × 3 nudges × 5 tactics = 45 variations)</td><td>All variations pass blind review with Recess team</td></tr>
+        <tr><td>Supply V1 implementation (3-nudge cadence per supplier stage)</td><td>Matches demand V1 quality bar</td></tr>
+        <tr><td>Supply V2 implementation (tier-adapted tactics, renewals, learning)</td><td>All variations pass blind review</td></tr>
+        <tr><td><code>supply-messaging.md</code> + <code>supply-re-engagement.md</code> guardrails</td><td>Recess approves before merge</td></tr>
+        <tr><td>Voice profile extraction (all reps)</td><td>Blind test: reviewer can't distinguish AI from real >60% of time</td></tr>
+        <tr><td>Learning system</td><td>Measurable improvement in AE edit distance week-over-week</td></tr>
+        <tr><td>A/B testing framework</td><td>Run 2 variants, measure reply rates, auto-promote winner</td></tr>
+        <tr><td>Content quality dashboard</td><td>Edit distance, reply rate, fabrication incidents, guardrail failures per sequence type</td></tr>
+      </tbody>
+    </table>
+    <h4>Measurable Acceptance Criteria</h4>
+    <ul>
+      <li><strong>Rep edit distance ≤ 25%</strong> — AEs send drafts with &lt;25% text modification</li>
+      <li><strong>Reply rate ≥ baseline manual outbound</strong></li>
+      <li><strong>Zero fabrication incidents</strong> — no fabricated retailer results, case studies, or capabilities</li>
+      <li><strong>Voice matching blind test ≥ 60%</strong> — reviewer can't distinguish AI from real</li>
+      <li><strong>Guardrail pass rate ≥ 95%</strong></li>
+    </ul>
+  </div>
+
+  <h3>Explicitly Out of Dev Shop Scope</h3>
+  <div class="card">
+    <ul>
+      <li><strong>Re-engagement V1</strong> — Already shipped by you + Claude. Reference only, no rebuild.</li>
+      <li><strong>Supply ABM Claude skills</strong> (<code>/launch-category</code>, etc.) — You + Claude build, dev shop exposes the API endpoint skills call.</li>
+      <li><strong>Notion playbook frontend</strong> — Leo's Supply ABM Tool workstream.</li>
+      <li><strong>Asana project integration</strong> — Leo's Supply ABM Tool workstream.</li>
+      <li><strong>Streamlit dashboards</strong> — Existing KPI Dashboard stays separate; dev shop emits events to BQ and dashboard consumes.</li>
+      <li><strong>Airtable → BigQuery campaign data migration</strong> — Leo owns.</li>
+      <li><strong><code>App_Supply_ABM</code> BQ dataset build-out</strong> — Leo owns.</li>
+      <li><strong>Clay configuration + Clay → HubSpot pipeline</strong> — Leo owns.</li>
+      <li>Inbound lead handling, HubSpot migration, meeting scheduling, contract generation — all out of scope.</li>
+      <li><strong>Fully automated sending without human review</strong> — hard requirement, never in scope.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ WORKSTREAMS ============ -->
+<section id="workstreams">
+  <h2>Parallel Workstreams — Leo + You + Claude</h2>
+  <p class="section-intro">Three tracks running alongside the dev shop, none blocking the critical path.</p>
+
+  <div class="mermaid-container">
+    <div class="mermaid">
+gantt
+    title Parallel Workstreams (Weeks 0–8, Target)
+    dateFormat X
+    axisFormat Week %s
+
+    section Dev Shop
+    Package 1 Foundation            :done, p1, 0, 1
+    Package 2 AI Draft Service      :active, p2, 1, 2
+    Package 3 Orchestrator + Reengage:p3, 3, 3
+    Package 4 Signals + List Builder:p4, 2, 3
+    Package 5 Frontend Integration  :p5, 3, 3
+    Package 6 Admin + Observability :p6, 1, 7
+    Package 7 Content + Prompts     :crit, p7, 1, 7
+
+    section Leo (Clay + Data)
+    Wrap Clay in-flight work        :l1, 0, 1
+    Clay → HubSpot pipeline live    :l2, 1, 1
+    App_Supply_ABM BQ dataset       :l3, 2, 1
+    Airtable → BQ migration         :l4, 3, 1
+    Clay signal relay config        :l5, 4, 1
+    SME availability                :l6, 0, 8
+
+    section You + Claude
+    Provide reference material      :y1, 0, 1
+    Supply ABM Claude skills        :y2, 2, 6
+    Weekly content review           :y3, 1, 7
+    Production approval gates       :y4, 3, 5
+    Domain expertise Q&A            :y5, 0, 8
+
+    section You (Solo)
+    Dev shop selection + contract   :crit, s1, 0, 1
+    Google Workspace domain delegation:s2, 0, 1
+    Architecture decision docs      :s3, 0, 1
+    Weekly dev shop standup         :s4, 1, 7
+    Rep rollout + training          :s5, 6, 2
+    Supply pilot with Jack          :s6, 8, 1
+    </div>
+  </div>
+
+  <h3>Workstream A — Leo: Data Pipelines &amp; Clay Continuity</h3>
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-title">Owner: Leo Drobotun</div>
+      <span class="phase-meta">~15–20 hours/week</span>
+    </div>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Blocks</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>Wrap in-flight Clay work (job change filtering, title bug, duplicates, Always On Sales Nav)</td><td>Nothing — current-week tasks</td><td>Week 0–1</td></tr>
+        <tr><td>Clay → HubSpot <code>hs_is_target_account</code> sync live for 119 demand accounts</td><td>Dev shop Package 4</td><td>Week 1–2</td></tr>
+        <tr><td><code>App_Supply_ABM</code> BigQuery dataset built</td><td>Supply list builder adapter (Package 4)</td><td>Week 2–3</td></tr>
+        <tr><td>Airtable → BigQuery campaign data migration</td><td>Demand case study trigger (Package 4)</td><td>Week 3–4</td></tr>
+        <tr><td>Clay → Jerry Maguire signal relay configuration</td><td>Depends on dev shop webhook receiver</td><td>Week 4–5</td></tr>
+        <tr><td>Clay → Supply SmartLead direct push stays running for T3</td><td>None (hybrid permanent)</td><td>Ongoing</td></tr>
+        <tr><td>SME availability for Clay/HubSpot/BQ questions</td><td>Throughout</td><td>Throughout</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Workstream B — You + Claude: Supply ABM Skills &amp; Content Validation</h3>
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-title">Owner: Deuce + Claude (pair programmer)</div>
+      <span class="phase-meta">~4–6 hours/week</span>
+    </div>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>Weekly content review with dev shop (review 10–15 drafts, approve/reject/refine)</td><td>1–2 hrs/week throughout</td></tr>
+        <tr><td>Supply ABM Claude skills: <code>/launch-category</code>, <code>/category-marketing-plan</code>, <code>/category-account-briefs</code>, <code>/category-sequences</code>, <code>/refresh-category</code>, <code>/standup-prep</code>, <code>/category-report</code></td><td>Weeks 2–8 (parallel)</td></tr>
+        <tr><td>Respond to dev shop domain questions via Slack</td><td>0.5–1 hr/week</td></tr>
+        <tr><td>Production approval gates before each sequence type goes live</td><td>1–2 hrs at gates</td></tr>
+        <tr><td>Provide reference material: V1 demand code, example emails, historical reply data, <code>recess-messaging.md</code></td><td>Front-loaded Week 0–1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Workstream C — You (Solo): Strategic + Stakeholder</h3>
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-title">Owner: Deuce</div>
+      <span class="phase-meta">~5–8 hours/week (front-loaded)</span>
+    </div>
+    <table>
+      <thead><tr><th>Deliverable</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>Dev shop selection, contract, SOW sign-off using this plan as RFP base</td><td>Week 0</td></tr>
+        <tr><td>Google Workspace admin consent for Gmail + Calendar domain-wide delegation (5-min task)</td><td>Week 0</td></tr>
+        <tr><td>Document Option C architecture decision in Notion PRD</td><td>Week 0</td></tr>
+        <tr><td>Confirm Heyreach scope: 3–4 demand senders; decide if supply needs Heyreach</td><td>Week 1</td></tr>
+        <tr><td>Weekly dev shop standup (30 min) — unblock decisions, accept deliverables</td><td>Weekly</td></tr>
+        <tr><td>Rep rollout + training for V2 re-engagement on unified engine</td><td>Week 6–7</td></tr>
+        <tr><td>Supply rep training once supply re-engagement ships</td><td>Week 7–8</td></tr>
+        <tr><td>Pilot category launch with Jack using a Supply ABM skill</td><td>Week 8</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section id="timeline">
+  <h2>Timeline Framework &amp; Phase Gates</h2>
+  <p class="section-intro">
+    Target 8 weeks to production, 2-month support after handoff. Dev shop proposes actual timeline based on staffing capacity.
+  </p>
+
+  <div class="split">
+    <div class="card">
+      <h4 class="text-aqua">Target</h4>
+      <p><strong>8 weeks</strong> to production</p>
+      <p>Assumes 3-pair dev shop with prompt engineering capability, Leo's pipelines landing on schedule, weekly check-ins.</p>
+    </div>
+    <div class="card">
+      <h4 class="text-aqua">Minimum Acceptable</h4>
+      <p><strong>12 weeks</strong> to production</p>
+      <p>If dev shop has capacity constraints. Still requires parallelized tracks, not sequential.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <span class="callout-title">Not acceptable</span>
+    16+ weeks or sequential-only builds. If a dev shop proposes a fully sequential timeline, they don't have the capacity to parallelize — move to next candidate.
+  </div>
+
+  <h3>Phase Gate Success Criteria</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Gate</th>
+        <th>Target Milestone</th>
+        <th>Measurement</th>
+        <th>Kill Switch</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Week 3</strong></td>
+        <td>First end-to-end draft generated for a real demand contact</td>
+        <td>Manual test: POST to draft API, verify output</td>
+        <td>Reassess dev shop capacity if not by Week 4</td>
+      </tr>
+      <tr>
+        <td><strong>Week 5</strong></td>
+        <td>First signal-triggered draft in a rep's Slack briefing</td>
+        <td>E2E: trigger job change signal, verify draft</td>
+        <td>Reduce scope (2–3 trigger types) if not by Week 6</td>
+      </tr>
+      <tr>
+        <td><strong>Week 7</strong></td>
+        <td>First AI-drafted cold email sent via SmartLead with reply tracking</td>
+        <td>Production test: rep approves, SmartLead logs send</td>
+        <td>Delay supply-side launch by 2 weeks</td>
+      </tr>
+      <tr>
+        <td><strong>Week 8</strong></td>
+        <td>First Supply ABM skill brief → Jerry Maguire drafts → rep reviews</td>
+        <td>E2E: run <code>/category-sequences</code></td>
+        <td>Acceptable to miss by 1–2 weeks</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Critical Path Dependencies</h3>
+  <ol>
+    <li>Leo's Clay → HubSpot pipeline must be live before Package 4 signal ingestion can test</li>
+    <li>Leo's <code>App_Supply_ABM</code> dataset must be live before supply query adapter integration</li>
+    <li>Leo's Airtable → BigQuery migration must be live before demand case study triggers</li>
+    <li>Your domain-wide delegation must be enabled before Package 5 Gmail draft service can deploy</li>
+    <li>Dev shop Package 2 AI Draft Service must be callable before Packages 3, 5, 7 can integration-test</li>
+  </ol>
+</section>
+
+<!-- ============ RACI ============ -->
+<section id="raci">
+  <h2>RACI — Who Does What</h2>
+  <p class="section-intro">Clear ownership across dev shop, Leo, You + Claude, and You solo.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Deliverable</th>
+        <th>Dev Shop</th>
+        <th>Leo</th>
+        <th>You + Claude</th>
+        <th>You Solo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Cloud Run infrastructure + Firestore</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td>AI Draft Generation Service</td><td><span class="badge badge-red">R/A</span></td><td></td><td><span class="badge badge-warn">C</span></td><td></td></tr>
+      <tr><td>Multi-channel orchestrator + state machine</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td>SmartLead / Heyreach API integrations</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td>Signal ingestion (RSS + Clay webhooks)</td><td><span class="badge badge-red">R/A</span></td><td><span class="badge badge-warn">C</span></td><td></td><td></td></tr>
+      <tr><td>Natural language list builder (both modes)</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td>Slack Bolt app + daily briefing expansion</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td>Gmail draft API service</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td><span class="badge badge-warn">A (admin consent)</span></td></tr>
+      <tr><td>Admin UI + observability</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td><strong>Demand V2 content + logic</strong></td><td><span class="badge badge-red">R/A</span></td><td></td><td><span class="badge badge-warn">C (approve)</span></td><td></td></tr>
+      <tr><td><strong>Supply V1 + V2 content + logic</strong></td><td><span class="badge badge-red">R/A</span></td><td></td><td><span class="badge badge-warn">C (domain expertise)</span></td><td></td></tr>
+      <tr><td>Voice matching calibration</td><td><span class="badge badge-red">R/A</span></td><td></td><td><span class="badge badge-warn">C</span></td><td></td></tr>
+      <tr><td>Guardrail files (supply-messaging.md, etc.)</td><td><span class="badge badge-red">R (draft)</span></td><td></td><td><span class="badge badge-warn">A (approve)</span></td><td></td></tr>
+      <tr><td>Learning system + A/B framework</td><td><span class="badge badge-red">R/A</span></td><td></td><td></td><td></td></tr>
+      <tr><td>Demand re-engagement V1 (shipped)</td><td></td><td></td><td><span class="badge badge-ok">Shipped</span></td><td></td></tr>
+      <tr><td>Clay → HubSpot contact sync</td><td></td><td><span class="badge badge-red">R/A</span></td><td></td><td></td></tr>
+      <tr><td>Clay enrichment + signal filtering</td><td></td><td><span class="badge badge-red">R/A</span></td><td></td><td></td></tr>
+      <tr><td><code>App_Supply_ABM</code> BQ dataset</td><td></td><td><span class="badge badge-red">R/A</span></td><td></td><td></td></tr>
+      <tr><td>Airtable → BigQuery migration</td><td></td><td><span class="badge badge-red">R/A</span></td><td></td><td></td></tr>
+      <tr><td>Supply ABM Claude skills (<code>/launch-category</code>, etc.)</td><td></td><td></td><td><span class="badge badge-red">R/A</span></td><td></td></tr>
+      <tr><td>Notion playbook frontend</td><td></td><td><span class="badge badge-red">R/A</span></td><td></td><td></td></tr>
+      <tr><td>Dev shop selection + contract</td><td></td><td></td><td></td><td><span class="badge badge-red">R/A</span></td></tr>
+      <tr><td>Google Workspace domain delegation</td><td></td><td></td><td></td><td><span class="badge badge-red">R/A</span></td></tr>
+      <tr><td>Rep rollout + training</td><td><span class="badge badge-warn">C</span></td><td></td><td></td><td><span class="badge badge-red">R/A</span></td></tr>
+      <tr><td>Weekly dev shop standup</td><td><span class="badge badge-warn">C</span></td><td></td><td></td><td><span class="badge badge-red">R/A</span></td></tr>
+      <tr><td>Production approval gates per sequence type</td><td><span class="badge badge-warn">C</span></td><td></td><td><span class="badge badge-red">R/A</span></td><td></td></tr>
+    </tbody>
+  </table>
+  <p class="text-muted" style="font-size: 0.8rem; margin-top: 0.5rem;"><strong>Legend:</strong> R = Responsible (does the work), A = Accountable (signs off), C = Consulted (provides input)</p>
+</section>
+
+<!-- ============ OPEN QUESTIONS ============ -->
+<section id="questions">
+  <h2>Open Questions for Dev Shop Proposals</h2>
+  <p class="section-intro">Every dev shop solicited should answer these in their RFP response.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4 class="text-aqua">Team &amp; Sequencing</h4>
+      <ol>
+        <li>How many engineers/pairs, allocated across 7 packages?</li>
+        <li>Proposed week-by-week sequencing? Where are parallel tracks?</li>
+        <li>Who is the technical lead and Recess POC?</li>
+        <li>Standup cadence, demo schedule, decision points?</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4 class="text-aqua">Technical Approach</h4>
+      <ol start="5">
+        <li>Cloud Run vs. alternatives — recommendation or defer?</li>
+        <li>Mode-aware config structure (Firestore, env vars, admin UI)?</li>
+        <li>Cross-channel pause race condition approach?</li>
+        <li>Testing strategy against 3 SmartLead + 2 Heyreach without burning staging domains?</li>
+        <li>Observability stack recommendation?</li>
+      </ol>
+    </div>
+    <div class="card card-highlight">
+      <h4 class="text-orange">Content &amp; Prompts ⚠️</h4>
+      <ol start="10">
+        <li>Show us a sales email your system generated, alongside the prompt that produced it.</li>
+        <li>Walk us through how you'd iterate if reply rates dropped 20% week-over-week.</li>
+        <li>Prompt engineering frameworks used? Library choices (LangChain, DSPy, custom)?</li>
+        <li>How do you handle guardrail enforcement and fabrication prevention?</li>
+        <li>How do you plan to extract and apply per-rep voice profiles?</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4 class="text-aqua">Risk &amp; Support</h4>
+      <ol start="15">
+        <li>Top 3 risks in this scope and mitigations?</li>
+        <li>What happens if Leo's data pipelines slip 1–2 weeks?</li>
+        <li>2-month support SLA: response times, in-scope vs. out-of-scope?</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4 class="text-aqua">Pricing &amp; Commercial</h4>
+      <ol start="18">
+        <li>Fixed-price per package, fixed-price entire build, or T&amp;M with cap?</li>
+        <li>What's included in the support window — bugs only or minor enhancements?</li>
+        <li>Post-handoff retainer options?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUDGET ============ -->
+<section id="budget">
+  <h2>Budget Framework</h2>
+  <p class="section-intro">Recurring monthly costs plus one-time build estimate.</p>
+
+  <h3>Recurring Monthly Costs</h3>
+  <table>
+    <thead>
+      <tr><th>Line Item</th><th>Demand</th><th>Supply</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Clay (enrichment + signals, hybrid tier)</td><td>$149–349</td><td><em>(shared)</em></td><td>$149–349</td></tr>
+      <tr><td>SmartLead demand</td><td>$39–79</td><td>—</td><td>$39–79</td></tr>
+      <tr><td>SmartLead supply</td><td>—</td><td>$39–79</td><td><span class="text-muted">existing</span></td></tr>
+      <tr><td>Heyreach (3–4 demand senders)</td><td>$132–316</td><td>TBD</td><td>$132–316</td></tr>
+      <tr><td>NeverBounce</td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td></tr>
+      <tr><td>Burner domains demand (3)</td><td>$20–40</td><td>—</td><td>$20–40</td></tr>
+      <tr><td>Burner domains supply (10, existing)</td><td>—</td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td></tr>
+      <tr><td>OpenAI GPT-4o</td><td>$50–150</td><td>$50–150</td><td>$100–300</td></tr>
+      <tr><td>Google Cloud Run + Firestore</td><td>$15–40</td><td><em>(shared)</em></td><td>$15–40</td></tr>
+      <tr><td>Secret Manager + BQ attribution</td><td>$5–15</td><td><em>(shared)</em></td><td>$5–15</td></tr>
+      <tr><td>Slack Bolt <code>min-instances=1</code></td><td>$10–15</td><td><em>(shared)</em></td><td>$10–15</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td><strong>Running Total (Monthly)</strong></td><td></td><td></td><td><strong class="text-aqua">$470–1,154/mo</strong></td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout callout-success">
+    <span class="callout-title">40–50% below original Jerry Maguire plan ($645–1,505)</span>
+    Savings come from: Clay dropping to enrichment-only tier, HubSpot Sequences eliminated, supply-side reusing existing infrastructure (Jack's 10 burners + existing SmartLead account), and no per-rep Sales Pro seat cost.
+  </div>
+
+  <h3>One-Time Build</h3>
+  <p>Estimate <strong class="text-aqua">$40K–$80K</strong>. Dev shop proposals will confirm. Wide range because it depends on dev shop day rates, team size, and whether they propose fixed-price or T&amp;M.</p>
+</section>
+
+<!-- ============ SUCCESS METRICS ============ -->
+<section id="metrics">
+  <h2>Success Metrics &amp; Kill Switches</h2>
+  <p class="section-intro">Steady-state targets measured at month 3 post-launch.</p>
+
+  <div class="card-grid">
+    <div class="stat-card">
+      <span class="stat-number">≥80%</span>
+      <span class="stat-label">Outbound Flows Through System</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">≥60%</span>
+      <span class="stat-label">AI Draft Approval Rate</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">≥2 hrs</span>
+      <span class="stat-label">Time Saved Per Rep Per Week</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">≥ baseline</span>
+      <span class="stat-label">Reply Rates vs. Manual</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">0</span>
+      <span class="stat-label">Brand Name Leaks in Case Studies</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">0</span>
+      <span class="stat-label">Domain Reputation Incidents</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">≥3 + ≥3</span>
+      <span class="stat-label">Monthly Attributable Meetings (D + S)</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">Full</span>
+      <span class="stat-label">Attribution Trigger → Deal</span>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <span class="callout-title">Kill switch at month 3</span>
+    If fewer than 2 of these metrics are green — escalate, diagnose, reduce scope, or pull back. The system must demonstrably move pipeline, not just exist as a tool reps tolerate.
+  </div>
+</section>
+
+<!-- ============ APPENDIX ============ -->
+<section id="appendix">
+  <h2>Appendix — What's Already Shipped</h2>
+
+  <div class="card">
+    <h4 class="text-aqua">Demand Re-engagement V1 (You + Claude, Shipped)</h4>
+    <ul>
+      <li>Daily Slack briefing in 4-section format: 🔴 Overdue New/L&amp;E, 🟠 Overdue Renewals, 🟡 Stale Connected, 🟢 Future Task</li>
+      <li>Gmail reply-all drafts on most recent thread with full quoted conversation history</li>
+      <li>3-nudge cadence at 4 business day intervals</li>
+      <li>HubSpot tracking properties: <code>reengagement_step</code>, <code>reengagement_last_sent</code></li>
+      <li>Google Sheet logging of draft vs. sent text</li>
+      <li><code>recess-messaging.md</code> guardrails preventing fabrication</li>
+      <li>Duplicate draft detection (skips if unsent draft already exists)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4 class="text-aqua">Demand Contact Intelligence (Clay, Working)</h4>
+    <ul>
+      <li>Clay → HubSpot contact sync for 119 target accounts (Leo refining)</li>
+      <li>Job change detection (Leo filtering to target accounts this week)</li>
+      <li>Contact departure detection via periodic re-scrape + diff</li>
+      <li>NeverBounce email verification on all contacts</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4 class="text-aqua">Existing Supply Cold Outbound</h4>
+    <ul>
+      <li>Clay → Supply SmartLead direct push for supply T3 volume plays (stays running)</li>
+      <li>Jack's 10 burner domains + SmartLead account configured</li>
+      <li>Clay signal monitoring (job changes, LinkedIn) for supply</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>Jerry Maguire v3 — Unified Outbound Engine Implementation Plan</p>
+  <p>2026-04-06 · Handoff-ready for dev shop RFP · <a href="#top">Back to top</a></p>
+</footer>
+
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    'primaryColor': '#1a1d27',
+    'primaryTextColor': '#e4e4e7',
+    'primaryBorderColor': '#14B9D6',
+    'lineColor': '#14B9D6',
+    'secondaryColor': '#0f1117',
+    'tertiaryColor': '#1a1d27',
+    'background': '#0a0d14',
+    'mainBkg': '#1a1d27',
+    'secondBkg': '#0f1117',
+    'tertiaryBkg': '#151820',
+    'actorBkg': '#1a1d27',
+    'actorBorder': '#14B9D6',
+    'actorTextColor': '#e4e4e7',
+    'activationBkgColor': '#1FBBA6',
+    'activationBorderColor': '#14B9D6',
+    'noteBkgColor': '#151820',
+    'noteBorderColor': '#F27935',
+    'noteTextColor': '#e4e4e7',
+    'sectionBkgColor': '#0f1117',
+    'altSectionBkgColor': '#1a1d27',
+    'gridColor': '#2a2d3a',
+    'taskBkgColor': '#14B9D6',
+    'taskTextColor': '#0a0d14',
+    'taskTextLightColor': '#0a0d14',
+    'taskTextOutsideColor': '#e4e4e7',
+    'taskTextClickableColor': '#14B9D6',
+    'activeTaskBkgColor': '#1FBBA6',
+    'activeTaskBorderColor': '#F27935',
+    'doneTaskBkgColor': '#22c55e',
+    'doneTaskBorderColor': '#2a2d3a',
+    'critBkgColor': '#ef4444',
+    'critBorderColor': '#F27935',
+    'todayLineColor': '#F27935'
+  },
+  sequence: { mirrorActors: false, useMaxWidth: true },
+  flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+  gantt: { useMaxWidth: true }
+});
+</script>
+
+</body>
+</html>
