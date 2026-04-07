@@ -1291,6 +1291,36 @@ gantt
     A commercial structure that gives us cost predictability without forcing premature precision on areas where scope may evolve. Tell us how you typically structure engagements of this size, what's included, what triggers change orders, and how the support window is priced relative to the build.
   </div>
 
+  <h3>Recurring Infrastructure Costs (For Your Validation)</h3>
+  <p>The following are Recess's expected ongoing monthly costs for tools and services this system depends on. These are paid directly by Recess to vendors and are <strong>separate from your engineering services proposal</strong>. We'd appreciate your validation that these are reasonable for the architecture described, and we welcome recommendations if your approach would change them materially.</p>
+  <table>
+    <thead>
+      <tr><th>Line Item</th><th>Demand</th><th>Supply</th><th>Total / Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Clay (enrichment + signals, hybrid tier)</td><td>$149–349</td><td><em>(shared)</em></td><td>$149–349</td></tr>
+      <tr><td>SmartLead — demand</td><td>$39–79</td><td>—</td><td>$39–79</td></tr>
+      <tr><td>SmartLead — supply</td><td>—</td><td>$39–79</td><td><span class="text-muted">existing</span></td></tr>
+      <tr><td>Heyreach (3–4 demand senders)</td><td>$132–316</td><td>TBD</td><td>$132–316</td></tr>
+      <tr><td>NeverBounce</td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td></tr>
+      <tr><td>Burner domains — demand (3 new)</td><td>$20–40</td><td>—</td><td>$20–40</td></tr>
+      <tr><td>Burner domains — supply (10 existing)</td><td>—</td><td><span class="text-muted">existing</span></td><td><span class="text-muted">existing</span></td></tr>
+      <tr><td>OpenAI GPT-4o</td><td>$50–150</td><td>$50–150</td><td>$100–300</td></tr>
+      <tr><td>Google Cloud Run + Firestore</td><td>$15–40</td><td><em>(shared)</em></td><td>$15–40</td></tr>
+      <tr><td>Secret Manager + BQ attribution</td><td>$5–15</td><td><em>(shared)</em></td><td>$5–15</td></tr>
+      <tr><td>Slack Bolt <code>min-instances=1</code></td><td>$10–15</td><td><em>(shared)</em></td><td>$10–15</td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-warn">
+    <span class="callout-title">Questions for you on recurring costs</span>
+    <ul style="margin: 0.5rem 0 0 1rem;">
+      <li>Do these line items match what you'd expect for the architecture described?</li>
+      <li>Are there missing line items we haven't accounted for (e.g., monitoring tooling, CI/CD, staging environments)?</li>
+      <li>Would your architecture recommendations change any of these costs materially?</li>
+      <li>Any vendors here you'd recommend swapping for cost or capability reasons?</li>
+    </ul>
+  </div>
+
   <h3>Commercial Questions to Address</h3>
   <ul>
     <li><strong>Engagement model</strong> — Fixed-price per package, fixed-price for the entire build, time-and-materials with a cap, or hybrid (e.g., fixed for infrastructure, T&amp;M for content iteration)?</li>
@@ -1301,7 +1331,7 @@ gantt
     <li><strong>What you'd recommend cutting if budget is constrained</strong> — Of the 7 packages, which would you defer to a second phase if we needed to compress scope?</li>
   </ul>
 
-  <p class="text-muted">Recurring infrastructure costs (Cloud Run, Firestore, OpenAI, Clay, SmartLead, Heyreach, etc.) are separate from the build cost and will be paid directly by Recess. Your proposal should focus on engineering services for the 7 packages, the 2-month support window, and any post-handoff retainer options.</p>
+  <p class="text-muted">Your proposal should focus on engineering services for the 7 packages, the 2-month support window, and any post-handoff retainer options. Recurring infrastructure costs (table above) are paid directly by Recess to vendors.</p>
 </section>
 
 <!-- ============ SUCCESS METRICS ============ -->
