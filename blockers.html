@@ -5,223 +5,112 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blockers Dashboard | Recess</title>
 <style>
-  :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --red: #f85149; --orange: #d29922; --green: #3fb950; --blue: #58a6ff; --purple: #bc8cff; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); padding: 24px; max-width: 900px; margin: 0 auto; }
-  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --red: #f85149; --yellow: #d29922; --green: #3fb950; --blue: #58a6ff; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 24px; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
   .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
-  .summary { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
-  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; min-width: 120px; text-align: center; }
-  .stat .num { font-size: 2rem; font-weight: 700; }
-  .stat .label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
-  .stat.red .num { color: var(--red); }
-  .stat.orange .num { color: var(--orange); }
-  .stat.green .num { color: var(--green); }
-  .stat.blue .num { color: var(--blue); }
-  .section-title { font-size: 1.1rem; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-  .card-title { font-weight: 600; font-size: 0.95rem; }
+  .summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 120px; }
+  .stat-value { font-size: 2rem; font-weight: 700; }
+  .stat-label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; }
+  .blocker { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .blocker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .blocker-title { font-weight: 600; font-size: 1rem; }
   .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
-  .badge-blocked { background: rgba(248,81,73,0.15); color: var(--red); }
-  .badge-waiting { background: rgba(210,153,34,0.15); color: var(--orange); }
-  .badge-progress { background: rgba(63,185,80,0.15); color: var(--green); }
-  .badge-queue { background: rgba(139,148,158,0.15); color: var(--muted); }
-  .blocker-item { color: var(--muted); font-size: 0.85rem; margin-top: 6px; padding-left: 16px; position: relative; }
-  .blocker-item::before { content: ""; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; }
-  .blocker-item.owner-deuce::before { background: var(--red); }
-  .blocker-item.owner-steve::before { background: var(--blue); }
-  .blocker-item.owner-ext::before { background: var(--purple); }
-  .owner-tag { font-size: 0.7rem; font-weight: 600; padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
-  .owner-deuce { background: rgba(248,81,73,0.15); color: var(--red); }
-  .owner-steve { background: rgba(88,166,255,0.15); color: var(--blue); }
-  .task-id { color: var(--muted); font-size: 0.75rem; }
-  .priority-high { border-left: 3px solid var(--red); }
-  .priority-medium { border-left: 3px solid var(--orange); }
-  .priority-low { border-left: 3px solid var(--muted); }
-  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; text-align: center; }
-  .no-blockers { text-align: center; padding: 40px; color: var(--green); font-size: 1.1rem; }
+  .badge-needs-deuce { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-waiting { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-in-progress { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-steve { background: rgba(88,166,255,0.15); color: var(--blue); }
+  .blocker-task { color: var(--blue); font-size: 0.8rem; margin-bottom: 4px; }
+  .blocker-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+  .blocker-action { margin-top: 8px; font-size: 0.85rem; color: var(--yellow); }
+  .section-title { font-size: 1.1rem; font-weight: 600; margin: 24px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .queued-list { color: var(--muted); font-size: 0.85rem; line-height: 1.8; }
+  .queued-list li { list-style: none; padding: 4px 0; }
+  .queued-list li::before { content: "○ "; color: var(--border); }
+  .resolved { opacity: 0.5; }
+  .resolved .blocker-title::after { content: " ✓ resolved"; color: var(--green); font-size: 0.75rem; font-weight: 400; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <h1>🚧 Blockers Dashboard</h1>
-<p class="subtitle">Last updated: Thursday, April 9, 2026 at 8:00 AM MT &mdash; auto-generated by Steve</p>
+<p class="subtitle">Updated: Thursday Apr 9, 2026 5:00 PM MT</p>
 
 <div class="summary">
-  <div class="stat red"><div class="num">2</div><div class="label">Blocked</div></div>
-  <div class="stat orange"><div class="num">3</div><div class="label">In Progress</div></div>
-  <div class="stat blue"><div class="num">10</div><div class="label">Queued</div></div>
-  <div class="stat green"><div class="num">0</div><div class="label">New This Week</div></div>
-</div>
-
-<div class="section-title">🔴 Blocked &mdash; Needs Deuce Input</div>
-
-<div class="card priority-high">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Improve Asana time estimation + calendar blocking</div>
-      <div class="task-id">task-002 &bull; High Priority &bull; Queued since Jan 29</div>
-    </div>
-    <span class="badge badge-blocked">Blocked</span>
+  <div class="stat">
+    <div class="stat-value" style="color: var(--red)">2</div>
+    <div class="stat-label">Active Blockers</div>
   </div>
-  <div class="blocker-item owner-deuce">Confirm Top 3 priorities + estimates each Friday after 9am reminder <span class="owner-tag owner-deuce">Deuce</span></div>
-  <div class="blocker-item owner-deuce">Exact source of calendar truth (which calendar(s)) <span class="owner-tag owner-deuce">Deuce</span></div>
-  <div class="blocker-item owner-deuce">Preferred block lengths and time-of-day preferences <span class="owner-tag owner-deuce">Deuce</span></div>
-</div>
-
-<div class="card priority-high">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Automate 1:1 meeting follow-ups</div>
-      <div class="task-id">task-004 &bull; High Priority &bull; Queued since Jan 31</div>
-    </div>
-    <span class="badge badge-blocked">Blocked</span>
+  <div class="stat">
+    <div class="stat-value" style="color: var(--yellow)">2</div>
+    <div class="stat-label">In Progress (Partial Blocks)</div>
   </div>
-  <div class="blocker-item owner-steve">Asana/Slack token access + Fireflies transcript pipeline wiring <span class="owner-tag owner-steve">Steve</span></div>
-  <div class="blocker-item owner-deuce">Slack bot token for decisions channel posting <span class="owner-tag owner-deuce">Deuce</span></div>
-</div>
-
-<div class="section-title">🟡 In Progress &mdash; Active Work</div>
-
-<div class="card priority-high">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Newsletter Architecture: Daily Scraper + Generator Split</div>
-      <div class="task-id">task-041 &bull; High Priority &bull; In progress since Mar 28</div>
-    </div>
-    <span class="badge badge-progress">In Progress</span>
-  </div>
-  <div class="blocker-item owner-steve">5/9 DoD items done. Apr 3 fixes: mark-used PATCH added to all 4 newsletters, BRAVE_API_KEY injected into scraper. Remaining: verify next runs succeed end-to-end <span class="owner-tag owner-steve">Steve</span></div>
-</div>
-
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Autoresearch Slack Command</div>
-      <div class="task-id">task-073 &bull; Medium Priority &bull; In progress since Mar 30</div>
-    </div>
-    <span class="badge badge-progress">In Progress</span>
-  </div>
-  <div class="blocker-item owner-steve">Phase 1 done (command parser + SKILL.md). Phases 2-3 remain (background execution + progress reporting) <span class="owner-tag owner-steve">Steve</span></div>
-</div>
-
-<div class="card priority-high">
-  <div class="card-header">
-    <div>
-      <div class="card-title">AutoAgent: Full Agent Self-Optimization</div>
-      <div class="task-id">task-077 &bull; High Priority &bull; In progress since Apr 3</div>
-    </div>
-    <span class="badge badge-waiting">Awaiting Approval</span>
-  </div>
-  <div class="blocker-item owner-deuce">Phase 0 design doc at second-brain/artifacts/task-077/design-doc.md needs Deuce approval before Phase 1 <span class="owner-tag owner-deuce">Deuce</span></div>
-</div>
-
-<div class="section-title">📋 Queued &mdash; Not Started</div>
-
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Dockerize Clawdbot system</div>
-      <div class="task-id">task-003 &bull; Medium &bull; Queued since Jan 31</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
-  </div>
-  <div class="blocker-item owner-deuce">Confirm required env vars for runtime <span class="owner-tag owner-deuce">Deuce</span></div>
-</div>
-
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Decisions posting: configurable Slack channel</div>
-      <div class="task-id">task-009 &bull; Medium &bull; Queued since Feb 4</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
+  <div class="stat">
+    <div class="stat-value" style="color: var(--green)">5</div>
+    <div class="stat-label">Queued (No Blockers)</div>
   </div>
 </div>
 
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Auto-create next meeting + link previous notes</div>
-      <div class="task-id">task-010 &bull; Medium &bull; Queued since Feb 4</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
+<!-- ACTIVE BLOCKERS -->
+<div class="section-title">🔴 Active Blockers</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">1:1 Follow-Up Pipeline: Missing creds + Deuce inputs</span>
+    <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
+  <div class="blocker-task">task-004 &mdash; Automate 1:1 meeting follow-ups</div>
+  <div class="blocker-desc">Pipeline script built and tested on Jan 29 dataset. Blocked on: (1) Slack bot token for decisions posting, (2) Deuce confirmation on Asana project and template mapping per direct report, (3) Fireflies/Airtable transcript access verification.</div>
+  <div class="blocker-action">⚡ Action (Deuce): Confirm Slack token + Asana project/template mapping + transcript access.</div>
 </div>
 
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Wellness coach: unified dashboard</div>
-      <div class="task-id">task-013 &bull; Medium &bull; Queued since Feb 7</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">AutoAgent Design Doc: Awaiting approval</span>
+    <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
+  <div class="blocker-task">task-077 &mdash; AutoAgent: Evolve Autoresearch into Full Agent Self-Optimization</div>
+  <div class="blocker-desc">Phase 0 design doc completed Apr 3 and sent to Deuce. Implementation blocked until design is approved. Covers harness format, mutation types, Docker isolation, validation pipeline, meta-agent architecture.</div>
+  <div class="blocker-action">⚡ Action (Deuce): Review and approve design doc at second-brain/artifacts/task-077/design-doc.md</div>
 </div>
 
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">AI news scan + team summary (weekly Tuesdays)</div>
-      <div class="task-id">task-014 &bull; Medium &bull; Queued since Feb 21</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
+<!-- IN PROGRESS WITH PARTIAL BLOCKS -->
+<div class="section-title">🟡 In Progress (Partial Blocks)</div>
+
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Newsletter Architecture: Awaiting run confirmation</span>
+    <span class="badge badge-in-progress">In Progress</span>
   </div>
+  <div class="blocker-task">task-041 &mdash; Newsletter Architecture: Daily News Scraper + Generator Split</div>
+  <div class="blocker-desc">5/9 DoD items done. Fixes applied Apr 3: BRAVE_API_KEY injected, mark-used step added, Partner Pulse recovered. Remaining: verify next scheduled runs confirm end-to-end, autoresearch targets noted (task-078, task-079 created).</div>
 </div>
 
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Build prompt database (Reddit-style voting)</div>
-      <div class="task-id">task-008 &bull; Medium &bull; Approved, not started</div>
-    </div>
-    <span class="badge badge-queue">Approved</span>
+<div class="blocker">
+  <div class="blocker-header">
+    <span class="blocker-title">Autoresearch Slack Command: Phase 2-3 remaining</span>
+    <span class="badge badge-in-progress">In Progress</span>
   </div>
+  <div class="blocker-task">task-073 &mdash; Autoresearch Slack Command</div>
+  <div class="blocker-desc">Phase 1 (Command Parser) complete. SKILL.md updated. Remaining: Phase 2 (Background Execution via sub-agent spawn) and Phase 3 (Progress Reporting to Slack thread). No external blockers.</div>
 </div>
 
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Move recess-engage to RECESSDigital org + branch protection</div>
-      <div class="task-id">task-018 &bull; Medium &bull; Queued since Mar 2</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
-  </div>
-</div>
+<!-- QUEUED / NO BLOCKERS -->
+<div class="section-title">🟢 Queued (Ready When Prioritized)</div>
+<ul class="queued-list">
+  <li>task-002 &mdash; Asana time estimation + calendar blocking (waiting on Deuce inputs: Top 3 priorities, calendar source, block preferences)</li>
+  <li>task-003 &mdash; Dockerize Clawdbot (needs env var list from Deuce)</li>
+  <li>task-008 &mdash; Build prompt database (approved, not started)</li>
+  <li>task-014 &mdash; AI news scan + weekly Tuesday digest (script ready, cron needs enabling)</li>
+  <li>task-018 &mdash; Move recess-engage repo to RECESSDigital org</li>
+</ul>
 
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Autoresearch: scraper quality optimization</div>
-      <div class="task-id">task-078 &bull; Medium &bull; Queued since Apr 3</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
-  </div>
-</div>
-
-<div class="card priority-medium">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Autoresearch: newsletter quality optimization</div>
-      <div class="task-id">task-079 &bull; Medium &bull; Queued since Apr 3</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
-  </div>
-</div>
-
-<div class="card priority-low">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Address npm audit vulnerabilities</div>
-      <div class="task-id">task-025 &bull; Low &bull; Queued since Mar 4</div>
-    </div>
-    <span class="badge badge-queue">Queue</span>
-  </div>
-</div>
-
-<div class="footer">
-  Auto-generated from tasks.json &bull; Filtered by memory/blocker-focus.json (0 hidden) &bull; Source: github.com/recess-non-platfform/recess-dashboards
+<div class="section-title" style="margin-top: 32px; color: var(--muted); font-size: 0.8rem; border: none;">
+  Auto-generated by Steve | Next update: Monday Apr 13, 2026 5:00 PM MT
 </div>
 
 </body>
