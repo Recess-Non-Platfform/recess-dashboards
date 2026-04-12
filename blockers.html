@@ -29,8 +29,6 @@
   .queued-list { color: var(--muted); font-size: 0.85rem; line-height: 1.8; }
   .queued-list li { list-style: none; padding: 4px 0; }
   .queued-list li::before { content: "○ "; color: var(--border); }
-  .resolved { opacity: 0.5; }
-  .resolved .blocker-title::after { content: " ✓ resolved"; color: var(--green); font-size: 0.75rem; font-weight: 400; }
   a { color: var(--blue); text-decoration: none; }
   a:hover { text-decoration: underline; }
 </style>
@@ -38,7 +36,7 @@
 <body>
 
 <h1>🚧 Blockers Dashboard</h1>
-<p class="subtitle">Updated: Saturday Apr 11, 2026 5:00 PM MT</p>
+<p class="subtitle">Updated: Sunday Apr 12, 2026 8:00 AM MT</p>
 
 <div class="summary">
   <div class="stat">
@@ -63,18 +61,18 @@
     <span class="blocker-title">1:1 Follow-Up Pipeline: Missing creds + Deuce inputs</span>
     <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
-  <div class="blocker-task">task-004 &mdash; Automate 1:1 meeting follow-ups</div>
+  <div class="blocker-task">task-004 — Automate 1:1 meeting follow-ups</div>
   <div class="blocker-desc">Pipeline script built and tested on Jan 29 dataset. Blocked on: (1) Slack bot token for decisions posting, (2) Deuce confirmation on Asana project and template mapping per direct report, (3) Fireflies/Airtable transcript access verification.</div>
   <div class="blocker-action">⚡ Action (Deuce): Confirm Slack token + Asana project/template mapping + transcript access.</div>
 </div>
 
 <div class="blocker">
   <div class="blocker-header">
-    <span class="blocker-title">AutoAgent Design Doc: Awaiting approval</span>
+    <span class="blocker-title">AutoAgent Design Doc: Awaiting approval (9 days)</span>
     <span class="badge badge-needs-deuce">Needs Deuce</span>
   </div>
-  <div class="blocker-task">task-077 &mdash; AutoAgent: Evolve Autoresearch into Full Agent Self-Optimization</div>
-  <div class="blocker-desc">Phase 0 design doc completed Apr 3 and sent to Deuce. Implementation blocked until design is approved. Covers harness format, mutation types, Docker isolation, validation pipeline, meta-agent architecture.</div>
+  <div class="blocker-task">task-077 — AutoAgent: Evolve Autoresearch into Full Agent Self-Optimization</div>
+  <div class="blocker-desc">Phase 0 design doc completed Apr 3. Implementation blocked until approved. Covers harness format, mutation types, Docker isolation, validation pipeline, meta-agent architecture.</div>
   <div class="blocker-action">⚡ Action (Deuce): Review and approve design doc at second-brain/artifacts/task-077/design-doc.md</div>
 </div>
 
@@ -83,11 +81,11 @@
 
 <div class="blocker">
   <div class="blocker-header">
-    <span class="blocker-title">Newsletter Architecture: Awaiting run confirmation</span>
+    <span class="blocker-title">Newsletter Architecture: Verifying scheduled runs</span>
     <span class="badge badge-in-progress">In Progress</span>
   </div>
-  <div class="blocker-task">task-041 &mdash; Newsletter Architecture: Daily News Scraper + Generator Split</div>
-  <div class="blocker-desc">5/9 DoD items done. Fixes applied Apr 3: BRAVE_API_KEY injected, mark-used step added, Partner Pulse recovered. Remaining: verify next scheduled runs confirm end-to-end, autoresearch targets noted (task-078, task-079 created).</div>
+  <div class="blocker-task">task-041 — Newsletter Architecture: Daily News Scraper + Generator Split</div>
+  <div class="blocker-desc">5/9 DoD items done. Apr 3 fixes: BRAVE_API_KEY injected into scraper, mark-used step added to all 4 newsletter crons, Partner Pulse recovered. Remaining: confirm next runs complete end-to-end, verify Used status marking works.</div>
 </div>
 
 <div class="blocker">
@@ -95,22 +93,22 @@
     <span class="blocker-title">Autoresearch Slack Command: Phase 2-3 remaining</span>
     <span class="badge badge-in-progress">In Progress</span>
   </div>
-  <div class="blocker-task">task-073 &mdash; Autoresearch Slack Command</div>
-  <div class="blocker-desc">Phase 1 (Command Parser) complete. SKILL.md updated. Remaining: Phase 2 (Background Execution via sub-agent spawn) and Phase 3 (Progress Reporting to Slack thread). No external blockers.</div>
+  <div class="blocker-task">task-073 — Autoresearch Slack Command</div>
+  <div class="blocker-desc">Phase 1 (Command Parser) complete. SKILL.md updated. Remaining: Phase 2 (Background Execution) and Phase 3 (Progress Reporting). No external blockers.</div>
 </div>
 
 <!-- QUEUED / NO BLOCKERS -->
 <div class="section-title">🟢 Queued (Ready When Prioritized)</div>
 <ul class="queued-list">
-  <li>task-002 &mdash; Asana time estimation + calendar blocking (waiting on Deuce inputs: Top 3 priorities, calendar source, block preferences)</li>
-  <li>task-003 &mdash; Dockerize Clawdbot (needs env var list from Deuce)</li>
-  <li>task-008 &mdash; Build prompt database (approved, not started)</li>
-  <li>task-014 &mdash; AI news scan + weekly Tuesday digest (script ready, cron needs enabling)</li>
-  <li>task-018 &mdash; Move recess-engage repo to RECESSDigital org</li>
+  <li>task-002 — Asana time estimation + calendar blocking (waiting on Deuce inputs)</li>
+  <li>task-003 — Dockerize Clawdbot (needs env var list from Deuce)</li>
+  <li>task-008 — Build prompt database (approved, not started)</li>
+  <li>task-014 — AI news scan + weekly Tuesday digest (script ready, cron needs enabling)</li>
+  <li>task-018 — Move recess-engage repo to RECESSDigital org</li>
 </ul>
 
 <div class="section-title" style="margin-top: 32px; color: var(--muted); font-size: 0.8rem; border: none;">
-  Auto-generated by Steve | Next update: Monday Apr 13, 2026 8:00 AM MT | Last refresh: Apr 11 5:00 PM MT
+  Auto-generated by Steve | Next update: Monday Apr 13, 2026 8:00 AM MT
 </div>
 
 </body>
