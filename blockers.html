@@ -7,202 +7,175 @@
 <style>
   :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --red: #f85149; --orange: #d29922; --green: #3fb950; --blue: #58a6ff; --purple: #bc8cff; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; max-width: 1200px; margin: 0 auto; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 24px; max-width: 960px; margin: 0 auto; }
   h1 { font-size: 1.5rem; margin-bottom: 4px; }
   .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
-  .summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; min-width: 140px; }
-  .stat .num { font-size: 2rem; font-weight: 700; }
-  .stat .label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat.red .num { color: var(--red); }
-  .stat.orange .num { color: var(--orange); }
-  .stat.green .num { color: var(--green); }
-  .stat.blue .num { color: var(--blue); }
-  .section { margin-bottom: 32px; }
-  .section-title { font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+  .summary { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; min-width: 120px; }
+  .stat .num { font-size: 1.8rem; font-weight: 700; }
+  .stat .label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
   .badge-red { background: rgba(248,81,73,0.15); color: var(--red); }
   .badge-orange { background: rgba(210,153,34,0.15); color: var(--orange); }
   .badge-blue { background: rgba(88,166,255,0.15); color: var(--blue); }
   .badge-green { background: rgba(63,185,80,0.15); color: var(--green); }
   .badge-purple { background: rgba(188,140,255,0.15); color: var(--purple); }
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 10px; }
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-  .card-title { font-weight: 600; font-size: 0.95rem; }
-  .card-id { color: var(--muted); font-size: 0.75rem; font-family: monospace; }
-  .card-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
-  .card-meta { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-  .tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: rgba(88,166,255,0.1); color: var(--blue); }
-  .tag-status { background: rgba(210,153,34,0.15); color: var(--orange); }
-  .tag-owner { background: rgba(188,140,255,0.1); color: var(--purple); }
-  .tag-done { background: rgba(63,185,80,0.15); color: var(--green); }
-  .blocker-item { border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 8px; }
-  .blocker-item.medium { border-left-color: var(--orange); }
-  .blocker-item.low { border-left-color: var(--blue); }
-  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 2px; background: var(--green); }
-  .updated { color: var(--muted); font-size: 0.75rem; text-align: right; margin-top: 32px; }
-  a { color: var(--blue); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .empty { color: var(--muted); font-style: italic; padding: 12px 0; }
+  .card-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+  .card-meta { color: var(--muted); font-size: 0.8rem; margin-bottom: 8px; }
+  .card-blocker { color: var(--orange); font-size: 0.85rem; }
+  .card-blocker strong { color: var(--red); }
+  .tag { display: inline-block; font-size: 0.7rem; padding: 1px 6px; border-radius: 4px; background: rgba(88,166,255,0.1); color: var(--blue); margin-right: 4px; }
+  .priority-high .card-title::before { content: '🔴 '; }
+  .priority-medium .card-title::before { content: '🟡 '; }
+  .priority-low .card-title::before { content: '⚪ '; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  footer { color: var(--muted); font-size: 0.75rem; margin-top: 32px; text-align: center; }
 </style>
 </head>
 <body>
-<h1>🚧 Blockers Dashboard</h1>
-<p class="subtitle">Last updated: Wed Apr 30, 2026 5:00 PM MT &mdash; Auto-generated from tasks.json</p>
+
+<h1>📋 Blockers Dashboard</h1>
+<p class="subtitle">Updated May 1, 2026 8:00 AM MT &mdash; auto-generated from tasks.json</p>
 
 <div class="summary">
-  <div class="stat red"><div class="num">3</div><div class="label">Active Blockers</div></div>
-  <div class="stat orange"><div class="num">2</div><div class="label">In Progress (blocked)</div></div>
-  <div class="stat blue"><div class="num">13</div><div class="label">Queued Tasks</div></div>
-  <div class="stat green"><div class="num">33</div><div class="label">Done</div></div>
+  <div class="stat"><div class="num" style="color:var(--red)">3</div><div class="label">Blocked (Deuce)</div></div>
+  <div class="stat"><div class="num" style="color:var(--orange)">2</div><div class="label">In Progress</div></div>
+  <div class="stat"><div class="num" style="color:var(--blue)">12</div><div class="label">Queued</div></div>
+  <div class="stat"><div class="num" style="color:var(--green)">27</div><div class="label">Done</div></div>
 </div>
 
-<!-- ===================== ACTIVE BLOCKERS ===================== -->
+<!-- BLOCKED ON DEUCE -->
 <div class="section">
-  <div class="section-title">🔴 Active Blockers <span class="badge badge-red">3 items</span></div>
+  <div class="section-title">🚫 Blocked &mdash; Needs Deuce <span class="badge badge-red">3</span></div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-077: AutoAgent design doc awaiting approval</span>
-      <span class="card-id">in_progress</span>
-    </div>
-    <div class="blocker-item">
-      Phase 0 design doc (second-brain/artifacts/task-077/design-doc.md) sent to Deuce for review. Cannot start Phase 1 coding until approved.
-    </div>
-    <div class="card-meta">
-      <span class="tag tag-owner">Owner: Deuce</span>
-      <span class="tag">autoresearch</span>
-      <span class="tag tag-status">Waiting since Apr 3 (27 days)</span>
-    </div>
+  <div class="card priority-high">
+    <div class="card-title">task-002: Asana time estimation + calendar blocking</div>
+    <div class="card-meta">Priority: High &bull; Status: Queue &bull; Since Jan 29</div>
+    <div class="card-blocker"><strong>Blocker:</strong> Needs Deuce to confirm Top 3 priorities + estimates each Friday; also needs calendar source + preferred block lengths.</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-073: Autoresearch Slack Command &mdash; near complete</span>
-      <span class="card-id">in_progress</span>
-    </div>
-    <div class="blocker-item medium">
-      Python scripts verified working end-to-end. SKILL.md updated with DM trigger docs. Remaining: live DM verification that agent recognizes "autoresearch" keyword and dispatches correctly.
-    </div>
-    <div class="card-meta">
-      <span class="tag tag-owner">Owner: Steve (live test)</span>
-      <span class="tag">autoresearch</span>
-      <span class="tag tag-status">In progress since Mar 30</span>
-    </div>
+  <div class="card priority-high">
+    <div class="card-title">task-004: Automate 1:1 meeting follow-ups</div>
+    <div class="card-meta">Priority: High &bull; Status: Queue &bull; Since Jan 31</div>
+    <div class="card-blocker"><strong>Blocker:</strong> ASANA_ACCESS_TOKEN needed in ~/chief-of-staff/.env. Pipeline built + tested but can't run live without token refresh.</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-004: 1:1 Meeting Follow-ups pipeline stalled</span>
-      <span class="card-id">queue</span>
-    </div>
-    <div class="blocker-item medium">
-      Pipeline script built and tested (8 tasks created in Jan 29 test run). Blocked on: Slack bot token for decisions posting + operator inputs for remaining acceptance criteria.
-    </div>
-    <div class="card-meta">
-      <span class="tag tag-owner">Owner: Deuce (creds) / Steve (remaining work)</span>
-      <span class="tag">meetings</span>
-      <span class="tag tag-status">Stalled since Feb (~2 months)</span>
-    </div>
+  <div class="card priority-medium">
+    <div class="card-title">task-003: Dockerize Clawdbot system</div>
+    <div class="card-meta">Priority: Medium &bull; Status: Queue &bull; Since Jan 31</div>
+    <div class="card-blocker"><strong>Blocker:</strong> Deuce needs to confirm which env vars / tokens must be provided at runtime.</div>
   </div>
 </div>
 
-<!-- ===================== QUEUED / WAITING ===================== -->
+<hr class="divider">
+
+<!-- IN PROGRESS -->
 <div class="section">
-  <div class="section-title">🟡 Queued &mdash; Waiting on Inputs or Approval <span class="badge badge-orange">5 items</span></div>
+  <div class="section-title">🔧 In Progress <span class="badge badge-orange">2</span></div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-002: Asana time estimation + calendar blocking</span>
-      <span class="card-id">queue / high</span>
-    </div>
-    <div class="card-desc">Needs Deuce to provide Top 3 priorities + estimates each Friday after 9am reminder to kick off the workflow.</div>
-    <div class="card-meta"><span class="tag tag-owner">Owner: Deuce</span><span class="tag">asana</span></div>
+  <div class="card priority-high">
+    <div class="card-title">task-077: AutoAgent (Evolve Autoresearch)</div>
+    <div class="card-meta">Priority: High &bull; Project: autoresearch &bull; Since Apr 3</div>
+    <div class="card-blocker">Phase 0 design doc complete, awaiting Deuce approval before Phase 1 coding.</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-014: AI News Scan weekly digest</span>
-      <span class="card-id">queue / medium</span>
-    </div>
-    <div class="card-desc">Script + runbook done. Cron not enabled &mdash; needs approval to activate Tuesday 8am MT posting to #recess-ai-chat.</div>
-    <div class="card-meta"><span class="tag tag-owner">Owner: Deuce (approve cron)</span><span class="tag">content</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-009: Decisions posting improvements</span>
-      <span class="card-id">queue / medium</span>
-    </div>
-    <div class="card-desc">Depends on task-004 completion. Configurable Slack channel + richer payload for meeting decisions.</div>
-    <div class="card-meta"><span class="tag">depends: task-004</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-010: Auto-create next meeting + link previous notes</span>
-      <span class="card-id">queue / medium</span>
-    </div>
-    <div class="card-desc">Depends on task-004. Needs clarification on calendar invite vs Asana task creation and template mapping per direct report.</div>
-    <div class="card-meta"><span class="tag">depends: task-004</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-008: Prompt Database (Reddit-style voting)</span>
-      <span class="card-id">approved / medium</span>
-    </div>
-    <div class="card-desc">Approved but not started. Waiting for Deuce go-ahead to begin implementation.</div>
-    <div class="card-meta"><span class="tag tag-owner">Owner: Deuce (start signal)</span></div>
+  <div class="card priority-medium">
+    <div class="card-title">task-073: Autoresearch Slack Command</div>
+    <div class="card-meta">Priority: Medium &bull; Project: autoresearch &bull; Since Mar 30</div>
+    <div class="card-blocker">Python scripts working. SKILL.md updated. Remaining: live DM verification.</div>
   </div>
 </div>
 
-<!-- ===================== LOWER PRIORITY QUEUED ===================== -->
+<hr class="divider">
+
+<!-- QUEUED (READY) -->
 <div class="section">
-  <div class="section-title">🔵 Backlog &mdash; No Active Blockers <span class="badge badge-blue">5 items</span></div>
+  <div class="section-title">📥 Queued &mdash; Ready to Start <span class="badge badge-blue">12</span></div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-003: Dockerize Clawdbot system</span>
-      <span class="card-id">queue / medium</span>
-    </div>
-    <div class="card-desc">Needs env var list from Deuce. Unblocked prep work possible (Dockerfile, compose outline).</div>
+  <div class="card priority-medium">
+    <div class="card-title">task-008: Prompt database (Reddit-style voting)</div>
+    <div class="card-meta">Approved &bull; Effort: Medium</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-013: Wellness coach dashboard</span>
-      <span class="card-id">queue / medium</span>
-    </div>
-    <div class="card-desc">Design phase. Data sources + schema need scoping.</div>
+  <div class="card priority-medium">
+    <div class="card-title">task-009: Improve decisions posting (Slack channel + richer payload)</div>
+    <div class="card-meta">Queue &bull; Depends on task-004 pipeline</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-078 / task-079: Autoresearch scraper + newsletter quality</span>
-      <span class="card-id">queued / medium</span>
-    </div>
-    <div class="card-desc">Optimization loops for news scraper and newsletter prompts. Ready to run when prioritized.</div>
+  <div class="card priority-medium">
+    <div class="card-title">task-010: Auto-create next meeting + link previous notes</div>
+    <div class="card-meta">Queue &bull; Depends on task-004 pipeline</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">task-018: Move recess-engage to RECESSDigital org</span>
-      <span class="card-id">queue / medium</span>
-    </div>
-    <div class="card-desc">Repo transfer + branch protection. Blocked by GitHub plan (needs org team plan).</div>
+  <div class="card priority-medium">
+    <div class="card-title">task-013: Wellness coach dashboard</div>
+    <div class="card-meta">Queue &bull; Needs data source confirmation</div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">RE-DISC proposed tasks (02/04/05/07/08/09/10) + ENG (03/04/05)</span>
-      <span class="card-id">proposed</span>
-    </div>
-    <div class="card-desc">10 Recess Engage discovery + engineering tasks awaiting approval before execution.</div>
+  <div class="card priority-medium">
+    <div class="card-title">task-014: AI news scan + team summary</div>
+    <div class="card-meta">Queue &bull; Script built, cron not enabled</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">task-018: Move recess-engage to RECESSDigital org</div>
+    <div class="card-meta">Queue &bull; Needs GitHub org transfer</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">task-031: Heartbeat logging</div>
+    <div class="card-meta">Queue &bull; Phase 2 infra</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">task-033: Proactive sensing loop</div>
+    <div class="card-meta">Queue &bull; Phase 2 infra</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">task-078: Autoresearch scraper quality</div>
+    <div class="card-meta">Queued &bull; News monitoring backlog</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">task-079: Autoresearch newsletter quality</div>
+    <div class="card-meta">Queued &bull; News monitoring backlog</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">task-017-xxx: Review local Qwen3.5 Small Series setup</div>
+    <div class="card-meta">Queue &bull; Research task</div>
+  </div>
+
+  <div class="card priority-low">
+    <div class="card-title">task-025: npm audit vulnerabilities</div>
+    <div class="card-meta">Queue &bull; Low priority</div>
   </div>
 </div>
 
-<p class="updated">Auto-generated from tasks.json + blocker-focus.json | Wed Apr 30, 2026 5:00 PM MT</p>
+<hr class="divider">
+
+<!-- PROPOSED (NOT APPROVED) -->
+<div class="section">
+  <div class="section-title">💡 Proposed (Needs Approval) <span class="badge badge-purple">8</span></div>
+  <div class="card">
+    <div class="card-meta" style="margin-bottom:0">
+      RE-DISC-02 (data model inventory) &bull;
+      RE-DISC-04 (leaderboard reqs) &bull;
+      RE-DISC-05 (admin moderation) &bull;
+      RE-DISC-07 (digest/awards cadence) &bull;
+      RE-DISC-08 (LinkedIn data source) &bull;
+      RE-DISC-09 (user/team directory) &bull;
+      RE-DISC-10 (analytics/reporting) &bull;
+      ENG-PR-GATE-01 (GitHub PR approval gate)
+    </div>
+  </div>
+</div>
+
+<footer>Source: second-brain/tasks.json &bull; Filtered by memory/blocker-focus.json (0 items deprioritized) &bull; Dashboard: recess-non-platfform/recess-dashboards</footer>
+
 </body>
 </html>
