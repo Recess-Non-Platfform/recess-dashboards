@@ -38,13 +38,13 @@
 <body>
 
 <h1>📋 Blockers Dashboard</h1>
-<p class="subtitle">Updated May 6, 2026 5:02 PM MT &mdash; auto-generated from tasks.json</p>
+<p class="subtitle">Updated May 7, 2026 5:00 PM MT &mdash; auto-generated from tasks.json</p>
 
 <div class="summary">
   <div class="stat"><div class="num" style="color:var(--red)">3</div><div class="label">Blocked (Deuce)</div></div>
   <div class="stat"><div class="num" style="color:var(--orange)">2</div><div class="label">In Progress</div></div>
-  <div class="stat"><div class="num" style="color:var(--blue)">12</div><div class="label">Queued</div></div>
-  <div class="stat"><div class="num" style="color:var(--green)">27</div><div class="label">Done</div></div>
+  <div class="stat"><div class="num" style="color:var(--blue)">14</div><div class="label">Queued</div></div>
+  <div class="stat"><div class="num" style="color:var(--green)">35</div><div class="label">Done</div></div>
 </div>
 
 <!-- BLOCKED ON DEUCE -->
@@ -53,19 +53,19 @@
 
   <div class="card priority-high">
     <div class="card-title">task-002: Asana time estimation + calendar blocking</div>
-    <div class="card-meta">Priority: High &bull; Status: Queue &bull; Since Jan 29 (96 days)</div>
+    <div class="card-meta">Priority: High &bull; Status: Queue &bull; Since Jan 29</div>
     <div class="card-blocker"><strong>Blocker:</strong> Needs Deuce to confirm Top 3 priorities + estimates each Friday; also needs calendar source + preferred block lengths.</div>
   </div>
 
   <div class="card priority-high">
     <div class="card-title">task-004: Automate 1:1 meeting follow-ups</div>
-    <div class="card-meta">Priority: High &bull; Status: Queue &bull; Since Jan 31 (94 days)</div>
+    <div class="card-meta">Priority: High &bull; Status: Queue &bull; Since Jan 31</div>
     <div class="card-blocker"><strong>Blocker:</strong> ASANA_ACCESS_TOKEN needed in ~/chief-of-staff/.env. Pipeline built + tested but can't run live without token refresh.</div>
   </div>
 
   <div class="card priority-medium">
     <div class="card-title">task-003: Dockerize Clawdbot system</div>
-    <div class="card-meta">Priority: Medium &bull; Status: Queue &bull; Since Jan 31 (94 days)</div>
+    <div class="card-meta">Priority: Medium &bull; Status: Queue &bull; Since Jan 31</div>
     <div class="card-blocker"><strong>Blocker:</strong> Deuce needs to confirm which env vars / tokens must be provided at runtime.</div>
   </div>
 </div>
@@ -93,7 +93,7 @@
 
 <!-- QUEUED (READY) -->
 <div class="section">
-  <div class="section-title">📥 Queued &mdash; Ready to Start <span class="badge badge-blue">12</span></div>
+  <div class="section-title">📥 Queued &mdash; Ready to Start <span class="badge badge-blue">14</span></div>
 
   <div class="card priority-medium">
     <div class="card-title">task-008: Prompt database (Reddit-style voting)</div>
@@ -154,13 +154,23 @@
     <div class="card-title">task-025: npm audit vulnerabilities</div>
     <div class="card-meta">Queue &bull; Low priority</div>
   </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">test-lifecycle-93063: Test task for sync</div>
+    <div class="card-meta">Queue &bull; Test/sync artifact</div>
+  </div>
+
+  <div class="card priority-medium">
+    <div class="card-title">test-lifecycle-96146: Test task for sync</div>
+    <div class="card-meta">Queue &bull; Test/sync artifact</div>
+  </div>
 </div>
 
 <hr class="divider">
 
 <!-- PROPOSED (NOT APPROVED) -->
 <div class="section">
-  <div class="section-title">💡 Proposed (Needs Approval) <span class="badge badge-purple">8</span></div>
+  <div class="section-title">💡 Proposed (Needs Approval) <span class="badge badge-purple">11</span></div>
   <div class="card">
     <div class="card-meta" style="margin-bottom:0">
       RE-DISC-02 (data model inventory) &bull;
@@ -170,6 +180,9 @@
       RE-DISC-08 (LinkedIn data source) &bull;
       RE-DISC-09 (user/team directory) &bull;
       RE-DISC-10 (analytics/reporting) &bull;
+      ENG-03 (secure /logsleep) &bull;
+      ENG-04 (canonical points engine spec) &bull;
+      ENG-05 (pre-create validation) &bull;
       ENG-PR-GATE-01 (GitHub PR approval gate)
     </div>
   </div>
